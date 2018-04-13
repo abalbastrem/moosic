@@ -243,6 +243,7 @@ insert into subgenero values(190, 'World', 12);
 insert into subgenero values(191, 'zouk', 17); 
 
 
-
+alter table subgenero rename column id_genre to id_subgenre;
+alter table subgenero rename column "group" to genre;
 -- End of file.
 
