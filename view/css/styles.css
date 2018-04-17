@@ -1,0 +1,74 @@
+/* The side navigation menu */
+body, html {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    /*background-size: auto;*/
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+  background-image: url("../img/macos_sierra.jpg");
+  height: 100%;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sidenav-bg {
+  background-image: url("../img/macos_sierra.jpg");
+  background-position: right -10;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  transition: 1s;
+  opacity: 0.3; 
+  /*-webkit-filter: blur(1px);*/
+  filter: blur(5px);
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    /*background-color: rgba(110,110,110,1);*/
+    overflow-x: hidden;
+    transition: 1s;
+    padding-top: 60px;
+    text-align: center;
+    color: #f4f4f4;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    color: rgba(#fff,1);
+    display: block;
+    transition: 1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    margin-left: 20px;
+    z-index: 5;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#open {
+  float: right;
+  padding: 10px;
+}
