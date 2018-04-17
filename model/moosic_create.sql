@@ -46,11 +46,13 @@ CREATE TABLE subgenre (
 );
 
 -- Table: tags
+CREATE TYPE vote AS ENUM ('like', 'dislike', 'zero');
+-- TYPE 1 : like, 0: null, -1:dislike
+
 CREATE TABLE tags (
     id_tag bigint  NOT NULL,
     name varchar(24)  NOT NULL,
-    likes int  NOT NULL,
-    dislikes int  NOT NULL,
+    current_vote vote NOT NULL;
     fecha_votacion date  NOT NULL,
     tracks_id bigint  NOT NULL,
     users_id_user bigint  NOT NULL,
@@ -377,6 +379,7 @@ insert into subgenre values(189, 'Western', 17);
 insert into subgenre values(190, 'World', 12); 
 insert into subgenre values(191, 'zouk', 17); 
 
+-- INSERTS EN TABLAS
 
 insert into users values (1, 'jhonny', 'meneses', 'jtst',  md5('1234'), 'jhonnymeneses13@gmail.com', 'h');
 insert into users values (2, 'albert', 'balbastre', 'albalbastre',  md5('1234'), 'albertsoyyo@gmail.com', 'h');
@@ -384,3 +387,10 @@ insert into users values (3, 'jordi', 'capellades', 'jordankesley',  md5('1234')
 
 insert into tracks values(1501986, 'Empty Streets', 505236, 'Omonoko', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235', 'https://mp3d.jamendo.com/download/track/1501986/mp32/', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'Strong', 3);
 
+insert into mood values('happy', now(), 1501986, 3);
+insert into playlist values (1, 'my playlist', 2);
+insert into playlist_songs values(1, 1501986);
+
+insert into tags values(1, 'funny', 'like', now(), 1501986, 3);
+insert into tags values(2, 'sad', 'dislike', now(), 1501986, 2);
+insert into tags values(3, 'funny','zero', now(), 1501986, 1);
