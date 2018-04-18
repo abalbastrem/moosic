@@ -1,66 +1,59 @@
-/* The side navigation menu */
-body, html {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    /*background-size: auto;*/
-    height: 100%;
-    margin: 0;
+body {
+    font-family: "Lato", sans-serif;
 }
 
-.bg {
-  background-image: url("../img/macos_sierra.jpg");
-  height: 100%;
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+/* Slide menu */
 
 .sidenav-bg {
-  background-image: url("../img/macos_sierra.jpg");
-  background-position: right -10;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100%;
-  width: 0;
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 99;
-  transition: 1s;
-  opacity: 0.3; 
-  /*-webkit-filter: blur(1px);*/
-  filter: blur(5px);
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 1s;
+    text-align: center;
+    opacity: 0.6;
+    filter: blur(3px);
 }
 
 .sidenav {
     height: 100%;
     width: 0;
     position: fixed;
+    z-index: 100;
     top: 0;
     right: 0;
-    z-index: 100;
-    /*background-color: rgba(110,110,110,1);*/
+    /*background-color: #111;*/
     overflow-x: hidden;
     transition: 1s;
-    padding-top: 60px;
     text-align: center;
-    color: #f4f4f4;
+    color: white;
+    /*opacity: 0.8;*/
+    /*filter: blur(15px);*/
 }
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    color: rgba(#fff,1);
+    font-size: 25px;
+    color: white;
     display: block;
-    transition: 1;
+    transition: 10s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
 }
 
 .sidenav .closebtn {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 5px;
     font-size: 20px;
-    margin-left: 20px;
-    z-index: 5;
+    margin-left: 50px;
 }
 
 @media screen and (max-height: 450px) {
@@ -68,7 +61,51 @@ body, html {
   .sidenav a {font-size: 18px;}
 }
 
-#open {
+/* Icons */
+
+#icon-open {
   float: right;
-  padding: 10px;
+  padding: 15px;
+}
+
+#icons-track {
+  padding-left: ;
+}
+
+/* Footer */
+
+.footer {
+  position: absolute;
+  height: 15%;
+  right: 0;
+  bottom: 0;
+  transition: 1s;
+  /*background-color: #292929;*/
+  color: white;
+  text-align: center;
+  padding-top: 30px;
+}
+
+.footer p {
+  margin: 4px;
+}
+
+/* Bootstrap changes */
+
+.container {
+  width: 650px;
+  height: 913px;
+}
+
+.row {
+  padding-bottom: 10px;
+}
+
+/* artwork track */
+
+.artwork-track {
+  width: 40%;
+  /*height: 20%;*/
+  background-color: white;
+  background-position: center;
 }
