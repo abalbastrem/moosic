@@ -4,9 +4,9 @@
 -- tables
 -- Table: genre
 \c template1;
-drop database moosic_pruebas_2;
-create database moosic_pruebas_2;
-\c moosic_pruebas_2;
+drop database moosic_final;
+create database moosic_final;
+\c moosic_final;
 CREATE TABLE genre (
     id bigint  NOT NULL,
     name varchar(30)  NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE leyenda_tags (
 -- Table: mood
 CREATE TABLE mood (
     mood varchar(25)  NOT NULL,
-    fecha date  NOT NULL,
+    fecha timestamp  NOT NULL,
     users_id bigint  NOT NULL,
     tracks_id bigint  NOT NULL,
     CONSTRAINT mood_pk PRIMARY KEY (mood)
