@@ -1,0 +1,14 @@
+http://desktop.arcgis.com/es/arcmap/10.3/manage-data/using-sql-with-gdbs/example-creating-a-view-in-postgresql-with-sql.htm
+
+
+create or replace function myproduct(character(5)) returns table (r_id_producto character(5),r_descripcion character varying(20),r_id_fab character(3)) as $$
+	declare idenprod character(5);
+		begin
+			if ($1 not found) then
+				return raise 'Producte no trobat';
+			else
+			return query select id_producto(r_id_producto),id_fab(r_id_fab),descripcion(r_descripcion) from productos where id_producto like $1;
+			end if;
+		end;
+$$ language plpgsql;
+
