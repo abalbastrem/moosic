@@ -1,3 +1,9 @@
+/// PROJECT GLOBALS SETUP ///
+const GLOBALS = require('./setup');
+const methods = require('./methods');
+const jamendo = require('./jamendo_methods');
+console.log("::::: PROJECT SET UP :::::");
+
 /// SERVER CONFIG ///
 const express = require('express');
 const app = express();
@@ -5,18 +11,13 @@ const server = require('http').createServer(app);
 const bcrypt = require('bcryptjs');
 const requestify = require('requestify');
 const SQLBuilder = require('json-sql-builder2');
-// var logger = require('./log');
-// logger.info('error log started');
 const pg = require('pg');
-const methods = require('./methods');
-// const pgpromise = require('pg-promise');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
 
 /// HANDLERS ///
 app.get('/', function(request, response) {
   log(request, response);
-  // wrapper(request, response, this);
   response.write('hello world');
   response.end();
 });
@@ -30,6 +31,7 @@ app.get('/testdb', async function(request, response) {
   log(request, response);
   try {
     var ret = await methods.testdb();
+    console.log("::::: in handler RESPONSE:\n" + ret);
     response.writeHead(200, {
       'Content-type': 'text/html'
     });
@@ -42,15 +44,16 @@ app.get('/testdb', async function(request, response) {
   }
 });
 
-app.get('/testdump', async function(request, response) {
+app.get('/get', async function(request, response) {
   log(request, response);
   try {
+    var url = jamendo.urlBuilder();
+    var ret = await methods.get(url);
+    console.log("::::: in handler RESPONSE:\n" + ret);
     response.writeHead(200, {
       'Content-type': 'text/html'
     });
-    var ret = await methods.testdump();
-    console.log("::::: RESPONSE: " + ret);
-    response.write("::::: " + ret);
+    response.write(ret);
     response.end();
   } catch (e) {
     response.writeHead(500);
@@ -59,25 +62,50 @@ app.get('/testdump', async function(request, response) {
   }
 });
 
-// general use
-app.post('/get', function(request, response) {
+app.get('/get2', function(request, response) {
+  var ret = "";
   log(request, response);
-  get(args);
+  var url = jamendo.urlBuilderOLD();
+  console.log(url);
+  jamendo.get2(request, response, url, jamendo.cbReturnFromApi);
 });
 
-/// FROM JAMENDO ///
-const JAMENDO_KEY = "e106f235";
+/// THE D U M P ///
+async function apiOneTag(tag) {
+  try {
+    var url = jamendo.urlBuilder(tag);
+    tracks += await jamendo.api(url);
+  } catch (e) {
+    console.error("ERROR: " + e);
+  }
+};
 
-/// MODEL ///
-// var tracks = require('tracksmodel');
+async function apiAllTags() {
+  var tracks = "";
+  try {
+    GLOBALS.TAGS.forEach(async function(tag) {
+      var url = jamendo.urlBuilder(tag);
+      tracks += await jamendo.api(url);
+    });
+    console.log("::::: TRACKS:\n " + tracks);
+  } catch (e) {
+    console.error("ERROR: " + e);
+  }
+};
+
+function dumpApi() {
+  GLOBALS.TAGS.forEach(function(tag) {
+    apiOneTag(tag);
+  });
+  console.log(tracks);
+};
+
+// dumpApi();
+
+apiAllTags();
 
 /// QUICK LOG ///
 var n = 0;
-// var logger = function(request, response, next) {
-//   console.log("REQ " + ++n + "\t" + new Date().toISOString());
-//   next();
-// };
-// app.use(logger);
 
 function log(request, response) {
   console.log("::::: REQ " + ++n + "\t" + new Date().toISOString());
