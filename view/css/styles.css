@@ -54,6 +54,7 @@ body {
     right: 5px;
     font-size: 20px;
     margin-left: 50px;
+    z-index: 1;
 }
 
 @media screen and (max-height: 450px) {
