@@ -19,29 +19,8 @@
   <script type="text/javascript" src="js/index.js"></script>
   <!-- css extern file -->
   <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
-  <script>
-      // Create an instance of wave surfer with its configuration
-      var Spectrum = WaveSurfer.create({
-          container: '#audio-spectrum',
-          // Add some color to the audio spectrum
-          progressColor: "#03a9f4"
-      });
-
-      Spectrum.on("ready", function(){
-          // Do something when the file has been loaded
-
-          // Do whatever you need to do with the player
-          Spectrum.play();
-          Spectrum.pause();
-          Spectrum.stop();
-      });
-
-      // Load the audio file from your own domain !
-      //Spectrum.load('audio-file.mp3');
-  </script>
 </head>
 <body>
-  <div id="audio-spectrum"></div>
   <!-- Slide Menu -->
   <div id="mySidenavBg" class="sidenav-bg"></div>
   <div id="mySidenav" class="sidenav">
@@ -68,11 +47,14 @@
       </div>
       <!-- Waves audio -->
       <div class="row">
-        <div class="col-lg-4 col-sm-4 col-xs-4"></div>
-        <div class="col-lg-4 col-sm-4 col-xs-4">
-          <div id="audio-spectrum"></div>
+        <div class="col-lg-3 col-sm-3 col-xs-3"></div>
+        <div class="col-lg-6 col-sm-6 col-xs-6">
+          <audio controls>
+            <source src="audio/song2.mp3" type="audio/mpeg">
+            <div id="audio-spectrum"></div>
+          </audio>
         </div>
-        <div class="col-lg-4 col-sm-4 col-xs-4"></div>
+        <div class="col-lg-3 col-sm-3 col-xs-3"></div>
       </div>
       <!-- Buttons -->
       <div class="row icons-track">

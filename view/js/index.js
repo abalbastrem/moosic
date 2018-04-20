@@ -16,22 +16,27 @@ function closeNav() {
 
 // Waves audio
 
-// var Spectrum = WaveSurfer.create({
-//     container: '#audio-spectrum',
-//     scrollParent: true,
-//     progressColor: "#03a9f4"
-// });
-//
-// Spectrum.on("ready", function(){
-//     // Do something when the file has been loaded
-//
-//     // Do whatever you need to do with the player
-//     Spectrum.play();
-//     Spectrum.pause();
-//     Spectrum.stop();
-// });
-//
-// Spectrum.load('audio/id.mp3');
+$('document').ready(function(){
+  var Spectrum = WaveSurfer.create({
+      container: '#audio-spectrum',
+      // Add some color to the audio spectrum
+      progressColor: "#03a9f4"
+  });
+
+  Spectrum.on("ready", function(){
+      // Do something when the file has been loaded
+
+      // Do whatever you need to do with the player
+      Spectrum.play();
+      Spectrum.pause();
+      Spectrum.stop();
+  });
+
+  Spectrum.load('audio/song2.mp3');
+});
+
+
+
 
 // wavesurfer.on('ready', function () {
 //     wavesurfer.play();
