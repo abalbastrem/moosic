@@ -32,7 +32,7 @@ $('document').ready(function(){
       Spectrum.stop();
   });
 
-  Spectrum.load('audio/song2.mp3');
+  Spectrum.load('https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235');
 });
 
 
