@@ -1,8 +1,21 @@
 /// PROJECT GLOBALS SETUP ///
+// async function setup() {
+//   try {
+//     const GLOBALS = require('./setup');
+//     const methods = require('./methods');
+//     const jamendo = require('./jamendo_methods');
+//     console.log("::::: PROJECT SET UP SUCCESSFULLY :::::");
+//   } catch (e) {
+//     console.log("::::: SETUP FAILED: " + e);
+//   }
+// };
+
+// setup();
+
 const GLOBALS = require('./setup');
 const methods = require('./methods');
 const jamendo = require('./jamendo_methods');
-console.log("::::: PROJECT SET UP :::::");
+console.log("::::: PROJECT SET UP SUCCESSFULLY :::::");
 
 /// SERVER CONFIG ///
 const express = require('express');
@@ -81,28 +94,53 @@ async function apiOneTag(tag) {
 };
 
 async function apiAllTags() {
-  var tracks = "";
+  var n = 0;
+  var tracksArray = [];
+  var tracksJson = {};
+  var json = {};
   try {
     GLOBALS.TAGS.forEach(async function(tag) {
-      var url = jamendo.urlBuilder(tag);
-      tracks += await jamendo.api(url);
+      if (tag != "") {
+        console.log("::::: tag: " + tag);
+        var url = jamendo.urlBuilder(tag);
+        // console.log("::::: " + url);
+        json = await jamendo.api(url);
+        console.log("::::: json: " + json + JSON.stringify(json));
+        tracksArray.push(json);
+        tracksJson[tag] = json;
+        // console.log("::::: " + tracksArray.size);
+        // } else if (tag == "EOF") {
+        //   return tracksJson;
+        console.log(":::::" + ++n + " de cuatro tags");
+      }
     });
-    console.log("::::: TRACKS:\n " + tracks);
+    // return tracksJson;
+    console.log("::::: esto debería imprimirse al acabar el forEach, pero no");
+    // console.log("::::: TRACKSARRAY:\n " + tracksArray);
+    // console.log("::::: TRACKSJSON:\n " + JSON.stringify(tracksJson,null,2));
   } catch (e) {
     console.error("ERROR: " + e);
   }
 };
 
-function dumpApi() {
-  GLOBALS.TAGS.forEach(function(tag) {
-    apiOneTag(tag);
-  });
-  console.log(tracks);
-};
+// function dumpApi() {
+//   GLOBALS.TAGS.forEach(function(tag) {
+//     if (tag != "") {
+//       console.log("*** " + tag + " ***");
+//       apiOneTag(tag);
+//     }
+//   });
+//   console.log(tracks);
+// };
 
 // dumpApi();
 
-apiAllTags();
+async function newSQL() {
+  const jsonSQL = await apiAllTags();
+  console.log(JSON.stringify(jsonSQL, null, 2));
+};
+
+newSQL();
 
 /// QUICK LOG ///
 var n = 0;
