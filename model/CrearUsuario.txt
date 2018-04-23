@@ -1,0 +1,4 @@
+CREATE USER albert WITH PASSWORD '123456';
+create role admin_moosic;
+grant SELECT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+grant admin_moosic TO albert;
