@@ -10,21 +10,21 @@ create database moosic_final;
 
 
 CREATE TABLE genre (
-    id bigint  NOT NULL,
+    id serial,
     name varchar(30)  NOT NULL,
     CONSTRAINT genre_pk PRIMARY KEY (id)
 );
 
 -- Table: leyenda_mood
 CREATE TABLE leyenda_mood (
-    id bigint  NOT NULL,
+    id serial,
     nombre varchar(40)  NOT NULL,
     CONSTRAINT leyenda_mood_pk PRIMARY KEY (id)
 );
 
 -- Table: leyenda_tags
 CREATE TABLE leyenda_tags (
-    id bigint  NOT NULL,
+    id serial,
     nombre varchar(30)  NOT NULL,
     genre bigint  NOT NULL,
     CONSTRAINT leyenda_tags_pk PRIMARY KEY (id)
@@ -32,7 +32,7 @@ CREATE TABLE leyenda_tags (
 
 -- Table: moods
 CREATE TABLE moods (
-    id bigint  NOT NULL,
+    id serial,
     id_leyenda_mood bigint  NOT NULL,
     id_track bigint  NOT NULL,
     CONSTRAINT moods_ak_unique_FK_votosmood_id_moods UNIQUE (id) NOT DEFERRABLE  INITIALLY IMMEDIATE,
@@ -41,7 +41,7 @@ CREATE TABLE moods (
 
 -- Table: playlist
 CREATE TABLE playlist (
-    id bigint  NOT NULL,
+    id serial,
     title varchar(20)  NOT NULL,
     users_id bigint  NOT NULL,
     CONSTRAINT playlist_pk PRIMARY KEY (id)
@@ -55,7 +55,7 @@ CREATE TABLE playlist_songs (
 
 -- Table: tags
 CREATE TABLE tags (
-    id bigint  NOT NULL,
+    id serial,
     id_track bigint  NOT NULL,
     id_leyenda_tag bigint  NOT NULL,
     CONSTRAINT id UNIQUE (id) NOT DEFERRABLE  INITIALLY IMMEDIATE,
@@ -79,7 +79,7 @@ CREATE TABLE tracks (
 
 -- Table: users
 CREATE TABLE users (
-    id bigint  NOT NULL,
+    id serial,
     name varchar(24)  NOT NULL,
     lastname varchar(32)  NOT NULL,
     username varchar(40)  NOT NULL,
@@ -212,236 +212,236 @@ ALTER TABLE votos_tag ADD CONSTRAINT votos_tag_users
 
 -- End of file.
 
-insert into genre values(1, 'pop');
-insert into genre values(2, 'rock');
-insert into genre values(3, 'electronic');
-insert into genre values(4, 'hiphop');
-insert into genre values(5, 'jazz');
-insert into genre values(6, 'indie');
-insert into genre values(7, 'soundtrack');
-insert into genre values(8, 'classical');
-insert into genre values(9, 'chillout');
-insert into genre values(10, 'ambient');
-insert into genre values(11, 'folk');
-insert into genre values(12, 'metal');
-insert into genre values(13, 'latina');
-insert into genre values(14, 'rnb');
-insert into genre values(15, 'reggae');
-insert into genre values(16, 'punk');
-insert into genre values(17, 'country');
-insert into genre values(18, 'house');
-insert into genre values(19, 'blues');
-insert into genre values(20, 'others');
+insert into genre (name) values ('pop');
+insert into genre (name) values ('rock');
+insert into genre (name) values ('electronic');
+insert into genre (name) values ('hiphop');
+insert into genre (name) values ('jazz');
+insert into genre (name) values ('indie');
+insert into genre (name) values ('soundtrack');
+insert into genre (name) values ('classical');
+insert into genre (name) values ('chillout');
+insert into genre (name) values ('ambient');
+insert into genre (name) values ('folk');
+insert into genre (name) values ('metal');
+insert into genre (name) values ('latina');
+insert into genre (name) values ('rnb');
+insert into genre (name) values ('reggae');
+insert into genre (name) values ('punk');
+insert into genre (name) values ('country');
+insert into genre (name) values ('house');
+insert into genre (name) values ('blues');
+insert into genre (name) values ('others');
 
 
 
-insert into leyenda_tags values(1, 'acidhouse', 3); 
-insert into leyenda_tags values(2, 'acidjazz', 5); 
-insert into leyenda_tags values(3, 'African', 2); 
-insert into leyenda_tags values(4, 'afro-cuban jazz', 15); 
-insert into leyenda_tags values(5, 'alternativerock', 15); 
-insert into leyenda_tags values(6, 'Ambient', 16); 
-insert into leyenda_tags values(7, 'ambientdub', 2); 
-insert into leyenda_tags values(8, 'americana', 2); 
-insert into leyenda_tags values(9, 'artrock', 14); 
-insert into leyenda_tags values(10, 'Asian', 14); 
-insert into leyenda_tags values(11, 'Avant-garde', 19); 
-insert into leyenda_tags values(12, 'bachata', 11); 
-insert into leyenda_tags values(13, 'balkan', 16); 
-insert into leyenda_tags values(14, 'baroque', 10); 
-insert into leyenda_tags values(15, 'batucada', 10); 
-insert into leyenda_tags values(16, 'Bebop', 15); 
-insert into leyenda_tags values(17, 'blackmetal', 19); 
-insert into leyenda_tags values(18, 'bluegrass', 6); 
-insert into leyenda_tags values(19, 'Blues', 5); 
-insert into leyenda_tags values(20, 'bluesrock', 1); 
-insert into leyenda_tags values(21, 'bolero', 12); 
-insert into leyenda_tags values(22, 'bossanova', 13); 
-insert into leyenda_tags values(23, 'Breakbeat', 16); 
-insert into leyenda_tags values(24, 'Breakcore', 18); 
-insert into leyenda_tags values(25, 'britpop', 4); 
-insert into leyenda_tags values(26, 'calypso', 17); 
-insert into leyenda_tags values(27, 'caribbean', 11); 
-insert into leyenda_tags values(28, 'Celtic', 14); 
-insert into leyenda_tags values(29, 'chamber', 10); 
-insert into leyenda_tags values(30, 'chansonfrancaise', 12); 
-insert into leyenda_tags values(31, 'Chillout', 3); 
-insert into leyenda_tags values(32, 'christian', 18); 
-insert into leyenda_tags values(33, 'Classical', 18); 
-insert into leyenda_tags values(34, 'classicrock', 19); 
-insert into leyenda_tags values(35, 'coldwave', 20); 
-insert into leyenda_tags values(36, 'Country', 2); 
-insert into leyenda_tags values(37, 'countryrock', 12); 
-insert into leyenda_tags values(38, 'crust', 15); 
-insert into leyenda_tags values(39, 'cumbia', 9); 
-insert into leyenda_tags values(40, 'Dance', 2); 
-insert into leyenda_tags values(41, 'Dancehall', 5); 
-insert into leyenda_tags values(42, 'Dark Wave', 6); 
-insert into leyenda_tags values(43, 'darkambient', 14); 
-insert into leyenda_tags values(44, 'darkstep', 10); 
-insert into leyenda_tags values(45, 'death', 15); 
-insert into leyenda_tags values(46, 'deathcore', 12); 
-insert into leyenda_tags values(47, 'deathmetal', 4); 
-insert into leyenda_tags values(48, 'deephouse', 6); 
-insert into leyenda_tags values(49, 'Disco', 7); 
-insert into leyenda_tags values(50, 'doom', 6); 
-insert into leyenda_tags values(51, 'doommetal', 14); 
-insert into leyenda_tags values(52, 'Downtempo', 3); 
-insert into leyenda_tags values(53, 'dreampop', 5); 
-insert into leyenda_tags values(54, 'Drone', 14); 
-insert into leyenda_tags values(55, 'drumnbass', 4); 
-insert into leyenda_tags values(56, 'Dub', 14); 
-insert into leyenda_tags values(57, 'Dubstep', 5); 
-insert into leyenda_tags values(58, 'EBM', 20); 
-insert into leyenda_tags values(59, 'edm', 20); 
-insert into leyenda_tags values(60, 'electrohouse', 20); 
-insert into leyenda_tags values(61, 'Electronic', 11); 
-insert into leyenda_tags values(62, 'electronica', 14); 
-insert into leyenda_tags values(63, 'Electropop', 20); 
-insert into leyenda_tags values(64, 'electropunk', 8); 
-insert into leyenda_tags values(65, 'electrorock', 12); 
-insert into leyenda_tags values(66, 'electroswing', 16); 
-insert into leyenda_tags values(67, 'emo', 3); 
-insert into leyenda_tags values(68, 'Ethno', 11); 
-insert into leyenda_tags values(69, 'Eurodance', 13); 
-insert into leyenda_tags values(70, 'Experimental', 16); 
-insert into leyenda_tags values(71, 'fado', 9); 
-insert into leyenda_tags values(72, 'Flamenco', 14); 
-insert into leyenda_tags values(73, 'Folk', 19); 
-insert into leyenda_tags values(74, 'freejazz', 17); 
-insert into leyenda_tags values(75, 'Funk', 14); 
-insert into leyenda_tags values(76, 'gangstarap', 6); 
-insert into leyenda_tags values(77, 'Garage', 7); 
-insert into leyenda_tags values(78, 'Gipsy', 18); 
-insert into leyenda_tags values(79, 'Glitch', 3); 
-insert into leyenda_tags values(80, 'Gospel', 1); 
-insert into leyenda_tags values(81, 'Gothic', 6); 
-insert into leyenda_tags values(82, 'grime', 8); 
-insert into leyenda_tags values(83, 'Grindcore', 6); 
-insert into leyenda_tags values(84, 'groovemetal', 12); 
-insert into leyenda_tags values(85, 'Grunge', 11); 
-insert into leyenda_tags values(86, 'Gypsy', 7); 
-insert into leyenda_tags values(87, 'Hardcore', 7); 
-insert into leyenda_tags values(88, 'hardcorepunk', 2); 
-insert into leyenda_tags values(89, 'hardrock', 20); 
-insert into leyenda_tags values(90, 'hardstep', 9); 
-insert into leyenda_tags values(91, 'heavymetal', 12); 
-insert into leyenda_tags values(92, 'hiphop', 16); 
-insert into leyenda_tags values(93, 'House', 8); 
-insert into leyenda_tags values(94, 'IDM', 17); 
-insert into leyenda_tags values(95, 'indian', 3); 
-insert into leyenda_tags values(96, 'Indie', 5); 
-insert into leyenda_tags values(97, 'indiepop', 14); 
-insert into leyenda_tags values(98, 'indierock', 13); 
-insert into leyenda_tags values(99, 'indietronica', 8); 
-insert into leyenda_tags values(100, 'Industrial', 15); 
-insert into leyenda_tags values(101, 'industrialmetal', 18); 
-insert into leyenda_tags values(102, 'industrialrock', 7); 
-insert into leyenda_tags values(103, 'Jazz', 3); 
-insert into leyenda_tags values(104, 'jazzfunk', 11); 
-insert into leyenda_tags values(105, 'jazzfusion', 16); 
-insert into leyenda_tags values(106, 'jpop', 3); 
-insert into leyenda_tags values(107, 'Jungle', 2); 
-insert into leyenda_tags values(108, 'kpop', 1); 
-insert into leyenda_tags values(109, 'krautrock', 5); 
-insert into leyenda_tags values(110, 'Latin', 2); 
-insert into leyenda_tags values(111, 'latinjazz', 2); 
-insert into leyenda_tags values(112, 'lofi', 20); 
-insert into leyenda_tags values(113, 'mambo', 12); 
-insert into leyenda_tags values(114, 'Manouche', 17); 
-insert into leyenda_tags values(115, 'march', 8); 
-insert into leyenda_tags values(116, 'mariachi', 5); 
-insert into leyenda_tags values(117, 'mathcore', 11); 
-insert into leyenda_tags values(118, 'mathrock', 4); 
-insert into leyenda_tags values(119, 'merengue', 20); 
-insert into leyenda_tags values(120, 'Metal', 2); 
-insert into leyenda_tags values(121, 'Metalcore', 13); 
-insert into leyenda_tags values(122, 'middleeastern', 10); 
-insert into leyenda_tags values(123, 'neoclassical', 8); 
-insert into leyenda_tags values(124, 'neurofunk', 15); 
-insert into leyenda_tags values(125, 'newage', 20); 
-insert into leyenda_tags values(126, 'newwave', 1); 
-insert into leyenda_tags values(127, 'noisepop', 17); 
-insert into leyenda_tags values(128, 'noiserock', 9); 
-insert into leyenda_tags values(129, 'nujazz', 10); 
-insert into leyenda_tags values(130, 'numetal', 18); 
-insert into leyenda_tags values(131, 'opera', 18); 
-insert into leyenda_tags values(132, 'Oriental', 2); 
-insert into leyenda_tags values(133, 'Pop', 11); 
-insert into leyenda_tags values(134, 'poppunk', 16); 
-insert into leyenda_tags values(135, 'poprock', 14); 
-insert into leyenda_tags values(136, 'postgrunge', 12); 
-insert into leyenda_tags values(137, 'posthardcore', 15); 
-insert into leyenda_tags values(138, 'postmetal', 11); 
-insert into leyenda_tags values(139, 'postpunk', 2); 
-insert into leyenda_tags values(140, 'postrock', 19); 
-insert into leyenda_tags values(141, 'powermetal', 1); 
-insert into leyenda_tags values(142, 'progressivehouse', 2); 
-insert into leyenda_tags values(143, 'progressivemetal', 2); 
-insert into leyenda_tags values(144, 'progressiverock', 17); 
-insert into leyenda_tags values(145, 'Psytrance', 14); 
-insert into leyenda_tags values(146, 'Punk', 4); 
-insert into leyenda_tags values(147, 'Ragga', 3); 
-insert into leyenda_tags values(148, 'ragtime', 3); 
-insert into leyenda_tags values(149, 'rai', 4); 
-insert into leyenda_tags values(150, 'rap', 1); 
-insert into leyenda_tags values(151, 'Reggae', 12); 
-insert into leyenda_tags values(152, 'reggaeton', 12); 
-insert into leyenda_tags values(153, 'rnb', 10); 
-insert into leyenda_tags values(154, 'Rock', 6); 
-insert into leyenda_tags values(155, 'rockabilly', 9); 
-insert into leyenda_tags values(156, 'rocknroll', 10); 
-insert into leyenda_tags values(157, 'rocksteady', 6); 
-insert into leyenda_tags values(158, 'rumba', 4); 
-insert into leyenda_tags values(159, 'salsa', 2); 
-insert into leyenda_tags values(160, 'Samba', 11); 
-insert into leyenda_tags values(161, 'shoegaze', 5); 
-insert into leyenda_tags values(162, 'singersongwriter', 8); 
-insert into leyenda_tags values(163, 'Ska', 7); 
-insert into leyenda_tags values(164, 'skapunk', 9); 
-insert into leyenda_tags values(165, 'sludge', 12); 
-insert into leyenda_tags values(166, 'smoothjazz', 18); 
-insert into leyenda_tags values(167, 'Soul', 15); 
-insert into leyenda_tags values(168, 'Soundtrack', 12); 
-insert into leyenda_tags values(169, 'southernrock', 16); 
-insert into leyenda_tags values(170, 'spacerock', 10); 
-insert into leyenda_tags values(171, 'speedmetal', 14); 
-insert into leyenda_tags values(172, 'spokenword', 3); 
-insert into leyenda_tags values(173, 'stoner', 14); 
-insert into leyenda_tags values(174, 'surf', 18); 
-insert into leyenda_tags values(175, 'surfrock', 19); 
-insert into leyenda_tags values(176, 'swing', 11); 
-insert into leyenda_tags values(177, 'Symphonic', 12); 
-insert into leyenda_tags values(178, 'Synthpop', 10); 
-insert into leyenda_tags values(179, 'synthwave', 5); 
-insert into leyenda_tags values(180, 'Tango', 17); 
-insert into leyenda_tags values(181, 'Techno', 5); 
-insert into leyenda_tags values(182, 'thrashmetal', 5); 
-insert into leyenda_tags values(183, 'Trance', 19); 
-insert into leyenda_tags values(184, 'trap', 7); 
-insert into leyenda_tags values(185, 'Tribal', 13); 
-insert into leyenda_tags values(186, 'triphop', 16); 
-insert into leyenda_tags values(187, 'tropicalhouse', 9); 
-insert into leyenda_tags values(188, 'waltz', 20); 
-insert into leyenda_tags values(189, 'Western', 17); 
-insert into leyenda_tags values(190, 'World', 12); 
-insert into leyenda_tags values(191, 'zouk', 17); 
+insert into leyenda_tags (nombre, genre) values ('acidjazz', 2);
+insert into leyenda_tags (nombre, genre) values ('African', 15);
+insert into leyenda_tags (nombre, genre) values ('afro-cuban jazz', 3);
+insert into leyenda_tags (nombre, genre) values ('alternativerock', 20);
+insert into leyenda_tags (nombre, genre) values ('Ambient', 6);
+insert into leyenda_tags (nombre, genre) values ('ambientdub', 15);
+insert into leyenda_tags (nombre, genre) values ('americana', 16);
+insert into leyenda_tags (nombre, genre) values ('artrock', 2);
+insert into leyenda_tags (nombre, genre) values ('Asian', 12);
+insert into leyenda_tags (nombre, genre) values ('Avant-garde', 19);
+insert into leyenda_tags (nombre, genre) values ('bachata', 10);
+insert into leyenda_tags (nombre, genre) values ('balkan', 6);
+insert into leyenda_tags (nombre, genre) values ('baroque', 12);
+insert into leyenda_tags (nombre, genre) values ('batucada', 6);
+insert into leyenda_tags (nombre, genre) values ('Bebop', 20);
+insert into leyenda_tags (nombre, genre) values ('blackmetal', 6);
+insert into leyenda_tags (nombre, genre) values ('bluegrass', 18);
+insert into leyenda_tags (nombre, genre) values ('Blues', 16);
+insert into leyenda_tags (nombre, genre) values ('bluesrock', 10);
+insert into leyenda_tags (nombre, genre) values ('bolero', 16);
+insert into leyenda_tags (nombre, genre) values ('bossanova', 1);
+insert into leyenda_tags (nombre, genre) values ('Breakbeat', 4);
+insert into leyenda_tags (nombre, genre) values ('Breakcore', 10);
+insert into leyenda_tags (nombre, genre) values ('britpop', 6);
+insert into leyenda_tags (nombre, genre) values ('calypso', 4);
+insert into leyenda_tags (nombre, genre) values ('caribbean', 16);
+insert into leyenda_tags (nombre, genre) values ('Celtic', 12);
+insert into leyenda_tags (nombre, genre) values ('chamber', 17);
+insert into leyenda_tags (nombre, genre) values ('chansonfrancaise', 10);
+insert into leyenda_tags (nombre, genre) values ('Chillout', 2);
+insert into leyenda_tags (nombre, genre) values ('christian', 11);
+insert into leyenda_tags (nombre, genre) values ('Classical', 15);
+insert into leyenda_tags (nombre, genre) values ('classicrock', 14);
+insert into leyenda_tags (nombre, genre) values ('coldwave', 1);
+insert into leyenda_tags (nombre, genre) values ('Country', 17);
+insert into leyenda_tags (nombre, genre) values ('countryrock', 2);
+insert into leyenda_tags (nombre, genre) values ('crust', 10);
+insert into leyenda_tags (nombre, genre) values ('cumbia', 12);
+insert into leyenda_tags (nombre, genre) values ('Dance', 5);
+insert into leyenda_tags (nombre, genre) values ('Dancehall', 10);
+insert into leyenda_tags (nombre, genre) values ('Dark Wave', 17);
+insert into leyenda_tags (nombre, genre) values ('darkambient', 12);
+insert into leyenda_tags (nombre, genre) values ('darkstep', 10);
+insert into leyenda_tags (nombre, genre) values ('death', 16);
+insert into leyenda_tags (nombre, genre) values ('deathcore', 9);
+insert into leyenda_tags (nombre, genre) values ('deathmetal', 4);
+insert into leyenda_tags (nombre, genre) values ('deephouse', 11);
+insert into leyenda_tags (nombre, genre) values ('Disco', 2);
+insert into leyenda_tags (nombre, genre) values ('doom', 19);
+insert into leyenda_tags (nombre, genre) values ('doommetal', 20);
+insert into leyenda_tags (nombre, genre) values ('Downtempo', 15);
+insert into leyenda_tags (nombre, genre) values ('dreampop', 18);
+insert into leyenda_tags (nombre, genre) values ('Drone', 7);
+insert into leyenda_tags (nombre, genre) values ('drumnbass', 16);
+insert into leyenda_tags (nombre, genre) values ('Dub', 13);
+insert into leyenda_tags (nombre, genre) values ('Dubstep', 2);
+insert into leyenda_tags (nombre, genre) values ('EBM', 10);
+insert into leyenda_tags (nombre, genre) values ('edm', 6);
+insert into leyenda_tags (nombre, genre) values ('electrohouse', 1);
+insert into leyenda_tags (nombre, genre) values ('Electronic', 11);
+insert into leyenda_tags (nombre, genre) values ('electronica', 17);
+insert into leyenda_tags (nombre, genre) values ('Electropop', 13);
+insert into leyenda_tags (nombre, genre) values ('electropunk', 15);
+insert into leyenda_tags (nombre, genre) values ('electrorock', 8);
+insert into leyenda_tags (nombre, genre) values ('electroswing', 13);
+insert into leyenda_tags (nombre, genre) values ('emo', 1);
+insert into leyenda_tags (nombre, genre) values ('Ethno', 17);
+insert into leyenda_tags (nombre, genre) values ('Eurodance', 15);
+insert into leyenda_tags (nombre, genre) values ('Experimental', 1);
+insert into leyenda_tags (nombre, genre) values ('fado', 19);
+insert into leyenda_tags (nombre, genre) values ('Flamenco', 9);
+insert into leyenda_tags (nombre, genre) values ('Folk', 2);
+insert into leyenda_tags (nombre, genre) values ('freejazz', 19);
+insert into leyenda_tags (nombre, genre) values ('Funk', 6);
+insert into leyenda_tags (nombre, genre) values ('gangstarap', 6);
+insert into leyenda_tags (nombre, genre) values ('Garage', 11);
+insert into leyenda_tags (nombre, genre) values ('Gipsy', 2);
+insert into leyenda_tags (nombre, genre) values ('Glitch', 19);
+insert into leyenda_tags (nombre, genre) values ('Gospel', 7);
+insert into leyenda_tags (nombre, genre) values ('Gothic', 19);
+insert into leyenda_tags (nombre, genre) values ('grime', 12);
+insert into leyenda_tags (nombre, genre) values ('Grindcore', 15);
+insert into leyenda_tags (nombre, genre) values ('groovemetal', 16);
+insert into leyenda_tags (nombre, genre) values ('Grunge', 18);
+insert into leyenda_tags (nombre, genre) values ('Gypsy', 11);
+insert into leyenda_tags (nombre, genre) values ('Hardcore', 14);
+insert into leyenda_tags (nombre, genre) values ('hardcorepunk', 10);
+insert into leyenda_tags (nombre, genre) values ('hardrock', 19);
+insert into leyenda_tags (nombre, genre) values ('hardstep', 18);
+insert into leyenda_tags (nombre, genre) values ('heavymetal', 2);
+insert into leyenda_tags (nombre, genre) values ('hiphop', 4);
+insert into leyenda_tags (nombre, genre) values ('House', 9);
+insert into leyenda_tags (nombre, genre) values ('IDM', 11);
+insert into leyenda_tags (nombre, genre) values ('indian', 12);
+insert into leyenda_tags (nombre, genre) values ('Indie', 13);
+insert into leyenda_tags (nombre, genre) values ('indiepop', 2);
+insert into leyenda_tags (nombre, genre) values ('indierock', 7);
+insert into leyenda_tags (nombre, genre) values ('indietronica', 4);
+insert into leyenda_tags (nombre, genre) values ('Industrial', 15);
+insert into leyenda_tags (nombre, genre) values ('industrialmetal', 8);
+insert into leyenda_tags (nombre, genre) values ('industrialrock', 20);
+insert into leyenda_tags (nombre, genre) values ('Jazz', 18);
+insert into leyenda_tags (nombre, genre) values ('jazzfunk', 5);
+insert into leyenda_tags (nombre, genre) values ('jazzfusion', 11);
+insert into leyenda_tags (nombre, genre) values ('jpop', 4);
+insert into leyenda_tags (nombre, genre) values ('Jungle', 6);
+insert into leyenda_tags (nombre, genre) values ('kpop', 12);
+insert into leyenda_tags (nombre, genre) values ('krautrock', 16);
+insert into leyenda_tags (nombre, genre) values ('Latin', 16);
+insert into leyenda_tags (nombre, genre) values ('latinjazz', 17);
+insert into leyenda_tags (nombre, genre) values ('lofi', 9);
+insert into leyenda_tags (nombre, genre) values ('mambo', 14);
+insert into leyenda_tags (nombre, genre) values ('Manouche', 6);
+insert into leyenda_tags (nombre, genre) values ('march', 14);
+insert into leyenda_tags (nombre, genre) values ('mariachi', 18);
+insert into leyenda_tags (nombre, genre) values ('mathcore', 1);
+insert into leyenda_tags (nombre, genre) values ('mathrock', 3);
+insert into leyenda_tags (nombre, genre) values ('merengue', 20);
+insert into leyenda_tags (nombre, genre) values ('Metal', 6);
+insert into leyenda_tags (nombre, genre) values ('Metalcore', 13);
+insert into leyenda_tags (nombre, genre) values ('middleeastern', 18);
+insert into leyenda_tags (nombre, genre) values ('neoclassical', 12);
+insert into leyenda_tags (nombre, genre) values ('neurofunk', 8);
+insert into leyenda_tags (nombre, genre) values ('newage', 3);
+insert into leyenda_tags (nombre, genre) values ('newwave', 7);
+insert into leyenda_tags (nombre, genre) values ('noisepop', 16);
+insert into leyenda_tags (nombre, genre) values ('noiserock', 14);
+insert into leyenda_tags (nombre, genre) values ('nujazz', 6);
+insert into leyenda_tags (nombre, genre) values ('numetal', 17);
+insert into leyenda_tags (nombre, genre) values ('opera', 15);
+insert into leyenda_tags (nombre, genre) values ('Oriental', 11);
+insert into leyenda_tags (nombre, genre) values ('Pop', 10);
+insert into leyenda_tags (nombre, genre) values ('poppunk', 13);
+insert into leyenda_tags (nombre, genre) values ('poprock', 8);
+insert into leyenda_tags (nombre, genre) values ('postgrunge', 2);
+insert into leyenda_tags (nombre, genre) values ('posthardcore', 17);
+insert into leyenda_tags (nombre, genre) values ('postmetal', 3);
+insert into leyenda_tags (nombre, genre) values ('postpunk', 9);
+insert into leyenda_tags (nombre, genre) values ('postrock', 14);
+insert into leyenda_tags (nombre, genre) values ('powermetal', 12);
+insert into leyenda_tags (nombre, genre) values ('progressivehouse', 17);
+insert into leyenda_tags (nombre, genre) values ('progressivemetal', 19);
+insert into leyenda_tags (nombre, genre) values ('progressiverock', 1);
+insert into leyenda_tags (nombre, genre) values ('Psytrance', 6);
+insert into leyenda_tags (nombre, genre) values ('Punk', 14);
+insert into leyenda_tags (nombre, genre) values ('Ragga', 7);
+insert into leyenda_tags (nombre, genre) values ('ragtime', 19);
+insert into leyenda_tags (nombre, genre) values ('rai', 19);
+insert into leyenda_tags (nombre, genre) values ('rap', 18);
+insert into leyenda_tags (nombre, genre) values ('Reggae', 17);
+insert into leyenda_tags (nombre, genre) values ('reggaeton', 19);
+insert into leyenda_tags (nombre, genre) values ('rnb', 15);
+insert into leyenda_tags (nombre, genre) values ('Rock', 8);
+insert into leyenda_tags (nombre, genre) values ('rockabilly', 18);
+insert into leyenda_tags (nombre, genre) values ('rocknroll', 11);
+insert into leyenda_tags (nombre, genre) values ('rocksteady', 4);
+insert into leyenda_tags (nombre, genre) values ('rumba', 2);
+insert into leyenda_tags (nombre, genre) values ('salsa', 12);
+insert into leyenda_tags (nombre, genre) values ('Samba', 10);
+insert into leyenda_tags (nombre, genre) values ('shoegaze', 19);
+insert into leyenda_tags (nombre, genre) values ('singersongwriter', 13);
+insert into leyenda_tags (nombre, genre) values ('Ska', 6);
+insert into leyenda_tags (nombre, genre) values ('skapunk', 5);
+insert into leyenda_tags (nombre, genre) values ('sludge', 12);
+insert into leyenda_tags (nombre, genre) values ('smoothjazz', 17);
+insert into leyenda_tags (nombre, genre) values ('Soul', 10);
+insert into leyenda_tags (nombre, genre) values ('Soundtrack', 8);
+insert into leyenda_tags (nombre, genre) values ('southernrock', 15);
+insert into leyenda_tags (nombre, genre) values ('spacerock', 8);
+insert into leyenda_tags (nombre, genre) values ('speedmetal', 19);
+insert into leyenda_tags (nombre, genre) values ('spokenword', 15);
+insert into leyenda_tags (nombre, genre) values ('stoner', 10);
+insert into leyenda_tags (nombre, genre) values ('surf', 17);
+insert into leyenda_tags (nombre, genre) values ('surfrock', 12);
+insert into leyenda_tags (nombre, genre) values ('swing', 13);
+insert into leyenda_tags (nombre, genre) values ('Symphonic', 13);
+insert into leyenda_tags (nombre, genre) values ('Synthpop', 12);
+insert into leyenda_tags (nombre, genre) values ('synthwave', 20);
+insert into leyenda_tags (nombre, genre) values ('Tango', 8);
+insert into leyenda_tags (nombre, genre) values ('Techno', 20);
+insert into leyenda_tags (nombre, genre) values ('thrashmetal', 4);
+insert into leyenda_tags (nombre, genre) values ('Trance', 4);
+insert into leyenda_tags (nombre, genre) values ('trap', 10);
+insert into leyenda_tags (nombre, genre) values ('Tribal', 1);
+insert into leyenda_tags (nombre, genre) values ('triphop', 3);
+insert into leyenda_tags (nombre, genre) values ('tropicalhouse', 16);
+insert into leyenda_tags (nombre, genre) values ('waltz', 16);
+insert into leyenda_tags (nombre, genre) values ('Western', 3);
+insert into leyenda_tags (nombre, genre) values ('World', 15);
+insert into leyenda_tags (nombre, genre) values ('zouk', 14);
+insert into leyenda_tags (nombre, genre) values ('acidhouse', 4); 
 
-insert into users values (1, 'jhonny', 'meneses', 'jtst',  md5('1234'), 'jhonnymeneses13@gmail.com', 'h');
-insert into users values (2, 'albert', 'balbastre', 'albalbastre',  md5('1234'), 'albertsoyyo@gmail.com', 'h');
-insert into users values (3, 'jordi', 'capellades', 'jordankesley',  md5('1234'), 'jcapelladese@gmail.com', 'h');
+insert into users (name, lastname, username, password, email, sex) values ('jhonny', 'meneses', 'jtst',  md5('1234'), 'jhonnymeneses13@gmail.com', 'h');
+insert into users (name, lastname, username, password, email, sex) values ('albert', 'balbastre', 'albalbastre',  md5('1234'), 'albertsoyyo@gmail.com', 'h');
+insert into users (name, lastname, username, password, email, sex) values ('jordi', 'capellades', 'jordankesley',  md5('1234'), 'jcapelladese@gmail.com', 'h');
 insert into tracks values(1501986, 'Empty Streets', 505236, 'Omonoko', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235', 'https://mp3d.jamendo.com/download/track/1501986/mp32/', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'Strong', 'http://jamen.do/t/1161940');
-insert into leyenda_mood values (1, 'happy');
-insert into leyenda_mood values (2, 'sad');
-insert into leyenda_mood values (3, 'angry');
-insert into leyenda_mood values (4, 'energetic');
+insert into leyenda_mood (nombre) values ('happy');
+insert into leyenda_mood (nombre) values ('sad');
+insert into leyenda_mood (nombre) values ('angry');
+insert into leyenda_mood (nombre) values ('energetic');
 insert into moods values(1, 2, 1501986);
 insert into votos_moods values(1, 'like', now(), 2);
 
-insert into playlist values (1, 'my playlist', 2);
+insert into playlist (title, users_id) values ('my playlist', 2);
 insert into playlist_songs values(1, 1501986);
 
-insert into tags values (1, 1501986, 3);
+insert into tags (id_track, id_leyenda_tag) values (1501986, 3);
 insert into votos_tag values(1, 'like', now(), 3); --eliminar segunda columna
 insert into votos_tag values(1, 'dislike', now(), 2); --eliminar segunda columna
 insert into votos_tag values(1, 'zero', now(), 1); --eliminar segunda columna
@@ -449,3 +449,5 @@ insert into votos_tag values(1, 'zero', now(), 1); --eliminar segunda columna
 -- el usuario con id = 2 cambia de opinion y opina que le gusta el tag propuesto 1
 insert into votos_tag values(1, 'like', now(), 2) ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote;
 
+-- En la siguiente query, consultaremos las canciones de la playlist de nombre 'my playlist' para obtener las canciones.
+select users_id, title, name, audio from playlist pl join playlist_songs ps on pl.id = ps.playlist_id join tracks tr on ps.tracks_id = tr.id where pl.title = 'my playlist'; 
