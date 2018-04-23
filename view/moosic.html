@@ -21,6 +21,8 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
 </head>
 <body>
+  <!-- No Slide Menu -->
+  <span id="icon-open" onclick="openNav()">&#9776;</span>
   <!-- Slide Menu -->
   <div id="mySidenavBg" class="sidenav-bg"></div>
   <div id="mySidenav" class="sidenav">
@@ -47,36 +49,29 @@
       </div>
       <!-- Waves audio -->
       <div class="row">
-        <div class="col-lg-3 col-sm-3 col-xs-3"></div>
-        <div class="col-lg-6 col-sm-6 col-xs-6">
+        <div class="col-lg-1 col-sm-1 col-xs-1"></div>
+        <div class="col-lg-10 col-sm-10 col-xs-10">
           <!-- <audio controls> -->
             <!-- <source src="audio/song2.mp3" type="audio/mpeg"> -->
             <div id="audio-spectrum"></div>
           <!-- </audio> -->
         </div>
-        <div class="col-lg-3 col-sm-3 col-xs-3"></div>
+        <div class="col-lg-1 col-sm-1 col-xs-1"></div>
       </div>
       <!-- Buttons -->
       <div class="row icons-track">
         <div class="col-lg-4 col-sm-4 col-xs-4"></div>
         <div class="col-md-1 col-sm-1 col-xs-1">
-          <button class="btn btn-primary">
-            <i id="backward"class="fa fa-backward" style="font-size:12px"></i>
-          </button>
+          <button id="backward" class="btn btn-primary fa fa-backward"></button>
         </div>
         <div class="col-md-1 col-sm-1 col-xs-1">
-          <button class="btn btn-primary">
-            <i id="play"class="fa fa-play" style="font-size:12px"></i>
-          </button>
+          <button id="stop" class="btn btn-primary fa fa-stop"></button>
         </div>
         <div class="col-md-1 col-sm-1 col-xs-1">
-          <button class="btn btn-primary">
-            <i id="pause"class="fa fa-pause" style="font-size:12px"></i>
-          </button>
+          <button id="play" class="btn btn-primary fa fa-play"></button>
         </div>
         <div class="col-md-1 col-sm-1 col-xs-1">
-          <button class="btn btn-primary">
-            <i id="forward"class="fa fa-forward" style="font-size:12px"></i>
+          <button id="forward" class="btn btn-primary fa fa-forward">
           </button>
         </div>
         <div class="col-lg-4 col-sm-4 col-xs-4"></div>
@@ -89,7 +84,5 @@
     </div>
   </div>
   </div>
-  <!-- No Slide Menu -->
-  <span id="icon-open" onclick="openNav()">&#9776;</span>
 </body>
 </html>
