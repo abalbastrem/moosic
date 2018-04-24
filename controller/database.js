@@ -1,10 +1,10 @@
 const pg = require('pg');
 
 const dbCfg = {
-  dbip: '192.168.1.18',
+  dbip: '127.0.0.1',
   dbclient: 'postgresql',
   dbport: '5432', // postgresql port
-  dbname: 'moosic',
+  dbname: 'moosic_final',
   dbusername: 'albert',
   dbpassword: 'jupiter'
 };

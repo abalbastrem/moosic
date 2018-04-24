@@ -1,19 +1,6 @@
 /// PROJECT GLOBALS SETUP ///
-// async function setup() {
-//   try {
-//     const GLOBALS = require('./setup');
-//     const methods = require('./methods');
-//     const jamendo = require('./jamendo_methods');
-//     console.log("::::: PROJECT SET UP SUCCESSFULLY :::::");
-//   } catch (e) {
-//     console.log("::::: SETUP FAILED: " + e);
-//   }
-// };
-
-// setup();
-
 const GLOBALS = require('./setup');
-const methods = require('./methods');
+const db = require('./db_methods');
 const jamendo = require('./jamendo_methods');
 console.log("::::: PROJECT SET UP SUCCESSFULLY :::::");
 
@@ -43,7 +30,7 @@ app.get('/test', function(request, response) {
 app.get('/testdb', async function(request, response) {
   log(request, response);
   try {
-    var ret = await methods.testdb();
+    var ret = await db.testdb();
     console.log("::::: in handler RESPONSE:\n" + ret);
     response.writeHead(200, {
       'Content-type': 'text/html'
@@ -61,7 +48,7 @@ app.get('/get', async function(request, response) {
   log(request, response);
   try {
     var url = jamendo.urlBuilder();
-    var ret = await methods.get(url);
+    var ret = await db.get(url);
     console.log("::::: in handler RESPONSE:\n" + ret);
     response.writeHead(200, {
       'Content-type': 'text/html'
@@ -84,63 +71,47 @@ app.get('/get2', function(request, response) {
 });
 
 /// THE D U M P ///
-async function apiOneTag(tag) {
-  try {
-    var url = jamendo.urlBuilder(tag);
-    tracks += await jamendo.api(url);
-  } catch (e) {
-    console.error("ERROR: " + e);
-  }
-};
-
 async function apiAllTags() {
   var n = 0;
   var tracksArray = [];
-  var tracksJson = {};
   var json = {};
   try {
-    GLOBALS.TAGS.forEach(async function(tag) {
+    for (let tag of GLOBALS.TAGS) {
       if (tag != "") {
         console.log("::::: tag: " + tag);
         var url = jamendo.urlBuilder(tag);
-        // console.log("::::: " + url);
         json = await jamendo.api(url);
-        console.log("::::: json: " + json + JSON.stringify(json));
-        tracksArray.push(json);
-        tracksJson[tag] = json;
-        // console.log("::::: " + tracksArray.size);
-        // } else if (tag == "EOF") {
-        //   return tracksJson;
-        console.log(":::::" + ++n + " de cuatro tags");
+        for (let jsonTrack of json) {
+          tracksArray.push(jsonTrack);
+          console.log("::::: acc json obj length: " + tracksArray.length);
+        }
       }
-    });
-    // return tracksJson;
-    console.log("::::: esto debería imprimirse al acabar el forEach, pero no");
-    // console.log("::::: TRACKSARRAY:\n " + tracksArray);
-    // console.log("::::: TRACKSJSON:\n " + JSON.stringify(tracksJson,null,2));
+    };
+    return tracksArray;
   } catch (e) {
     console.error("ERROR: " + e);
   }
 };
 
-// function dumpApi() {
-//   GLOBALS.TAGS.forEach(function(tag) {
-//     if (tag != "") {
-//       console.log("*** " + tag + " ***");
-//       apiOneTag(tag);
-//     }
-//   });
-//   console.log(tracks);
-// };
-
-// dumpApi();
-
-async function newSQL() {
-  const jsonSQL = await apiAllTags();
-  console.log(JSON.stringify(jsonSQL, null, 2));
+async function dump() {
+  try {
+    const jsonArray = await apiAllTags();
+    // console.log(JSON.stringify(jsonArray, null, 2));
+    console.log(jsonArray.length);
+    for (let jsonTrack of jsonArray) {
+      console.log("::::: query TRACK");
+      let SQLtrack = db.jsonTrack2sql(jsonTrack);
+      console.log("::::: query TAGS");
+      let SQLtags = db.jsonTags2sql(jsonTrack);
+      await db.insertTrack(SQLtrack);
+      await db.insertTags(SQLtags);
+    }
+  } catch (e) {
+    console.log("::::: ERROR: " + e);
+  }
 };
 
-newSQL();
+// dump();
 
 /// QUICK LOG ///
 var n = 0;
