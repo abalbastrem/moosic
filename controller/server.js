@@ -12,6 +12,7 @@ const bcrypt = require('bcryptjs');
 const requestify = require('requestify');
 const SQLBuilder = require('json-sql-builder2');
 const pg = require('pg');
+const pgquery = require('pg-query');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
 
