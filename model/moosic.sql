@@ -66,6 +66,9 @@ CREATE TABLE tags (
 CREATE TABLE tracks (
     id bigint  NOT NULL,
     name varchar(40)  NOT NULL,
+    duration bigint NOT NULL,
+    releasedate date NOT NULL,
+    plays bigint NOT NULL default 0,
     artist_id bigint  NOT NULL,
     artist_name varchar(40)  NOT NULL,
     album_image varchar(150)  NOT NULL,
@@ -430,7 +433,7 @@ insert into leyenda_tags (nombre, genre) values ('acidhouse', 4);
 insert into users (name, lastname, username, password, email, sex) values ('jhonny', 'meneses', 'jtst',  md5('1234'), 'jhonnymeneses13@gmail.com', 'h');
 insert into users (name, lastname, username, password, email, sex) values ('albert', 'balbastre', 'albalbastre',  md5('1234'), 'albertsoyyo@gmail.com', 'h');
 insert into users (name, lastname, username, password, email, sex) values ('jordi', 'capellades', 'jordankesley',  md5('1234'), 'jcapelladese@gmail.com', 'h');
-insert into tracks values(1501986, 'Empty Streets', 505236, 'Omonoko', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235', 'https://mp3d.jamendo.com/download/track/1501986/mp32/', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'Strong', 'http://jamen.do/t/1161940');
+insert into tracks (id, name, duration, releasedate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) values(1501986, 'Empty Streets',249, '2017-12-05', 505236, 'Omonoko', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235', 'https://mp3d.jamendo.com/download/track/1501986/mp32/', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'Strong', 'http://jamen.do/t/1161940');
 insert into leyenda_mood (nombre) values ('happy');
 insert into leyenda_mood (nombre) values ('sad');
 insert into leyenda_mood (nombre) values ('angry');
@@ -448,6 +451,14 @@ insert into votos_tag values(1, 'zero', now(), 1); --eliminar segunda columna
 
 -- el usuario con id = 2 cambia de opinion y opina que le gusta el tag propuesto 1
 insert into votos_tag values(1, 'like', now(), 2) ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote;
+
+
+-- damos grant a albert(admin server) para hacer insert select delete y update a las tablas
+grant SELECT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+grant INSERT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+grant DELETE ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+grant UPDATE ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+
 
 -- En la siguiente query, consultaremos las canciones de la playlist de nombre 'my playlist' para obtener las canciones.
 select users_id, title, name, audio from playlist pl join playlist_songs ps on pl.id = ps.playlist_id join tracks tr on ps.tracks_id = tr.id where pl.title = 'my playlist'; 

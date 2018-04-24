@@ -1,6 +1,5 @@
 http://desktop.arcgis.com/es/arcmap/10.3/manage-data/using-sql-with-gdbs/example-creating-a-view-in-postgresql-with-sql.htm
 
-
 create or replace function myproduct(character(5)) returns table (r_id_producto character(5),r_descripcion character varying(20),r_id_fab character(3)) as $$
 	declare idenprod character(5);
 		begin
@@ -11,4 +10,27 @@ create or replace function myproduct(character(5)) returns table (r_id_producto 
 			end if;
 		end;
 $$ language plpgsql;
+
+
+
+
+**********************
+* CREAR PRIMERA VIEW *
+**********************
+con esto obtenemos la canción y el usuario que ha creado su playlist
+select ps.tracks_id, pl.users_id from playlist_songs ps join playlist pl on pl.id = ps.playlist_id;
+
+
+con este query obtenemos la cancion, el usuario y el mood el cual el usuario ha votado que le gusta ese mood referente a esa canción:
+
+create or replace view playlist_mood as select ps.tracks_id, pl.users_id, lm.nombre as mood from playlist_songs ps join playlist pl on pl.id = ps.playlist_id join moods md on md.id_track = ps.tracks_id join leyenda_mood lm on lm.id = md.id_leyenda_mood where pl.users_id in (select id_users from votos_tag where ps.tracks_id = id_track and pl.users_id = id_users and vote='like');
+
+
+CREATE OR REPLACE FUNCTION creaview_playlist_mood() RETURNS void AS $$
+BEGIN
+	create or replace view playlist_mood as select ps.tracks_id, pl.users_id, lm.nombre as mood from playlist_songs ps join playlist pl on pl.id = ps.playlist_id join moods md on md.id_track = ps.tracks_id join leyenda_mood lm on lm.id = md.id_leyenda_mood where pl.users_id in (select id_users from votos_tag where ps.tracks_id = id_track and pl.users_id = id_users and vote='like');
+RAISE NOTICE 'view playlist_mood creada';
+END;
+$$LANGUAGE plpgsql;
+
 
