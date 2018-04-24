@@ -1,6 +1,8 @@
-dbip: '192.168.1.18',
-dbclient: 'postgresql',
-dbport: '5432', // postgresql port
-dbname: 'moosic_final',
-dbusername: 'albert',
-dbpassword: 'jupiter'
+{
+host: '192.168.1.18',
+type: 'postgresql',
+port: 5432, // postgresql port
+database: 'moosic_final',
+user: 'albert',
+password: 'jupiter'
+}

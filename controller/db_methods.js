@@ -1,23 +1,21 @@
-const db0 = require('./database');
+const con = require('./connection');
+var pgp = require('pg-promise')();
+// const pgp = con.pgp;
+console.log(con.pgp);
 
 exports.testdb = async function() {
   try {
-    // await db0.client.connect();
-    // console.log("::::: connected to database");
     console.log("::::: test query to database");
-    // var result = await db0.client.query("SELECT now()");
-    // var result = await db0.query("SELECT now()", function(err, rows, result) {
-    //   assert.equal(rows, result.rows);
-    // });
+    var result = await con.pgp.any('SELECT $1:name FROM $2:name', ['id', 'tags']);
+    console.log("::::: RESULT: " + result);
+    var result = await con.pgp.one('SELECT now()');
+    console.log("::::: in method after query");
     console.log("::::: RESULT: " + result);
     var ret = "";
     result.rows.forEach(function(element) {
       // console.log(element.name);
       ret += element.name + " ";
     });
-    // await db0.client.query("CREATE TABLE tablatest(col1 text, col2 text, col3 text)");
-    // await db0.client.query("INSERT INTO tablatest(col1, col2, col3) VALUES('pedro','romero','pakistan')");
-    // await db0.client.end();
     console.log("::::: test query finished");
     console.log("::::: in function RESPONSE:\n" + ret);
     return ret;
