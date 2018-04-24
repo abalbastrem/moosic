@@ -1,71 +1,76 @@
 body {
-    font-family: "Lato", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 /* Slide menu */
 
 .sidenav-bg {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 99;
-    top: 0;
-    right: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 1s;
-    text-align: center;
-    opacity: 0.6;
-    filter: blur(3px);
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 1s;
+  text-align: center;
+  opacity: 0.7;
+  filter: blur(1px);
 }
 
 .sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    right: 0;
-    /*background-color: #111;*/
-    overflow-x: hidden;
-    transition: 1s;
-    text-align: center;
-    color: white;
-    /*opacity: 0.8;*/
-    /*filter: blur(15px);*/
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  /*background-color: #111;*/
+  overflow-x: hidden;
+  transition: 1s;
+  text-align: center;
+  color: white;
+  /*opacity: 0.8;*/
+  /*filter: blur(15px);*/
 }
 
 .sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: white;
-    display: block;
-    transition: 10s;
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 10s;
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+  color: #f1f1f1;
 }
 
 .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 5px;
-    font-size: 20px;
-    margin-left: 50px;
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 5px;
+  font-size: 20px;
+  margin-left: 50px;
+  z-index: 1;
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
 }
 
 /* Icons */
 
 #icon-open {
   float: right;
+  z-index: 100;
   padding: 15px;
 }
 
@@ -80,6 +85,7 @@ body {
   height: 15%;
   right: 0;
   bottom: 0;
+  z-index: 1;
   transition: 1s;
   /*background-color: #292929;*/
   color: white;
@@ -109,4 +115,13 @@ body {
   /*height: 20%;*/
   background-color: white;
   background-position: center;
+}
+
+/* diagram gojs */
+
+#myDiagramDiv {
+  position: absolute;
+  width: 95%;
+  height: 100%;
+  background-color: #FFFF;
 }
