@@ -15,7 +15,7 @@ exports.api = async function(url) {
 };
 
 exports.urlBuilder = function urlBuilder(tag) {
-  var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&include=musicinfo&format=jsonpretty&tags=" + tag + "&limit=2";
+  var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&include=musicinfo&format=jsonpretty&tags=" + tag + "&limit=100";
   return url;
 };
 

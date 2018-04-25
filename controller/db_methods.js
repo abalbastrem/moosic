@@ -51,7 +51,9 @@ exports.insertTrack = async function(SQLtrack) {
     // await db0.client.connect();
     // await db0.client.query(SQLtrack);
     // await db0.client.end();
-    await db0.query(SQLtrack);
+    // await db0.query(SQLtrack);
+    await con.client.query(SQLtrack);
+    console.log("::::: track inserted");
   } catch (e) {
     console.error("::::: ERROR while inserting track: " + e);
   }
@@ -61,21 +63,24 @@ exports.insertTags = async function(SQLtags) {
   console.log("::::: inserting array of tags into database");
   try {
     // await db0.client.connect();
-    for (let query of SQLtags) {
+    for (let SQLquery of SQLtags) {
       // await db0.client.query(query);
-
+      await con.client.query(SQLquery);
+      console.log("::::: tag inserted");
     }
     // await db0.client.end();
   } catch (e) {
-    console.error("::::: ERROR while inserting track: " + e);
+    console.error("::::: ERROR while inserting tag: " + e);
   }
 };
 
 exports.jsonTrack2sql = function(jsonTrack) {
   var queryArray = [];
-  var query = "INSERT INTO tracks (id, name, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) VALUES (";
+  var query = "INSERT INTO tracks (id, name, duration, releasedate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) VALUES (";
   query += jsonTrack.id + ",";
   query += "'" + jsonTrack.name + "'" + ",";
+  query += "'" + jsonTrack.duration + "'" + ",";
+  query += "'" + jsonTrack.releasedate + "'" + ",";
   query += jsonTrack.artist_id + ",";
   query += "'" + jsonTrack.artist_name + "'" + ",";
   query += "'" + jsonTrack.album_image + "'" + ",";

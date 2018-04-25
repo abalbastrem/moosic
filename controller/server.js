@@ -112,7 +112,7 @@ async function dump() {
   }
 };
 
-// dump();
+dump();
 
 /// QUICK LOG ///
 var n = 0;
