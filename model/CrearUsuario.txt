@@ -1,0 +1,21 @@
+CREATE USER albert WITH PASSWORD '123456';
+create role admin_moosic;
+grant SELECT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+moosic_final=# grant SELECT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+GRANT
+moosic_final=# grant INSERT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+GRANT
+moosic_final=# grant DELETE ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;GRANT
+moosic_final=# grant UPDATE ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
+GRANT
+
+grant admin_moosic TO albert;
+
+
+insert on conflict do nothing --> https://www.dbrnd.com/2016/08/postgresql-9-5-insert-if-not-exists-update-if-exists-insert-on-conflict-do-update-do-nothing/
+
+
+
+
+
+
