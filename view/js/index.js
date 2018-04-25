@@ -1,4 +1,4 @@
-// documents is ready. It's the same that onload().
+// document ready. It's the same that onload().
 $(document).ready(function() {
   // Waves audio
   var Spectrum = WaveSurfer.create({

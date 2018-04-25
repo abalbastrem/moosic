@@ -1,0 +1,48 @@
+{
+  "results": [
+    {
+      "id": "1501986",
+      "name": "Empty Streets",
+      "duration": 249,
+      "artist_id": "505236",
+      "artist_name": "Omonoko",
+      "artist_idstr": "Omonoko",
+      "album_name": "Animals",
+      "album_id": "172995",
+      "license_ccurl": "http://creativecommons.org/licenses/by-nc-nd/3.0/",
+      "position": 1,
+      "releasedate": "2017-12-05",
+      "album_image": "https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg",
+      "audio": "https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235",
+      "audiodownload": "https://mp3d.jamendo.com/download/track/1501986/mp32/",
+      "prourl": "https://licensing.jamendo.com/track/1501986",
+      "shorturl": "http://jamen.do/t/1501986",
+      "shareurl": "http://www.jamendo.com/track/1501986",
+      "image": "https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg",
+      "musicinfo": {
+        "vocalinstrumental": "",
+        "lang": "en",
+        "gender": "",
+        "acousticelectric": "",
+        "speed": "",
+        "tags": {
+          "genres": [
+            "pop",
+            "indie",
+            "march",
+            "rock"
+          ],
+          "instruments": [
+            "strings",
+            "guitar",
+            "bass"
+          ],
+          "vartags": [
+            "positive",
+            "uplifting"
+          ]
+        }
+      }
+    }
+  ]
+}

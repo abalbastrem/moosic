@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Json test</title>
+  <!-- Jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<script>
+  $(document).ready(function() {
+    $.ajax({
+      dataType: 'json',
+      url: 'https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&format=jsonpretty&limit=2&include=musicinfo&groupby=artist_id',
+      success: function(datos) {
+        console.log(datos.results[0].name);
+      },
+      error: function() {
+        alert("Error leyendo fichero json");
+      }
+    });
+  });
+</script>
+
+<body>
+  <button>Get JSON data</button>
+</body>
+</html>
