@@ -15,7 +15,7 @@ exports.api = async function(url) {
 };
 
 exports.urlBuilder = function urlBuilder(tag) {
-  var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&include=musicinfo&format=jsonpretty&tags=" + tag + "&limit=100";
+  var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&include=musicinfo&tags=" + tag + "&limit=100";
   return url;
 };
 
@@ -45,9 +45,4 @@ exports.urlBuilder = function urlBuilder(tag) {
 //   } else {
 //     console.log("no ha devuelto resultados");
 //   }
-// };
-
-// exports.urlBuilderOLD = function urlBuilder() {
-//   var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&format=jsonpretty&limit=1&include=musicinfo&groupby=artist_id";
-//   return url;
 // };
