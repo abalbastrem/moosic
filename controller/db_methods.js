@@ -1,24 +1,36 @@
 const con = require('./connection');
-var pgp = require('pg-promise')();
+// var pgp = require('pg-promise')();
 // const pgp = con.pgp;
-console.log(con.pgp);
+// console.log(con);
 
 exports.testdb = async function() {
   try {
-    console.log("::::: test query to database");
-    var result = await con.pgp.any('SELECT $1:name FROM $2:name', ['id', 'tags']);
-    console.log("::::: RESULT: " + result);
-    var result = await con.pgp.one('SELECT now()');
-    console.log("::::: in method after query");
-    console.log("::::: RESULT: " + result);
-    var ret = "";
-    result.rows.forEach(function(element) {
-      // console.log(element.name);
-      ret += element.name + " ";
-    });
-    console.log("::::: test query finished");
-    console.log("::::: in function RESPONSE:\n" + ret);
-    return ret;
+    // con.pgp.connect()
+    // .then(obj => {
+    //     obj.done(); // success, release the connection;
+    //     console.log("Connection succesful");
+    //   })
+    //   .catch(error => {
+    //     console.error('ERROR:', error.message || error);
+    //   });
+    // await con.pgptest();
+    await con.clienttest();
+    // console.log("::::: test query to database");
+    // var result = await con.pgp.query('SELECT $1:name FROM $2:name', ['id', 'tags']);
+    // console.log("::::: RESULT: " + result);
+    // var result = await con.pgp.query('SELECT now()');
+    // console.log("::::: RESULT: " + result);
+    // console.log("::::: in method after query");
+    // var ret = "";
+    // result.rows.forEach(function(element) {
+    //   // console.log(element.name);
+    //   ret += element.name + " ";
+    // });
+    // console.log("::::: test query finished");
+    // console.log("::::: in function RESPONSE:\n" + ret);
+    var result = await con.client.query('SELECT id_leyenda_tag FROM tags');
+    console.log(result.rows);
+    // return ret;
   } catch (e) {
     console.error("ERROR: " + e);
   }
