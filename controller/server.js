@@ -2,7 +2,7 @@
 const GLOBALS = require('./setup');
 const db = require('./db_methods');
 const jamendo = require('./jamendo_methods');
-console.log("::::: PROJECT SET UP SUCCESSFULLY :::::");
+console.log("::::: PROJECT GLOBALS SET UP SUCCESSFULLY :::::");
 
 /// SERVER CONFIG ///
 const express = require('express');
@@ -15,6 +15,10 @@ const pg = require('pg');
 const pgquery = require('pg-query');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
+
+/// CONNECTION TO DATABASE ///
+const con = require('./connection');
+// con.pgClient.connect();
 
 /// HANDLERS ///
 app.get('/', function(request, response) {
@@ -98,7 +102,7 @@ async function dump() {
   try {
     const jsonArray = await apiAllTags();
     // console.log(JSON.stringify(jsonArray, null, 2));
-    console.log(jsonArray.length);
+    console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
     for (let jsonTrack of jsonArray) {
       console.log("::::: query TRACK");
       let SQLtrack = db.jsonTrack2sql(jsonTrack);

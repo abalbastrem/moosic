@@ -1,6 +1,4 @@
 const con = require('./connection');
-// var pgp = require('pg-promise')();
-// const pgp = con.pgp;
 // console.log(con);
 
 exports.testdb = async function() {
@@ -14,7 +12,7 @@ exports.testdb = async function() {
     //     console.error('ERROR:', error.message || error);
     //   });
     // await con.pgptest();
-    await con.clienttest();
+    await con.pgtest();
     // console.log("::::: test query to database");
     // var result = await con.pgp.query('SELECT $1:name FROM $2:name', ['id', 'tags']);
     // console.log("::::: RESULT: " + result);
@@ -28,31 +26,45 @@ exports.testdb = async function() {
     // });
     // console.log("::::: test query finished");
     // console.log("::::: in function RESPONSE:\n" + ret);
-    var result = await con.client.query('SELECT id_leyenda_tag FROM tags');
+    var result = await con.pgClient.query('SELECT id_leyenda_tag FROM tags LIMIT 3');
     console.log(result.rows);
-    // return ret;
+    return result;
   } catch (e) {
     console.error("ERROR: " + e);
   }
 };
 
-exports.insert = async function(SQLtrack, SQLtags) {
-  console.log("::::: inserting array of tracks & tags into database");
-  try {
-    //
-  } catch (e) {
-    console.error("ERROR while inserting: " + e);
+exports.jsonTrack2sql = function(jsonTrack) {
+  var params = [jsonTrack.id, jsonTrack.name, jsonTrack.duration, jsonTrack.releasedate, jsonTrack.artist_id, jsonTrack.artist_name, jsonTrack.album_image, jsonTrack.audio, jsonTrack.audiodownload, jsonTrack.image, jsonTrack.album_name, jsonTrack.shorturl];
+  var text = "INSERT INTO tracks (id, name, duration, releasedate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) VALUES (";
+  text += "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) ";
+  text += "ON CONFLICT (id) DO NOTHING";
+  var query = { text: text, values: params};
+  // console.log("::::: QUERY: " + JSON.stringify(query,null,2));
+  // return [query, params];
+  return query;
+};
+
+exports.jsonTags2sql = function(jsonTrack) {
+  var queryArray = [];
+  var id_track = jsonTrack.id;
+  for (let genre of jsonTrack.musicinfo.tags.genres) {
+    var params = [id_track, genre];
+    console.log(":::: genre: " + genre);
+    var subtext = "(SELECT id FROM leyenda_tags WHERE nombre ILIKE $2)";
+    var text = "INSERT INTO tags (id_track, id_leyenda_tag) VALUES ($1, " + subtext + ") ON CONFLICT (id_track, id_leyenda_tag) DO NOTHING";
+    // console.log(":::::  SUB: " + subquery);
+    // console.log("::::: QUERY: " + query);
+    var query = { text: text, values: params};
+    queryArray.push(query);
   }
+  return queryArray;
 };
 
 exports.insertTrack = async function(SQLtrack) {
   console.log("::::: inserting track into database");
   try {
-    // await db0.client.connect();
-    // await db0.client.query(SQLtrack);
-    // await db0.client.end();
-    // await db0.query(SQLtrack);
-    await con.client.query(SQLtrack);
+    await con.pgClient.query(SQLtrack);
     console.log("::::: track inserted");
   } catch (e) {
     console.error("::::: ERROR while inserting track: " + e);
@@ -62,48 +74,11 @@ exports.insertTrack = async function(SQLtrack) {
 exports.insertTags = async function(SQLtags) {
   console.log("::::: inserting array of tags into database");
   try {
-    // await db0.client.connect();
     for (let SQLquery of SQLtags) {
-      // await db0.client.query(query);
-      await con.client.query(SQLquery);
+      await con.pgClient.query(SQLquery);
       console.log("::::: tag inserted");
     }
-    // await db0.client.end();
   } catch (e) {
     console.error("::::: ERROR while inserting tag: " + e);
   }
-};
-
-exports.jsonTrack2sql = function(jsonTrack) {
-  var queryArray = [];
-  var query = "INSERT INTO tracks (id, name, duration, releasedate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) VALUES (";
-  query += jsonTrack.id + ",";
-  query += "'" + jsonTrack.name + "'" + ",";
-  query += "'" + jsonTrack.duration + "'" + ",";
-  query += "'" + jsonTrack.releasedate + "'" + ",";
-  query += jsonTrack.artist_id + ",";
-  query += "'" + jsonTrack.artist_name + "'" + ",";
-  query += "'" + jsonTrack.album_image + "'" + ",";
-  query += "'" + jsonTrack.audio + "'" + ",";
-  query += "'" + jsonTrack.audiodownload + "'" + ",";
-  query += "'" + jsonTrack.image + "'" + ",";
-  query += "'" + jsonTrack.album_name + "'" + ",";
-  query += "'" + jsonTrack.shorturl + "'";
-  query += ") ";
-  query += "ON CONFLICT (id) DO NOTHING";
-  console.log("::::: QUERY: " + query);
-  return query;
-};
-
-exports.jsonTags2sql = function(jsonTrack) {
-  var queryArray = [];
-  var id_track = jsonTrack.id;
-  for (let genre of jsonTrack.musicinfo.tags.genres) {
-    var subquery = "(SELECT id FROM leyenda_tags WHERE nombre ILIKE '" + genre + "')";
-    var query = "INSERT INTO tags (id_track, id_leyenda_tag) VALUES (" + id_track + ", " + subquery + ")";
-    // console.log(":::::  SUB: " + subquery);
-    console.log("::::: QUERY: " + query);
-    queryArray.push(query);
-  }
-  return queryArray;
 };
