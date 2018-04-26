@@ -461,6 +461,14 @@ insert into users (name, lastname, username, password, email, sex) values ('jord
 --insert into votos_tag values(1, 'like', now(), 2) ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote;
 
 
+insert into leyenda_mood (nombre) VALUES ('Happy');
+insert into leyenda_mood (nombre) VALUES ('Energetic');
+insert into leyenda_mood (nombre) VALUES ('Frantic');
+insert into leyenda_mood (nombre) VALUES ('Anxious');
+insert into leyenda_mood (nombre) VALUES ('Melancholic');
+insert into leyenda_mood (nombre) VALUES ('Depressive');
+insert into leyenda_mood (nombre) VALUES ('Calm');
+
 -- damos grant a albert(admin server) para hacer insert select delete y update a las tablas
 grant SELECT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
 grant INSERT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_songs, tags, tracks, users, votos_moods, votos_tag to admin_moosic;
@@ -472,3 +480,6 @@ GRANT USAGE, SELECT ON SEQUENCE genre_id_seq, leyenda_mood_id_seq,moods_id_seq,u
 
 -- En la siguiente query, consultaremos las canciones de la playlist de nombre 'my playlist' para obtener las canciones.
 --select users_id, title, name, audio from playlist pl join playlist_songs ps on pl.id = ps.playlist_id join tracks tr on ps.tracks_id = tr.id where pl.title = 'my playlist'; 
+
+-- obtener las canciones que esten tageadas como pop y rock
+SELECT tracks.id, tracks.name FROM tracks JOIN tags ON tracks.id=tags.id_track JOIN leyenda_tags ON tags.id_leyenda_tag=leyenda_tags.id WHERE tags.id_leyenda_tag IN (select leyenda_tags.genre from leyenda_tags where nombre ilike 'pop' OR nombre ilike 'rock' ) LIMIT 3;
