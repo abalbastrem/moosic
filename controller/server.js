@@ -7,6 +7,7 @@ console.log("::::: PROJECT GLOBALS SET UP SUCCESSFULLY :::::");
 /// SERVER CONFIG ///
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const server = require('http').createServer(app);
 const bcrypt = require('bcryptjs');
 const requestify = require('requestify');
@@ -15,6 +16,12 @@ const pg = require('pg');
 const pgquery = require('pg-query');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+console.log("::::: POST HANDLING ENABLED ::::::");
 
 /// CONNECTION TO DATABASE ///
 const con = require('./connection');
@@ -27,8 +34,10 @@ app.get('/', function(request, response) {
   response.end();
 });
 
-app.get('/test', function(request, response) {
+app.post('/test', function(request, response) {
   log(request, response);
+  response.write('hello world');
+  response.write('this is a test with post');
   response.end();
 });
 
@@ -36,14 +45,14 @@ app.get('/testdb', async function(request, response) {
   log(request, response);
   try {
     var ret = await db.testdb();
-    console.log("::::: in handler RESPONSE:\n" + ret);
+    console.log("::::: in handler RESPONSE:\n" + JSON.stringify(ret, null, 2));
     response.writeHead(200, {
       'Content-type': 'text/html'
     });
-    response.write(ret);
+    response.write(JSON.stringify(ret, null, 2));
     response.end();
   } catch (e) {
-    response.writeHead(500);
+    // response.writeHead(500);
     response.end();
     console.error("ERROR: " + e);
   }
@@ -52,13 +61,13 @@ app.get('/testdb', async function(request, response) {
 app.get('/get', async function(request, response) {
   log(request, response);
   try {
-    var url = jamendo.urlBuilder();
-    var ret = await db.get(url);
-    console.log("::::: in handler RESPONSE:\n" + ret);
+    var tagArray = request.tagArray;
+    var trackArray = await db.get(tagArray);
+    console.log("::::: in handler RESPONSE:\n" + trackArray);
     response.writeHead(200, {
       'Content-type': 'text/html'
     });
-    response.write(ret);
+    response.write(trackArray);
     response.end();
   } catch (e) {
     response.writeHead(500);
@@ -116,7 +125,7 @@ async function dump() {
   }
 };
 
-dump();
+// dump();
 
 /// QUICK LOG ///
 var n = 0;
