@@ -74,6 +74,12 @@ body {
   padding: 15px;
 }
 
+#icon-close {
+  float: right;
+  z-index: 100;
+  padding-top: 15px;
+}
+
 #icons-track {
   padding-left: ;
 }

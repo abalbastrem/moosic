@@ -17,6 +17,8 @@
   <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Fira Mono' rel='stylesheet'>
   <!-- js extern file -->
   <script type="text/javascript" src="js/index.js"></script>
   <script type="text/javascript" src="js/go.js"></script>
@@ -32,8 +34,13 @@
   <!-- Slide Menu -->
   <div id="mySidenavBg" class="sidenav-bg"></div>
   <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <div id="container" class="container text-center">
+      <!-- Icon close -->
+      <div class="row">
+        <div class="col-md-12">
+          <div id="icon-close" class="fa fa-times" onclick="closeNav()"></div>
+        </div>
+      </div>
       <!-- Tittle -->
       <div class="row">
         <div class="col-md-12">
@@ -42,14 +49,16 @@
       </div>
       <!-- Artwork Track -->
       <div class="row">
-        <img id="artwork" class="artwork-track" src="img/artwork-jamendo.jpg"></img>
+        <div class="col-md-12 col-sm-12">
+          <img id="artwork" class="artwork-track" src="img/artwork-jamendo.jpg"></img>
+        </div>
       </div>
       <!-- Artist Name & Song Name -->
       <div class="row">
         <div class="col-lg-4 col-sm-4 col-xs-4"></div>
         <div class="col-lg-4 col-sm-4 col-xs-4">
-          <div id="artits-name">Artist name</div>
-          <div id="song-name">Song name</div>
+          <div id="artits-name" class="artits-name">Artist name</div>
+          <div id="song-name" class="song-name">Song name</div>
         </div>
         <div class="col-lg-4 col-sm-4 col-xs-4"></div>
       </div>
@@ -81,9 +90,10 @@
       </div>
       <!-- Footer -->
       <div id="footer" class="footer">
-        <!-- <p>Treball Final de Curs</p>
-        <p>Desenvolupament d'Aplicacions Web</p>
-        <p>Escola del Treball - 2018</p> -->
+        <h3>Footer</h3>
+        <!-- <p>Treball Final de Curs</p> -->
+        <!-- <p>Desenvolupament d'Aplicacions Web</p> -->
+        <!-- <p>Escola del Treball - 2018</p> -->
       </div>
     </div>
   </div>

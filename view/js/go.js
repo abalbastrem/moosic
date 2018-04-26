@@ -11,7 +11,7 @@ $(document).ready(function() {
       contentAlignment: go.Spot.Center,
       layout: $(go.ForceDirectedLayout),
       // moving and copying nodes also moves and copies their subtrees
-      // "commandHandler.copiesTree": true, // for the copy command
+      "commandHandler.copiesTree": true, // for the copy command
       "commandHandler.deletesTree": false, // for the delete command
       "draggingTool.dragsTree": false, // dragging for both move and copy
       "undoManager.isEnabled": false
@@ -34,8 +34,8 @@ $(document).ready(function() {
           name: "PANEL"
         },
         $(go.Shape, "Circle", {
-            width: 50,
-            height: 50,
+            // width: 50,
+            // height: 50,
             fill: "whitesmoke",
             stroke: "black"
           },
@@ -44,8 +44,8 @@ $(document).ready(function() {
             return blues[dist];
           })),
         $(go.TextBlock, {
-            font: "12pt sans-serif",
-            margin: 5
+            font: "12pt Fira Mono",
+            margin: 10
           },
           new go.Binding("text", "key"))
       ),
@@ -61,6 +61,7 @@ $(document).ready(function() {
         // create children if the node has never been expanded
         click: function(e, obj) { // OBJ is the Button
           var node = obj.part; // get the Node containing this Button
+          // console.log(node);
           if (node === null) return;
           e.handled = true;
           expandNode(node);
@@ -80,10 +81,13 @@ $(document).ready(function() {
     diagram.startTransaction("CollapseExpandTree");
     // this behavior is specific to this incrementalTree sample:
     var data = node.data;
+    // console.log(data);
     if (!data.everExpanded) {
       // only create children once per node
       diagram.model.setDataProperty(data, "everExpanded", true);
+      console.log(data);
       var numchildren = createSubTree(data);
+      console.log(numchildren);
       if (numchildren === 0) { // now known no children: don't need Button!
         node.findObject('TREEBUTTON').visible = false;
       }
@@ -133,12 +137,13 @@ $(document).ready(function() {
     return numchildren;
   }
 
-  function expandAtRandom() {
-    var eligibleNodes = [];
-    myDiagram.nodes.each(function(n) {
-      if (!n.isTreeExpanded) eligibleNodes.push(n);
-    })
-    var node = eligibleNodes[Math.floor(Math.random() * (eligibleNodes.length))];
-    expandNode(node);
-  }
+  // function expandAtRandom() {
+  //   console.log("hola");
+  //   var eligibleNodes = [];
+  //   myDiagram.nodes.each(function(n) {
+  //     if (!n.isTreeExpanded) eligibleNodes.push(n);
+  //   })
+  //   var node = eligibleNodes[Math.floor(Math.random() * (eligibleNodes.length))];
+  //   expandNode(node);
+  // }
 });
