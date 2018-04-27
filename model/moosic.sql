@@ -103,9 +103,9 @@ CREATE TYPE vote_mood AS ENUM ('like', 'zero');
 CREATE TABLE votos_moods (
     id_moods bigint  NOT NULL,
     vote vote_mood  NOT NULL,
-    fecha_votacion timestamp  NOT NULL,
+    fecha_votacion timestamp  NOT NULL default now(),
     id_user bigint  NOT NULL,
-    CONSTRAINT votos_moods_pk PRIMARY KEY (id_user)
+    CONSTRAINT votos_moods_pk PRIMARY KEY (id_moods, id_user)
 );
 
 -- Table: votos_tag
@@ -213,6 +213,7 @@ ALTER TABLE votos_tag ADD CONSTRAINT votos_tag_users
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
+alter table votos_tag alter COLUMN fecha_votacion set default now();
 
 -- End of file.
 
@@ -436,7 +437,7 @@ insert into users (name, lastname, username, password, email, sex) values ('jhon
 insert into users (name, lastname, username, password, email, sex) values ('albert', 'balbastre', 'albalbastre',  md5('1234'), 'albertsoyyo@gmail.com', 'h');
 insert into users (name, lastname, username, password, email, sex) values ('jordi', 'capellades', 'jordankesley',  md5('1234'), 'jcapelladese@gmail.com', 'h');
 
-\i insertsUsuarios.sql
+\i insertsUsuarios.sql 
 
 --insert into tracks (id, name, duration, releasedate, dumpdate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) values(1501986, 'Empty Streets',249, '2017-12-05', '2018-04-25', 505236, 'Omonoko', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235', 'https://mp3d.jamendo.com/download/track/1501986/mp32/', 'https://imgjam1.jamendo.com/albums/s172/172995/covers/1.200.jpg', 'Strong', 'http://jamen.do/t/1161940');
 --insert into leyenda_mood (nombre) values ('happy');
@@ -447,10 +448,10 @@ insert into users (name, lastname, username, password, email, sex) values ('jord
 --insert into moods (id_leyenda_mood, id_track) values (4,  1501986);
 --insert into votos_moods values(1, 'like', now(), 2);
 
---insert into playlist (title, users_id) values ('my playlist', 2);
---insert into playlist (title, users_id) values ('trapeo', 3);
+-- insert into playlist (title, users_id) values ('my playlist', 2);
+-- insert into playlist (title, users_id) values ('trapeo', 3);
 
---insert into playlist_songs values(1, 1501986);
+-- insert into playlist_songs values(1, 1501986);
 
 --insert into tags (id_track, id_leyenda_tag) values (1501986, 3);
 --insert into votos_tag values(1, 'like', now(), 3); --eliminar segunda columna
