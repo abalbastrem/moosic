@@ -12,30 +12,47 @@ exports.testdb = async function() {
   }
 };
 
-exports.get = async function(tagArray) {
-  var text = "";
-  text += "SELECT tracks.id, tracks.name ";
-  text += "FROM tracks JOIN tags ON tracks.id=tags.id_track JOIN leyenda_tags ON tags.id_leyenda_tag=leyenda_tags.id ";
-  text += "WHERE tags.id_leyenda_tag IN (select leyenda_tags.genre from leyenda_tags WHERE";
-  for (let i = 0; i < tagArray.length; i++) {
-    text += "nombre ilike $" + i;
-    if (i != tagArray.length - 1) {
-      text += " OR ";
+exports.dump = async function dump() {
+  try {
+    const jsonArray = await apiAllTags();
+    // console.log(JSON.stringify(jsonArray, null, 2));
+    console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
+    for (let jsonTrack of jsonArray) {
+      console.log("::::: query TRACK");
+      let SQLtrack = jsonTrack2sql(jsonTrack);
+      console.log("::::: query TAGS");
+      let SQLtags = jsonTags2sql(jsonTrack);
+      await insertTrack(SQLtrack);
+      await insertTags(SQLtags);
     }
+  } catch (e) {
+    console.log("::::: ERROR: " + e);
   }
-  text += ") LIMIT 10";
-  var query = {
-    text: text,
-    values: tagArray
-  };
-  return query;
 };
 
-exports.buildJson = async function(result) {
-  return jSonObj;
-}
+async function apiAllTags() {
+  var n = 0;
+  var tracksArray = [];
+  var json = {};
+  try {
+    for (let tag of GLOBALS.TAGS) {
+      if (tag != "") {
+        console.log("::::: tag: " + tag);
+        var url = jamendo.urlBuilder(tag);
+        json = await jamendo.api(url);
+        for (let jsonTrack of json) {
+          tracksArray.push(jsonTrack);
+          console.log("::::: acc json obj length: " + tracksArray.length);
+        }
+      }
+    };
+    return tracksArray;
+  } catch (e) {
+    console.error("ERROR: " + e);
+  }
+};
 
-exports.jsonTrack2sql = function(jsonTrack) {
+function jsonTrack2sql(jsonTrack) {
   var params = [jsonTrack.id, jsonTrack.name, jsonTrack.duration, jsonTrack.releasedate, jsonTrack.artist_id, jsonTrack.artist_name, jsonTrack.album_image, jsonTrack.audio, jsonTrack.audiodownload, jsonTrack.image, jsonTrack.album_name, jsonTrack.shorturl];
   var text = "INSERT INTO tracks (id, name, duration, releasedate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) VALUES (";
   text += "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) ";
@@ -49,7 +66,7 @@ exports.jsonTrack2sql = function(jsonTrack) {
   return query;
 };
 
-exports.jsonTags2sql = function(jsonTrack) {
+function jsonTags2sql(jsonTrack) {
   var queryArray = [];
   var id_track = jsonTrack.id;
   for (let genre of jsonTrack.musicinfo.tags.genres) {
@@ -68,7 +85,7 @@ exports.jsonTags2sql = function(jsonTrack) {
   return queryArray;
 };
 
-exports.insertTrack = async function(SQLtrack) {
+async function insertTrack(SQLtrack) {
   console.log("::::: inserting track into database");
   try {
     await con.pgClient.query(SQLtrack);
@@ -78,7 +95,7 @@ exports.insertTrack = async function(SQLtrack) {
   }
 };
 
-exports.insertTags = async function(SQLtags) {
+ async function insertTags(SQLtags) {
   console.log("::::: inserting array of tags into database");
   try {
     for (let SQLquery of SQLtags) {
