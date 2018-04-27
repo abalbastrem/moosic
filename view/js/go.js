@@ -11,7 +11,7 @@ $(document).ready(function() {
       contentAlignment: go.Spot.Center,
       layout: $(go.ForceDirectedLayout),
       // moving and copying nodes also moves and copies their subtrees
-      "commandHandler.copiesTree": true, // for the copy command
+      "commandHandler.copiesTree": false, // for the copy command
       "commandHandler.deletesTree": false, // for the delete command
       "draggingTool.dragsTree": false, // dragging for both move and copy
       "undoManager.isEnabled": false

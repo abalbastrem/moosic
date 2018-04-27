@@ -1,4 +1,4 @@
-// document ready. It's the same that onload().
+// document is ready.
 $(document).ready(function() {
   // Waves audio
   var Spectrum = WaveSurfer.create({
@@ -37,10 +37,38 @@ $(document).ready(function() {
       Spectrum.skipBackward();
     });
   });
-
   // load the song
   Spectrum.load('https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235');
 });
+
+// Login
+
+// Send TAGS. Array json
+(function sendTags() {
+  var tags = {"tags":["rock","pop","indie"]};
+
+  var port = 8888;
+  var url_s = "http://192.168.1.17:" + port + "/test";
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_s,
+    dataType: "text",
+    type: "POST",
+    data: "test=holi",
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+})();
 
 // Slide menu functions
 // open right menu

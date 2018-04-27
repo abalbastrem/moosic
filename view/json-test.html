@@ -12,11 +12,12 @@
       dataType: 'json',
       url: 'https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&format=jsonpretty&limit=10&include=musicinfo&groupby=artist_id',
       success: function(datos) {
-        console.log(datos.results[0].name);
-        console.log(datos.results[1].name);
-        console.log(datos.results[2].name);
-        console.log(datos.results[3].name);
-        console.log(datos.results[4].name);
+        console.log(datos);
+        // console.log(datos.results[0].name);
+        // console.log(datos.results[1].name);
+        // console.log(datos.results[2].name);
+        // console.log(datos.results[3].name);
+        // console.log(datos.results[4].name);
       },
       error: function() {
         alert("Error leyendo fichero json");
@@ -26,6 +27,5 @@
 </script>
 
 <body>
-  <button>Get JSON data</button>
 </body>
 </html>
