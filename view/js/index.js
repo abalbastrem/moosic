@@ -4,7 +4,7 @@ $(document).ready(function() {
   var Spectrum = WaveSurfer.create({
     container: '#audio-spectrum',
     progressColor: "#03a9f4",
-    barWidth: 3,
+    barWidth: 1,
     skipLength: 10.0
   });
 
@@ -71,17 +71,35 @@ $(document).ready(function() {
 })();
 
 // Slide menu functions
-// open right menu
-function openNav() {
-  document.getElementById("mySidenav").style.width = "650px";
-  document.getElementById("footer").style.width = "650px";
-  document.getElementById("mySidenavBg").style.width = "650px";
+function openNavMenu() {
+  document.getElementById("mySideMenu").style.width = "350px";
+  document.getElementById("mySidenavBg").style.width = "350px";
   document.getElementById("icon-open").style.opacity = 0;
+}
+function closeNavMenu() {
+  document.getElementById("mySideMenu").style.width = "0";
+  document.getElementById("mySidenavBg").style.width = "0";
+  document.getElementById("icon-open").style.opacity = 1;
+}
+// open right menu
+function openNavTrack() {
+  document.getElementById("mySidenavTrack").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
 }
 // close right menu
 function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("footer").style.width = "0";
-  document.getElementById("mySidenavBg").style.width = "0";
-  document.getElementById("icon-open").style.opacity = 1;
+  document.getElementById("mySideMenu").style.width = "350px";
+  document.getElementById("mySidenavLogin").style.width = "0";
+  document.getElementById("mySidenavTrack").style.width = "0";
+  document.getElementById("mySidenavRegister").style.width = "0";
+}
+// open login
+function openNavLogin() {
+  document.getElementById("mySidenavLogin").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}
+// open Register
+function openNavRegister() {
+  document.getElementById("mySidenavRegister").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
 }

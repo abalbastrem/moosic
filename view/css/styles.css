@@ -1,5 +1,5 @@
 body {
-  font-family: "Lato", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Slide menu */
@@ -15,8 +15,8 @@ body {
   overflow-x: hidden;
   transition: 1s;
   text-align: center;
-  opacity: 0.9;
-  /*filter: blur(1px);*/
+  /* opacity: 0.7; */
+  /* filter: blur(1px); */
 }
 
 .sidenav {
@@ -74,14 +74,8 @@ body {
   padding: 15px;
 }
 
-#icon-close {
-  float: right;
-  z-index: 100;
-  padding-top: 15px;
-}
-
 #icons-track {
-  margin-top: 10px;
+  padding-left: ;
 }
 
 /* Footer */
@@ -106,8 +100,8 @@ body {
 /* Bootstrap changes */
 
 .container {
-  width: 650px;
-  height: 913px;
+  width: 350px;
+  /* height: 913px; */
 }
 
 .row {
