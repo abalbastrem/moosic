@@ -66,6 +66,10 @@ body {
   }
 }
 
+.container-form {
+  padding-top: 20%;
+}
+
 /* Icons */
 
 #icon-open {

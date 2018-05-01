@@ -44,7 +44,7 @@ $(document).ready(function() {
 // Login
 
 // Send TAGS. Array json
-(function sendTags() {
+function sendTags() {
   var tags = {"tags":["rock","pop","indie"]};
 
   var port = 8888;
@@ -68,7 +68,7 @@ $(document).ready(function() {
     }
   };
   $.ajax(options);
-})();
+}
 
 // Slide menu functions
 function openNavMenu() {
@@ -92,14 +92,19 @@ function closeNav() {
   document.getElementById("mySidenavLogin").style.width = "0";
   document.getElementById("mySidenavTrack").style.width = "0";
   document.getElementById("mySidenavRegister").style.width = "0";
+  // document.body.style.backgroundColor = "rgba(0,0,0,0)";
 }
 // open login
 function openNavLogin() {
   document.getElementById("mySidenavLogin").style.width = "350px";
   document.getElementById("mySideMenu").style.width = "0";
+  // document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+
 }
 // open Register
 function openNavRegister() {
   document.getElementById("mySidenavRegister").style.width = "350px";
   document.getElementById("mySideMenu").style.width = "0";
+  // document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+
 }
