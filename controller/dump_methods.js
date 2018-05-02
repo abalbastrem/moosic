@@ -1,3 +1,5 @@
+const GLOBALS = require('./setup');
+const jamendo = require('./jamendo_methods');
 const con = require('./connection');
 // console.log(con);
 

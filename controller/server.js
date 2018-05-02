@@ -46,8 +46,8 @@ app.post('/test', function(request, response) {
 app.get('/testdb', async function(request, response) {
   log(request, response);
   try {
-    var ret = await db.testdb();
-    console.log("::::: in handler RESPONSE:\n" + JSON.stringify(ret, null, 2));
+    const res = await db.testdb();
+    console.log("::::: in handler RESPONSE:\n" + JSON.stringify(res, null, 2));
     response.writeHead(200, {
       'Content-type': 'text/html'
     });
@@ -61,64 +61,174 @@ app.get('/testdb', async function(request, response) {
 });
 
 /// USER ///
-app.post('/login', function(request, response) {
+app.post('/signup', async function(request, response) {
   log(request, response);
-  var jsonObj = request.json;
-  user.login(jsonObj);
+  try {
+    var jsonObj = request.body.json;
+    if (await user.userExists(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "user already exists"
+      });
+    } else {
+      await user.signUp(jsonObj);
+      response.send({
+        "status": true,
+        "message": "user registered. Please log in"
+      });
+    }
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+app.post('/login', async function(request, response) {
+  log(request, response);
+  try {
+    var jsonObj = request.body.json;
+    const res = await user.logIn(jsonObj);
+    if (res[0] == null) {
+      response.send({
+        "status": true,
+        "message": "this user does not exist. Please register"
+      });
+    } else {
+      response.send({
+        "status": true,
+        "data": res
+      });
+    }
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
 });
 
 app.post('/get', async function(request, response) {
   log(request, response);
   try {
-    var tagArray = request.tagArray;
-    var trackArray = await user.get(tagArray);
-    console.log("::::: in handler RESPONSE:\n" + trackArray);
-    response.writeHead(200, {
-      'Content-type': 'text/html'
+    var tagArray = request.body.json.tags;
+    const res = await user.get(tagArray);
+    console.log("::::: in handler RESPONSE:\n" + res[0]);
+    // response.write(res);
+    response.send({
+      "status": true,
+      "data": res
     });
-    response.write(trackArray);
-    response.end();
   } catch (e) {
-    response.writeHead(500);
-    response.end();
+    response.send({
+      "status": false,
+      "data": res
+    });
     console.error("ERROR: " + e);
   }
 });
 
 // Asks the server whether it should show a voting prompt to the user
-app.post('/beforevote', function(request, response) {
+app.post('/beforevote', async function(request, response) {
   log(request, response);
-  var jsonObj = request.json;
-  var ret = user.beforeVote(jsonObj);
-  response.send(ret);
+  try {
+    var jsonObj = request.body.json;
+    const res = await user.beforeVote(jsonObj); // boolean
+    response.send({
+      "status": true,
+      "data": res
+    });
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
 });
 
-app.post('/vote', function(request, response) {
+app.post('/vote', async function(request, response) {
   log(request, response);
-  var jsonObj = request.json;
-  user.vote(jsonObj);
-  response.end();
+  try {
+    var jsonObj = request.body.json;
+    await user.vote(jsonObj);
+    response.send({
+      "status": true
+    });
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
 });
 
-app.post('/moods', function(request, response) {
+app.post('/beforemoods', async function(request, response) {
   log(request, response);
-  var jsonObj = request.json;
-  user.moods(jsonObj);
-  response.end();
+  try {
+    var jsonObj = request.body.json;
+    const res = user.beforeMoods(jsonObj); // boolean
+    response.send({
+      "status": true,
+      "data": res
+    });
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+app.post('/moods', async function(request, response) {
+  log(request, response);
+  try {
+    var jsonObj = request.body.json;
+    await user.moods(jsonObj);
+    response.send({
+      "status": true
+    });
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
 });
 
 // Adds or remove a track from user playlist
-app.post('/track2playlist', function(request, response) {
+app.post('/track2playlist', async function(request, response) {
   log(request, response);
-  var jsonObj = request.json;
-  user.track2playlist(jsonObj);
+  try {
+    var jsonObj = request.body.json;
+    await user.track2playlist(jsonObj);
+    response.send({
+      "status": true
+    })
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
 });
 
 // Asks for a user playlist
-app.post('/userplaylist', function(request, response) {
+app.post('/userplaylist', async function(request, response) {
   log(request, response);
-  var jsonObj = request.json;
-  user.userplaylist(jsonObj);
+  try {
+    var jsonObj = request.body.json;
+    const res = user.userplaylist(jsonObj);
+    response.send({
+      "status": true,
+      "data": res
+    })
+  } catch (e) {
+    response.send({
+      "status": false
+    });
+    console.error("ERROR: " + e);
+  }
 });
 
 
@@ -164,7 +274,7 @@ app.post('/userplaylist', function(request, response) {
 //   }
 // };
 
-// dump();
+db.dump();
 
 /// QUICK LOG ///
 var n = 0;
@@ -174,7 +284,7 @@ function log(request, response) {
   console.log("::::: PATH:\t" + request.route.path);
   console.log("::::: URL:\t" + request.originalUrl);
   console.log("::::: IP:\t" + request.ip);
-  console.log("::::: DATA:\t" + request.body.test);
+  console.log("::::: DATA:\t" + request.body.json);
   console.log("");
 };
 
