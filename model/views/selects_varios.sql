@@ -1,27 +1,27 @@
--- creamos una funcion que nos regrese un valor entre la cantidad de tags
-CREATE OR REPLACE FUNCTION random_between(low INT ,high INT) 
-   RETURNS INT AS $$
-BEGIN
-   RETURN floor(random()* (high-low + 1) + low);
-END; $$LANGUAGE plpgsql;
+-- -- creamos una funcion que nos regrese un valor entre la cantidad de tags
+-- CREATE OR REPLACE FUNCTION random_between(low INT ,high INT) 
+--    RETURNS INT AS $$
+-- BEGIN
+--    RETURN floor(random()* (high-low + 1) + low);
+-- END; $$LANGUAGE plpgsql;
 
--- View de playlist dependiendo del mood
-CREATE OR REPLACE FUNCTION creaview_playlist_mood() RETURNS void AS $$
--- Si el usuario ha votado que le gusta un mood
-DECLARE
-v_cantidad bigint;
-BEGIN
-select ps.tracks_id, pl.users_id, lm.nombre as mood from playlist_songs ps join playlist pl on pl.id = ps.playlist_id join moods md on md.id_track = ps.tracks_id join leyenda_mood lm on lm.id = md.id_leyenda_mood where pl.users_id in (select id_user from votos_moods where md.id = id_moods and pl.users_id = id_user and vote='like');
-IF NOT FOUND THEN
+-- -- View de playlist dependiendo del mood
+-- CREATE OR REPLACE FUNCTION creaview_playlist_mood() RETURNS void AS $$
+-- -- Si el usuario ha votado que le gusta un mood
+-- DECLARE
+-- v_cantidad bigint;
+-- BEGIN
+-- select ps.tracks_id, pl.users_id, lm.nombre as mood from playlist_songs ps join playlist pl on pl.id = ps.playlist_id join moods md on md.id_track = ps.tracks_id join leyenda_mood lm on lm.id = md.id_leyenda_mood where pl.users_id in (select id_user from votos_moods where md.id = id_moods and pl.users_id = id_user and vote='like');
+-- IF NOT FOUND THEN
 
-	RAISE NOTICE 'usuario sin votos en mood';
-ELSE
-	RAISE NOTICE 'usuario con votos en Mood'
-	create or replace view playlist_mood as select ps.tracks_id, pl.users_id, lm.nombre as mood from playlist_songs ps join playlist pl on pl.id = ps.playlist_id join moods md on md.id_track = ps.tracks_id join leyenda_mood lm on lm.id = md.id_leyenda_mood where pl.users_id in (select id_user from votos_moods where md.id = id_moods and pl.users_id = id_user and vote='like');
-END IF;
-RAISE NOTICE 'view playlist_mood creada';
-END;
-$$LANGUAGE plpgsql;
+-- 	RAISE NOTICE 'usuario sin votos en mood';
+-- ELSE
+-- 	RAISE NOTICE 'usuario con votos en Mood'
+-- 	create or replace view playlist_mood as select ps.tracks_id, pl.users_id, lm.nombre as mood from playlist_songs ps join playlist pl on pl.id = ps.playlist_id join moods md on md.id_track = ps.tracks_id join leyenda_mood lm on lm.id = md.id_leyenda_mood where pl.users_id in (select id_user from votos_moods where md.id = id_moods and pl.users_id = id_user and vote='like');
+-- END IF;
+-- RAISE NOTICE 'view playlist_mood creada';
+-- END;
+-- $$LANGUAGE plpgsql;
 
 
 
@@ -98,8 +98,9 @@ insert into votos_tag values(1, 'like', now(), 2) ON CONFLICT (id_tags, id_users
 -- jordi pide playlist de usuario
 albert volver canciones de playlist de usuario
 
+select tracks.* from playlist_songs join playlist on playlist_songs.playlist_id = playlist.id join tracks on playlist_songs.tracks_id = tracks.id where users_id = 2;
 
-
+-- nos vuelve la lista de las canciones con toda la información
 
 
 
@@ -111,7 +112,9 @@ albert volver canciones de playlist de usuario
 -- meter cancion a playlist // USUARIO SOLO TIENE UNA PLAYLIST
 datos: id_user, id_track
 
+insert into playlist_songs (playlist_id, tracks_id) select playlist_id, 1279446 from playlist_songs join playlist on playlist_songs.playlist_id = playlist.id where playlist.users_id = 2;
 
+-- cambiar 1279446 por track_id y 2 por user_id
 
 
 
@@ -127,7 +130,9 @@ datos: id_user, id_track
 datos: id_user, id_track
 
 
+DELETE FROM playlist_songs where tracks_id = 1279446 and playlist_id = (select playlist_id from playlist_songs join playlist on playlist_songs.playlist_id = playlist.id where playlist.users_id = 2 limit 1);
 
+-- cambiar 1279446 por track_id y 2 por user_id // considerando QUE SOLO TIENE UNA PLAYLIST CADA USUARIO
 
 
 
@@ -143,9 +148,20 @@ datos: id_user, id_track, mood -> positivo o neutro (insert or update)
 -- credenciales de usuario
 INSERT
 
+
+
 SELECT -> username-email, password
 
+
+SELECT * FROM users WHERE (username like 'JulRui80' or email like 'JulRui80@gmail.com') and password = md5('julrui80');
+
+
+
 delete
+
+delete from users where email ='AlaRiv93@gmail.com' and username = 'AlaRiv93' and id = 66;
+
+
 
 
 
