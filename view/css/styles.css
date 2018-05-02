@@ -11,7 +11,7 @@ body {
   z-index: 99;
   top: 0;
   right: 0;
-  background-color: #111;
+  background-color: #FF6961;
   overflow-x: hidden;
   transition: 1s;
   text-align: center;
@@ -70,6 +70,11 @@ body {
   padding-top: 20%;
 }
 
+.artwork-track {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 /* Icons */
 
 #icon-open {
@@ -80,6 +85,21 @@ body {
 
 #icons-track {
   padding-left: ;
+}
+
+.icon-track {
+  margin-left: 12px;
+  font-size: 22px;
+}
+
+.icon-like {
+  margin-right: 42px;
+  float: right;
+  font-size: 22px;
+}
+
+.first-icon {
+  padding-left: 20%;
 }
 
 /* Footer */

@@ -6,6 +6,8 @@
   <title>Moosic</title>
   <!-- Icon title -->
   <link rel="shortcut icon" type="image/x-icon" href="img/cow-icon-32.png" />
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- go.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.17/go-debug.js"></script>
   <!-- font-awesome -->
@@ -58,7 +60,7 @@
       </div>
     </div>
   </div>
-  <!-- Slide Menu Login -->
+  <!-- Slide Login Menu-->
   <div id="mySidenavLogin" class="sidenav">
     <div id="container" class="container text-center">
       <!-- Icon Close -->
@@ -67,11 +69,13 @@
           <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
         </div>
       </div>
+      <!-- Title -->
       <div class="row container-form">
         <div class="col-md-12">
           <h1>Login</h1>
         </div>
       </div>
+      <!-- Form Login -->
       <div class="row">
         <div class="col-md-12">
           <form id="loginForm" action="/login/" method="POST">
@@ -83,19 +87,19 @@
                   <input type="password" class="form-control" id="password" name="password"  title="Please enter your password" placeholder="Password" required/>
                   <span class="help-block"></span>
               </div>
-              <div id="loginErrorMsg" class="alert alert-error hide">Wrong username og password</div>
+              <div id="loginErrorMsg" class="alert alert-danger hide">Wrong username or password</div>
               <div class="checkbox">
                       <label>
                           <input type="checkbox" name="remember" id="remember"> Remember login
                       </label>
               </div>
-              <button type="submit" class="btn btn-success btn-block">Login</button>
+              <button type="submit" class="btn btn-primary btn-block"><strong>Sign in</strong></button>
           </form>
         </div>
       </div>
     </div>
   </div>
-  <!-- Slide Menu Register -->
+  <!-- Slide Register Menu-->
   <div id="mySidenavRegister" class="sidenav">
     <div id="container" class="container text-center">
       <!-- Icon Close -->
@@ -104,27 +108,29 @@
           <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
         </div>
       </div>
+      <!-- Title -->
       <div class="row container-form">
         <div class="col-md-12">
           <h1>Register</h1>
         </div>
       </div>
+      <!-- Form Register -->
       <div class="row">
         <div class="col-md-12">
           <form id="loginForm" action="/register/" method="POST">
               <div class="form-group">
-                  <input type="text" class="form-control" id="email" name="username" title="Please enter your email" placeholder="Email" required/>
-                  <span class="help-block"></span>
+                <input type="text" class="form-control" id="name" name="username" title="Please enter your name" placeholder="Complete Name" required/>
+                <span class="help-block"></span>
+                <input type="text" class="form-control" id="username" name="name" title="Please enter your username" placeholder="Username" required/>
+                <span class="help-block"></span>
+                <input type="text" class="form-control" id="email" name="email" title="Please enter your email" placeholder="Email" required/>
+                <span class="help-block"></span>
+                <input type="password" class="form-control" id="password" name="password"  title="Please enter your password" placeholder="Password" required/>
+                <span class="help-block"></span>
+                <input type="password" class="form-control" id="repeat-password" name="repeat-password"  title="Please repeat your password" placeholder="Repeat Password" required/>
+                <span class="help-block"></span>
               </div>
-              <div class="form-group">
-                  <input type="password" class="form-control" id="password" name="password"  title="Please enter your password" placeholder="Password" required/>
-                  <span class="help-block"></span>
-              </div>
-              <div class="form-group">
-                  <input type="repeat-password" class="form-control" id="password" name="repeat-password"  title="Please repeat your password" placeholder="Repeat Password" required/>
-                  <span class="help-block"></span>
-              </div>
-              <button type="submit" class="btn btn-success btn-block">Sign up</button>
+              <button type="submit" class="btn btn-primary btn-block"><strong>Sign up</strong></button>
           </form>
         </div>
       </div>
@@ -139,55 +145,103 @@
           <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
         </div>
       </div>
+      <!-- Title -->
       <div class="row">
-        <!-- <h2>hola</h2> -->
-      </div>
-      <!-- Artwork Track -->
-      <div class="row">
-        <div class="col-md-2">
-          <a id="backward" class="fa fa-backward"></a>
+        <div class="col-md-12">
+          <h1>Track</h1>
         </div>
-        <div class="col-md-8">
+      </div>
+      <!-- Artwork, next Song, Back Song -->
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
           <img id="artwork" class="artwork-track" src="img/artwork-jamendo.jpg"></img>
         </div>
-        <div class="col-md-2">
-          <a id="forward" class="fa fa-forward"></a>
-        </div>
       </div>
-      <!-- Artist Name & Song Name -->
+      <!-- Buttons Track -->
       <div class="row">
-        <div class="col-lg-4 col-sm-4 col-xs-4"></div>
-        <div class="col-lg-4 col-sm-4 col-xs-4">
-          <div id="artits-name">Artist name</div>
-          <div id="song-name">Song name</div>
+        <div class="col-md-12 col-sm-12">
+          <span id="backward" class="fa fa-step-backward icon-track first-icon"></span>
+          <span id="play" class="fa fa-play icon-track"></span>
+          <span id="forward" class="fa fa-step-forward icon-track"></span>
+          <span id="like" class="fa fa-heart icon-like"></span>
         </div>
-        <div class="col-lg-4 col-sm-4 col-xs-4"></div>
       </div>
-      <!-- Waves audio -->
+      <!-- Wavesform -->
       <div class="row">
         <div class="col-lg-1 col-sm-1 col-xs-1"></div>
-        <div class="col-lg-10 col-sm-10 col-xs-10">
+        <div class="col-lg-10 col-sm-10 col-xs-10 waveform">
           <div id="audio-spectrum"></div>
         </div>
         <div class="col-lg-1 col-sm-1 col-xs-1"></div>
       </div>
-      <!-- Buttons -->
-      <div class="row icons-track">
-        <div class="col-lg-4 col-sm-4 col-xs-4"></div>
-        <div class="col-md-1 col-sm-1 col-xs-1"></div>
-        <div class="col-md-1 col-sm-1 col-xs-1">
-          <a id="stop" class="fa fa-stop"></a>
-        </div>
-        <div class="col-md-1 col-sm-1 col-xs-1">
-          <a id="play" class="fa fa-play"></a>
-        </div>
-        <div class="col-md-1 col-sm-1 col-xs-1"></div>
-        <div class="col-lg-4 col-sm-4 col-xs-4"></div>
-      </div>
-      <!-- Footer -->
+    </div>
+  </div>
+  <!-- Slide Playlist Menu -->
+  <div id="mySidenavPlaylist" class="sidenav">
+    <div class="container">
+      <!-- Icon Close -->
       <div class="row">
         <div class="col-md-12">
-          <p>Footer</p>
+          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+        </div>
+      </div>
+      <!-- Title -->
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Playlist</h1>
+        </div>
+      </div>
+      <!-- Table Playlist -->
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-dark">
+            <tr>
+              <th>Artwork</th>
+              <th>Name</th>
+              <th>Artist</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <tr>
+              <td><img id="artwork" src="img/artwork-jamendo.jpg" height="42" width="42"></img></td>
+
+
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Slide About Menu -->
+  <div id="mySidenavAbout" class="sidenav">
+    <div class="container">
+      <!-- Icon Close -->
+      <div class="row">
+        <div class="col-md-12">
+          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+        </div>
+      </div>
+      <!-- Title -->
+      <div class="row">
+        <div class="col-md-12">
+          <h1>About</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Slide Contact Menu -->
+  <div id="mySidenavContact" class="sidenav">
+    <div class="container">
+      <!-- Icon Close -->
+      <div class="row">
+        <div class="col-md-12">
+          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+        </div>
+      </div>
+      <!-- Title -->
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Contact</h1>
         </div>
       </div>
     </div>

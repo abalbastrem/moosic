@@ -4,8 +4,8 @@ $(document).ready(function() {
   var Spectrum = WaveSurfer.create({
     container: '#audio-spectrum',
     progressColor: "#03a9f4",
+    height: 40,
     barWidth: 1,
-    skipLength: 10.0
   });
 
   Spectrum.on("ready", function() {
@@ -22,19 +22,25 @@ $(document).ready(function() {
         Spectrum.play();
       }
     });
-    // stop the song
-    $('#stop').click(function() {
-      $('#pause').removeClass('fa fa-pause').addClass('fa fa-play');
-      $('#pause').attr('id', 'play');
-      Spectrum.stop();
-    });
     // forward 10s the song
     $('#forward').click(function() {
-      Spectrum.skipForward();
+      // Spectrum.skipForward();
+      console.log("skip song");
     });
     // backward 10s the song
     $('#backward').click(function() {
-      Spectrum.skipBackward();
+      console.log("skipback song");
+      // Spectrum.skipBackward();
+    });
+    // like
+    $('#like').click(function() {
+      if (document.getElementById("like").style.color != "rgb(255, 31, 89)") {
+        console.log("like");
+        document.getElementById("like").style.color = "rgb(255, 31, 89)";
+      } else {
+        console.log("unlike");
+        document.getElementById("like").style.color = "white";
+      }
     });
   });
   // load the song
@@ -45,7 +51,9 @@ $(document).ready(function() {
 
 // Send TAGS. Array json
 function sendTags() {
-  var tags = {"tags":["rock","pop","indie"]};
+  var tags = {
+    "tags": ["rock", "pop", "indie"]
+  };
 
   var port = 8888;
   var url_s = "http://192.168.1.17:" + port + "/test";
@@ -76,11 +84,13 @@ function openNavMenu() {
   document.getElementById("mySidenavBg").style.width = "350px";
   document.getElementById("icon-open").style.opacity = 0;
 }
+
 function closeNavMenu() {
   document.getElementById("mySideMenu").style.width = "0";
   document.getElementById("mySidenavBg").style.width = "0";
   document.getElementById("icon-open").style.opacity = 1;
 }
+
 // open right menu
 function openNavTrack() {
   document.getElementById("mySidenavTrack").style.width = "350px";
@@ -92,19 +102,36 @@ function closeNav() {
   document.getElementById("mySidenavLogin").style.width = "0";
   document.getElementById("mySidenavTrack").style.width = "0";
   document.getElementById("mySidenavRegister").style.width = "0";
-  // document.body.style.backgroundColor = "rgba(0,0,0,0)";
+  document.getElementById("mySidenavPlaylist").style.width = "0";
+  document.getElementById("mySidenavAbout").style.width = "0";
+  document.getElementById("mySidenavContact").style.width = "0";
 }
 // open login
 function openNavLogin() {
   document.getElementById("mySidenavLogin").style.width = "350px";
   document.getElementById("mySideMenu").style.width = "0";
-  // document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
 
 }
 // open Register
 function openNavRegister() {
   document.getElementById("mySidenavRegister").style.width = "350px";
   document.getElementById("mySideMenu").style.width = "0";
-  // document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+}
 
+// open playlist
+function openNavPlaylist() {
+  document.getElementById("mySidenavPlaylist").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}
+
+// open about
+function openNavAbout() {
+  document.getElementById("mySidenavAbout").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}
+
+// open contact
+function openNavContact() {
+  document.getElementById("mySidenavContact").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
 }
