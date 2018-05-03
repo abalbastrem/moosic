@@ -49,6 +49,8 @@ $(document).ready(function() {
       if (document.getElementById("like").style.color != "rgb(255, 31, 89)") {
         console.log("like");
         document.getElementById("like").style.color = "rgb(255, 31, 89)";
+        // add to playlist
+        $('#playlist-table').append('<tr><td><img id="artwork" src="img/artwork-jamendo.jpg" height="42" width="42"></img></td><td>E. Satie - Trois Gnossiennes - I. Lent - Alessandro Simonetto</td><td>OnClassical</td><td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist"></span></td></tr>');
         document.getElementById("like-playlist").style.color = "rgb(255, 31, 89)";
       } else {
         console.log("unlike");
