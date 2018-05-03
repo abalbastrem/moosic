@@ -166,8 +166,29 @@ delete from users where email ='AlaRiv93@gmail.com' and username = 'AlaRiv93' an
 
 
 
+	logica albert
+	pregunta si el usuario X le falta por votar algun tag de la cancion X
 
 
+	regresar el tag que no ha votado
+
+
+	el tag que ha votado:
+	select tags.* from votos_tag join tags on votos_tag.id_tags = tags.id join users on users.id = votos_tag.id_users where users.id=72;
+
+	los tags que no ha votado 
+	select * from tags join leyenda_tags on tags.id_leyenda_tag = leyenda_tags.id where id_track = 1344752 and tags.id not in(select tags.id from votos_tag join tags on votos_tag.id_tags = tags.id join users on users.id = votos_tag.id_users where users.id=72);
+
+
+tags de la cancion 1344749 con cantidad de votos 
+SELECT tags.id, count(*) as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id where tracks.id = 1344749 group by tags.id order by votos ASC;
+
+
+1344749
+
+
+ordenar las canciones que menos votos han tenido
+regresar el menos votado que el usuario no haya votado
 
 
 
