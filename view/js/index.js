@@ -22,6 +22,18 @@ $(document).ready(function() {
         Spectrum.play();
       }
     });
+    $('#play-playlist').click(function() {
+      // console.log(this.id);
+      if (this.id === 'pause') {
+        $('#pause').removeClass('fa fa-pause').addClass('fa fa-play');
+        $('#pause').attr('id', 'play');
+        Spectrum.pause();
+      } else {
+        $('#play').removeClass('fa fa-play').addClass('fa fa-pause');
+        $('#play').attr('id', 'pause');
+        Spectrum.play();
+      }
+    });
     // forward 10s the song
     $('#forward').click(function() {
       // Spectrum.skipForward();
@@ -37,46 +49,17 @@ $(document).ready(function() {
       if (document.getElementById("like").style.color != "rgb(255, 31, 89)") {
         console.log("like");
         document.getElementById("like").style.color = "rgb(255, 31, 89)";
+        document.getElementById("like-playlist").style.color = "rgb(255, 31, 89)";
       } else {
         console.log("unlike");
         document.getElementById("like").style.color = "white";
+        document.getElementById("like-playlist").style.color = "white";
       }
     });
   });
   // load the song
   Spectrum.load('https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235');
 });
-
-// Login
-
-// Send TAGS. Array json
-function sendTags() {
-  var tags = {
-    "tags": ["rock", "pop", "indie"]
-  };
-
-  var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/test";
-  //console.log(url_s);
-  //console.log(tags);
-
-  var options = {
-    url: url_s,
-    dataType: "text",
-    type: "POST",
-    data: "test=holi",
-    processData: true,
-    success: function(data) {
-      console.log('success');
-      console.log(data);
-    },
-    error: function(data) {
-      console.log('error');
-      console.log(data);
-    }
-  };
-  $.ajax(options);
-}
 
 // Slide menu functions
 function openNavMenu() {
