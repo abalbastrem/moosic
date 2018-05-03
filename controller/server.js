@@ -8,13 +8,14 @@ console.log("::::: PROJECT GLOBALS SET UP SUCCESSFULLY :::::");
 /// SERVER CONFIG ///
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const server = require('http').createServer(app);
+const bodyParser = require('body-parser');
+const cron = require('node-cron');
 const bcrypt = require('bcryptjs');
 const requestify = require('requestify');
-const SQLBuilder = require('json-sql-builder2');
+// const SQLBuilder = require('json-sql-builder2');
 const pg = require('pg');
-const pgquery = require('pg-query');
+// const pgquery = require('pg-query');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
 
@@ -37,10 +38,14 @@ app.get('/', function(request, response) {
 
 app.post('/test', function(request, response) {
   log(request, response);
-  response.writeHead('200');
-  response.write('hello world');
-  response.write('this is a test with post');
-  response.end();
+  // response.writeHead('200');
+  // response.write('hello world');
+  // response.write('this is a test with post');
+  // response.end();
+  response.send({
+    "status": true,
+    "message": "todo bien"
+  });
 });
 
 app.get('/testdb', async function(request, response) {
@@ -64,7 +69,8 @@ app.get('/testdb', async function(request, response) {
 app.post('/signup', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
+    var jsonObj = JSON.parse(request.body.json);
+    console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
     if (await user.userExists(jsonObj)) {
       response.send({
         "status": true,
@@ -88,12 +94,14 @@ app.post('/signup', async function(request, response) {
 app.post('/login', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
+    var jsonObj = JSON.parse(request.body.json);
+    console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
     const res = await user.logIn(jsonObj);
-    if (res[0] == null) {
+    if (res == null) { // If no user is found
       response.send({
         "status": true,
-        "message": "this user does not exist. Please register"
+        "message": "this user does not exist. Please register",
+        "data": null
       });
     } else {
       response.send({
@@ -112,18 +120,23 @@ app.post('/login', async function(request, response) {
 app.post('/get', async function(request, response) {
   log(request, response);
   try {
-    var tagArray = request.body.json.tags;
+    var jsonObj = JSON.parse(request.body.json);
+    var tagArray = [];
+    for (i in jsonObj.tags) {
+      tagArray.push(jsonObj.tags[i]);
+    }
+    console.log("::::: TAG ARRAY: " + tagArray);
     const res = await user.get(tagArray);
-    console.log("::::: in handler RESPONSE:\n" + res[0]);
+    // console.log("::::: in handler RESPONSE:\n" + JSON.stringify(res, null, 2));
     // response.write(res);
     response.send({
       "status": true,
-      "data": res
+      "data": res.slice(0, 100)
     });
   } catch (e) {
     response.send({
       "status": false,
-      "data": res
+      "data": null
     });
     console.error("ERROR: " + e);
   }
@@ -133,7 +146,7 @@ app.post('/get', async function(request, response) {
 app.post('/beforevote', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
+    var jsonObj = JSON.parse(request.body.json);
     const res = await user.beforeVote(jsonObj); // boolean
     response.send({
       "status": true,
@@ -274,7 +287,16 @@ app.post('/userplaylist', async function(request, response) {
 //   }
 // };
 
-db.dump();
+// runs once a week on Sundays
+cron.schedule('* * * * * Sunday', function() {
+  console.log('*** PERFORMING WEEKLY DUMP ***');
+});
+
+var currentDate = new Date();
+currentDate = currentDate.toISOString().substring(0, 10);
+console.log(currentDate);
+
+// db.firstDump();
 
 /// QUICK LOG ///
 var n = 0;

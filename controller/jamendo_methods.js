@@ -19,6 +19,14 @@ exports.urlBuilder = function urlBuilder(tag) {
   return url;
 };
 
+exports.urlBuilderForWeeklyDump = function urlBuilder(tag) {
+  var currentDate = new Date();
+  currentDate = currentDate.toISOString().substring(0, 10);
+  console.log(currentDate);
+  var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&order=relevance&include=musicinfo&audioformat=ogg&tags=" + tag + "&limit=10";
+  return url;
+};
+
 // exports.get2 = function(request, response, url, callback) {
 //   console.log("::::: IN FUNCTION");
 //   try {

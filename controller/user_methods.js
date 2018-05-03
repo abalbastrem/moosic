@@ -1,33 +1,43 @@
 const con = require('./connection');
 
 exports.get = async function(tagArray) {
-  var text = "";
-  text += "SELECT array_to_json(array_agg(tracks)) ";
-  text += "FROM tracks JOIN tags ON tracks.id=tags.id_track JOIN leyenda_tags ON tags.id_leyenda_tag=leyenda_tags.id ";
-  text += "WHERE tags.id_leyenda_tag IN (select leyenda_tags.genre from leyenda_tags WHERE";
-  for (let i = 0; i < tagArray.length; i++) {
-    text += "nombre ilike $" + i;
-    if (i != tagArray.length - 1) {
-      text += " OR ";
+  try {
+    var text = "";
+    text += "SELECT array_to_json(array_agg(tracks)) ";
+    text += "FROM tracks JOIN tags ON tracks.id=tags.id_track JOIN leyenda_tags ON tags.id_leyenda_tag=leyenda_tags.id ";
+    text += "WHERE tags.id_leyenda_tag IN (SELECT leyenda_tags.genre FROM leyenda_tags WHERE ";
+    for (let i = 1; i < tagArray.length+1; i++) {
+      text += "nombre ILIKE $" + i;
+      if (i != tagArray.length) {
+        text += " OR ";
+      }
     }
+    text += ") LIMIT 100";
+    console.log("::::: TEXT: " + text);
+    const res = await con.pgClient.query(text, tagArray);
+    // console.log("::::: IN GET:\n" + JSON.stringify(res.rows[0].array_to_json));
+    return res.rows[0].array_to_json;
+  } catch (e) {
+    console.error("ERROR: " + e);
   }
-  text += ") LIMIT 10";
-  const res = await con.pgClient.query(text, tagArray);
-  return res;
 };
 
 // Checks if user is already present in the database
 exports.userExists = async function(jsonObj) {
   try {
+    console.log("::::: IN USER EXISTS:\n" + JSON.stringify(jsonObj));
     var text = "";
     text += "SELECT * FROM USERS WHERE username=$1 AND password=md5($2)";
     var values = [];
     values.push(jsonObj.username);
     values.push(jsonObj.password);
     const res = await con.pgClient.query(text, values);
-    if (res.rows[0] == 'null') {
+    console.log("::::: IN USER EXISTS:\n" + res);
+    if (res.rows[0] == null) {
+      console.log("::::: No devuelve user");
       return false;
     } else {
+      console.log("::::: Devuelve user");
       return true;
     }
   } catch (e) {
@@ -40,7 +50,6 @@ exports.signUp = async function(jsonObj) {
     var text = "";
     text += "INSERT INTO users (name, lastname, username, password, email, sex) ";
     text += "VALUES ($1, $2, $3, md5($4), $5, $6)";
-    text += "ON CONFLICT (username, password) DO NOTHING";
     var values = [];
     values.push(jsonObj.name);
     values.push(jsonObj.lastname);
@@ -56,6 +65,7 @@ exports.signUp = async function(jsonObj) {
 
 exports.logIn = async function(jsonObj) {
   try {
+    console.log("::::: IN LOGIN:\n" + JSON.stringify(jsonObj));
     var text = "";
     text += "SELECT row_to_json(users) FROM users ";
     text += "WHERE username=$1 AND password=md5($2)";
@@ -63,7 +73,12 @@ exports.logIn = async function(jsonObj) {
     values.push(jsonObj.username);
     values.push(jsonObj.password);
     const res = await con.pgClient.query(text, values);
-    return res;
+    if (res.rows[0] == undefined) {
+      return null;
+    } else {
+      console.log("::::: AFTER LOGGED IN:\n" + JSON.stringify(res.rows[0].row_to_json));
+      return res.rows[0].row_to_json;
+    }
   } catch (e) {
     console.error("ERROR: " + e);
   }

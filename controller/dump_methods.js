@@ -14,7 +14,8 @@ exports.testdb = async function() {
   }
 };
 
-exports.dump = async function dump() {
+// FIRST
+exports.firstDump = async function() {
   try {
     const jsonArray = await apiAllTags();
     // console.log(JSON.stringify(jsonArray, null, 2));
@@ -41,6 +42,47 @@ async function apiAllTags() {
       if (tag != "") {
         console.log("::::: tag: " + tag);
         var url = jamendo.urlBuilder(tag);
+        json = await jamendo.api(url);
+        for (let jsonTrack of json) {
+          tracksArray.push(jsonTrack);
+          console.log("::::: acc json obj length: " + tracksArray.length);
+        }
+      }
+    };
+    return tracksArray;
+  } catch (e) {
+    console.error("ERROR: " + e);
+  }
+};
+
+// WEEKLY
+exports.weeklyDump = async function() {
+  try {
+    const jsonArray = await apiAllTagsForWeeklyDump();
+    // console.log(JSON.stringify(jsonArray, null, 2));
+    console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
+    for (let jsonTrack of jsonArray) {
+      console.log("::::: query TRACK");
+      let SQLtrack = jsonTrack2sql(jsonTrack);
+      console.log("::::: query TAGS");
+      let SQLtags = jsonTags2sql(jsonTrack);
+      await insertTrack(SQLtrack);
+      await insertTags(SQLtags);
+    }
+  } catch (e) {
+    console.log("::::: ERROR: " + e);
+  }
+};
+
+async function apiAllTagsForWeeklyDump() {
+  var n = 0;
+  var tracksArray = [];
+  var json = {};
+  try {
+    for (let tag of GLOBALS.TAGS) {
+      if (tag != "") {
+        console.log("::::: tag: " + tag);
+        var url = jamendo.urlBuilderForWeeklyDump(tag);
         json = await jamendo.api(url);
         for (let jsonTrack of json) {
           tracksArray.push(jsonTrack);
