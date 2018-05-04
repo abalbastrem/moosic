@@ -91,6 +91,9 @@ insert into votos_tag values(1, 'like', now(), 2) ON CONFLICT (id_tags, id_users
 
 
 
+S
+
+
 
 
 
@@ -134,7 +137,8 @@ DELETE FROM playlist_songs where tracks_id = 1279446 and playlist_id = (select p
 
 -- cambiar 1279446 por track_id y 2 por user_id // considerando QUE SOLO TIENE UNA PLAYLIST CADA USUARIO
 
-
+delete from playlist_songs where playlist_id = (select playlist.id from playlist where users_id = 66) and tracks_id = 10632;
+	
 
 
 
@@ -163,7 +167,7 @@ delete from users where email ='AlaRiv93@gmail.com' and username = 'AlaRiv93' an
 
 
 
-
+-----------------------------------------------------
 
 
 	logica albert
@@ -180,8 +184,18 @@ delete from users where email ='AlaRiv93@gmail.com' and username = 'AlaRiv93' an
 	select * from tags join leyenda_tags on tags.id_leyenda_tag = leyenda_tags.id where id_track = 1344752 and tags.id not in(select tags.id from votos_tag join tags on votos_tag.id_tags = tags.id join users on users.id = votos_tag.id_users where users.id=72);
 
 
-tags de la cancion 1344749 con cantidad de votos 
-SELECT tags.id, count(*) as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id where tracks.id = 1344749 group by tags.id order by votos ASC;
+-- tags de la cancion 1344749 con cantidad de votos 
+SELECT tags.id, leyenda_tags.nombre, count(*) as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id = 1344749 group by tags.id, leyenda_tags.nombre having count(*) < 5 order by votos ASC;
+
+-- canciones que ha votado el usuario
+
+SELECT votos_tag.* as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id where tracks.id = 1344749 and votos_tag.id_users = 66;
+
+consulta final:
+
+SELECT tags.id, leyenda_tags.nombre, count(*) as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id = 1344749 and votos_tag.id_tags not in (SELECT votos_tag.id_tags as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id where tracks.id = 1344749 and votos_tag.id_users = 66) group by tags.id, leyenda_tags.nombre having count(*) < 5 order by votos ASC;
+
+
 
 
 1344749
@@ -190,6 +204,11 @@ SELECT tags.id, count(*) as votos from votos_tag join tags on votos_tag.id_tags 
 ordenar las canciones que menos votos han tenido
 regresar el menos votado que el usuario no haya votado
 
+consulta final, para mostrar formato de datos deseado: regresa un array ordenado
+de menor a mayor tags por cantidad de votos, los cuales el usuario X no ha votado aun de esa canción
+
+
+select array_agg(nombre) from (SELECT tags.id, leyenda_tags.nombre, count(*) as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id = 1344749 and votos_tag.id_tags not in (SELECT votos_tag.id_tags as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id where tracks.id = 1344749 and votos_tag.id_users = 66) group by tags.id, leyenda_tags.nombre having count(*) < 5 order by votos ASC) as result;
 
 
 -------------------------------------------
@@ -206,3 +225,20 @@ return resultado;
 end;
 $$language plpgsql;
 
+
+
+---------------------------------------
+
+insert para vote:
+	albert me da: id_track
+					id_user
+					tag(nombre ej = 'rock');
+					voto
+
+con esto obtengo el id del tag de la canción X que tiene su tag de rock
+
+select tags.id from tags join leyenda_tags on tags.id_leyenda_tag = tags.id where leyenda_tags.nombre='Rock' and id_track = 1482417;
+
+
+final:
+insert into votos_tag (id_tags, vote, id_users) select * from (select tags.id, CAST('like' AS VOTE) as vote, CAST('66' AS INTEGER) as id_user from tags join leyenda_tags on tags.id_leyenda_tag = tags.id where leyenda_tags.nombre='Rock' and id_track = 1482417) as result ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote;
