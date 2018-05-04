@@ -23,6 +23,7 @@
   <!-- js extern file -->
   <script type="text/javascript" src="js/index.js"></script>
   <script type="text/javascript" src="js/go.js"></script>
+  <script type="text/javascript" src="js/methods.js"></script>
   <!-- css extern file -->
   <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
 </head>
@@ -33,7 +34,7 @@
   <!-- gojs -->
   <div id="myDiagramDiv"></div>
   <div id="mySidenavBg" class="sidenav-bg"></div>
-    <!-- Slide Menu -->
+  <!-- Slide Menu -->
   <div id="mySideMenu" class="sidenav">
     <div id="container" class="container text-center">
       <!-- Icon Close -->
@@ -78,22 +79,23 @@
       <!-- Form Login -->
       <div class="row">
         <div class="col-md-12">
-          <form id="loginForm" action="/login/" method="POST">
-              <div class="form-group">
-                  <input type="text" class="form-control" id="email" name="email" title="Please enter your email" placeholder="Email" required/>
-                  <span class="help-block"></span>
-              </div>
-              <div class="form-group">
-                  <input type="password" class="form-control" id="password" name="password"  title="Please enter your password" placeholder="Password" required/>
-                  <span class="help-block"></span>
-              </div>
-              <div id="loginErrorMsg" class="alert alert-danger hide">Wrong username or password</div>
-              <div class="checkbox">
-                      <label>
-                          <input type="checkbox" name="remember" id="remember"> Remember login
-                      </label>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block"><strong>Sign in</strong></button>
+          <form id="loginForm" method="POST">
+            <div class="form-group">
+              <input id="email" type="text" class="form-control" name="email" title="Please enter your email" placeholder="Email" required/>
+              <span class="help-block"></span>
+            </div>
+            <div class="form-group">
+              <input id="password" type="password" class="form-control" name="password" title="Please enter your password" placeholder="Password" required/>
+              <span class="help-block"></span>
+            </div>
+            <div id="loginErrorMsg" class="alert alert-danger hide">Wrong username or password</div>
+            <div id="loginErrorEmptyFields" class="alert alert-danger hide">Empty fields</div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="remember" id="remember"> Remember login
+              </label>
+            </div>
+            <button id="signin" type="submit" class="btn btn-primary btn-block"><strong>Sign in</strong></button>
           </form>
         </div>
       </div>
@@ -117,20 +119,41 @@
       <!-- Form Register -->
       <div class="row">
         <div class="col-md-12">
-          <form id="loginForm" action="/register/" method="POST">
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" name="username" title="Please enter your name" placeholder="Complete Name" required/>
-                <span class="help-block"></span>
-                <input type="text" class="form-control" id="username" name="name" title="Please enter your username" placeholder="Username" required/>
-                <span class="help-block"></span>
-                <input type="text" class="form-control" id="email" name="email" title="Please enter your email" placeholder="Email" required/>
-                <span class="help-block"></span>
-                <input type="password" class="form-control" id="password" name="password"  title="Please enter your password" placeholder="Password" required/>
-                <span class="help-block"></span>
-                <input type="password" class="form-control" id="repeat-password" name="repeat-password"  title="Please repeat your password" placeholder="Repeat Password" required/>
-                <span class="help-block"></span>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block"><strong>Sign up</strong></button>
+          <form id="registerForm" class="registerForm" method="POST">
+            <div id="nameDiv" class="form-group col-md-5 col-sm-5">
+              <input id="name" type="text" class="form-control" name="username" title="Please enter your name" placeholder="Name" required/>
+            </div>
+            <div  id="lastnameDiv" class="form-group col-md-7 col-sm-7">
+              <input id="lastname" type="text" class="form-control" name="lastname" title="Please enter your Last name" placeholder="Last name" required/>
+            </div>
+            <div id="usernameDiv" class="form-group col-md-12 col-sm-12">
+              <input id="username-signup" type="text" class="form-control" name="name" title="Please enter your username" placeholder="Username" required/>
+            </div>
+            <div id="emailDiv" class="form-group col-md-12 col-sm-12">
+              <input id="email-signup" type="text" class="form-control" name="email" title="Please enter your email" placeholder="Email" required/>
+            </div>
+            <div id="passwordDiv" class="form-group col-md-12 col-sm-12">
+              <input id="password-signup" type="password" class="form-control" name="password" title="Please enter your password" placeholder="Password" required/>
+            </div>
+            <div id="repeatPasswordDiv" class="form-group col-md-12 col-sm-12">
+              <input id="repeat-password" type="password" class="form-control" name="repeat-password" title="Please repeat your password" placeholder="Repeat Password" required/>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+              <select id="sex" class="form-control">
+                <option>Man</option>
+                <option>Woman</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input id="agreeTerms" type="checkbox" required>
+              <label class="form-check-label" for="invalidCheck3">Agree to terms and conditions</label>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+              <div id="loginErrorMsgRepeatPass" class="alert alert-danger hide">The passwords are not identical.</div>
+              <div id="loginErrorMsgEmptyFills" class="alert alert-danger hide">Empty fields.</div>
+              <div id="loginErrorMsgAgreeTerms" class="alert alert-danger hide">You must agree before submitting.</div>
+              <button id="signup" type="button" class="btn btn-primary btn-block"><strong>Sign up</strong></button>
+            </div>
           </form>
         </div>
       </div>

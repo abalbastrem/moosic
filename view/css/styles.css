@@ -153,3 +153,13 @@ body {
   height: 100%;
   background-color: #FFFF;
 }
+
+/* Register Form */
+
+.registerForm input {
+  border-left: 3px solid;
+}
+
+.required input {
+  border-left-color: red;
+}
