@@ -77,11 +77,17 @@ app.post('/signup', async function(request, response) {
         "message": "user already exists"
       });
     } else {
-      await user.signUp(jsonObj);
-      response.send({
-        "status": true,
-        "message": "user registered. Please log in"
-      });
+      if (await user.signUp(jsonObj)) {
+        response.send({
+          "status": true,
+          "message": "user registered. Please log in"
+        })
+      } else {
+        response.send({
+          "status": false,
+          "message": "user could not be registered"
+        })
+      }
     }
   } catch (e) {
     response.send({
@@ -147,14 +153,22 @@ app.post('/beforevote', async function(request, response) {
   log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
-    const res = await user.beforeVote(jsonObj); // boolean
-    response.send({
-      "status": true,
-      "data": res
-    });
+    const tagArray = await user.beforeVote(jsonObj);
+    if (tagArray.length == 0) {
+      response.send({
+        "status": false,
+        "data": null
+      });
+    } else {
+      response.send({
+        "status": true,
+        "data": tagArray
+      });
+    }
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "data": e
     });
     console.error("ERROR: " + e);
   }
@@ -163,7 +177,7 @@ app.post('/beforevote', async function(request, response) {
 app.post('/vote', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
+    var jsonObj = JSON.parse(request.body.json);
     await user.vote(jsonObj);
     response.send({
       "status": true
@@ -210,91 +224,85 @@ app.post('/moods', async function(request, response) {
 });
 
 // Adds or remove a track from user playlist
-app.post('/track2playlist', async function(request, response) {
+app.post('/favoritetrack', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
-    await user.track2playlist(jsonObj);
-    response.send({
-      "status": true
-    })
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.favoriteTrack(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "moosic added"
+      })
+    } else {
+      response.send({
+        "status": false,
+        "message": "moosic could not be added"
+      })
+    }
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "message": e
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+app.post('/unfavoritetrack', async function(request, response) {
+  log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.unfavoriteTrack(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "moosic has been removed"
+      })
+    } else {
+      response.send({
+        "status": true,
+        "message": "moosic could not be removed"
+      })
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "message": e
     });
     console.error("ERROR: " + e);
   }
 });
 
 // Asks for a user playlist
-app.post('/userplaylist', async function(request, response) {
+app.post('/userfavorites', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
-    const res = user.userplaylist(jsonObj);
+    var jsonObj = JSON.parse(request.body.json);
+    const res = await user.userFavorites(jsonObj);
+    console.log("::::: IN HANDLER:\n " + JSON.stringify(res, null, 2));
     response.send({
       "status": true,
       "data": res
     })
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "message": e
     });
     console.error("ERROR: " + e);
   }
 });
 
-
-
-/// THE D U M P ///
-// async function apiAllTags() {
-//   var n = 0;
-//   var tracksArray = [];
-//   var json = {};
-//   try {
-//     for (let tag of GLOBALS.TAGS) {
-//       if (tag != "") {
-//         console.log("::::: tag: " + tag);
-//         var url = jamendo.urlBuilder(tag);
-//         json = await jamendo.api(url);
-//         for (let jsonTrack of json) {
-//           tracksArray.push(jsonTrack);
-//           console.log("::::: acc json obj length: " + tracksArray.length);
-//         }
-//       }
-//     };
-//     return tracksArray;
-//   } catch (e) {
-//     console.error("ERROR: " + e);
-//   }
-// };
-//
-// async function dump() {
-//   try {
-//     const jsonArray = await apiAllTags();
-//     // console.log(JSON.stringify(jsonArray, null, 2));
-//     console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
-//     for (let jsonTrack of jsonArray) {
-//       console.log("::::: query TRACK");
-//       let SQLtrack = db.jsonTrack2sql(jsonTrack);
-//       console.log("::::: query TAGS");
-//       let SQLtags = db.jsonTags2sql(jsonTrack);
-//       await db.insertTrack(SQLtrack);
-//       await db.insertTags(SQLtags);
-//     }
-//   } catch (e) {
-//     console.log("::::: ERROR: " + e);
-//   }
-// };
-
+/// DUMP ///
 // runs once a week on Sundays
 cron.schedule('* * * * * Sunday', function() {
   console.log('*** PERFORMING WEEKLY DUMP ***');
+  const currentDate = new Date();
+  const currentDateStr = currentDate.toISOString().substring(0, 10);
+  const lastWeekDate = currentDate.getDate() - 7;
+  console.log(currentDate);
+  console.log(lastWeekDate);
+  // db.weeklyDump();
 });
-
-var currentDate = new Date();
-currentDate = currentDate.toISOString().substring(0, 10);
-console.log(currentDate);
 
 // db.firstDump();
 
@@ -302,6 +310,7 @@ console.log(currentDate);
 var n = 0;
 
 function log(request, response) {
+  console.log("");
   console.log("::::: REQ " + ++n + "\t" + new Date().toISOString());
   console.log("::::: PATH:\t" + request.route.path);
   console.log("::::: URL:\t" + request.originalUrl);
@@ -311,6 +320,7 @@ function log(request, response) {
 };
 
 function logwrapper(request, response, cb) {
+  console.log("");
   console.log("REQ " + ++n + "\t" + new Date().toISOString());
   console.log("PATH:\t" + request.route.path);
   console.log("URL:\t" + request.originalUrl);
