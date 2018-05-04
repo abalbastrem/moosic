@@ -138,7 +138,7 @@ DELETE FROM playlist_songs where tracks_id = 1279446 and playlist_id = (select p
 -- cambiar 1279446 por track_id y 2 por user_id // considerando QUE SOLO TIENE UNA PLAYLIST CADA USUARIO
 
 delete from playlist_songs where playlist_id = (select playlist.id from playlist where users_id = 66) and tracks_id = 10632;
-	
+
 
 
 
@@ -242,3 +242,9 @@ select tags.id from tags join leyenda_tags on tags.id_leyenda_tag = tags.id wher
 
 final:
 insert into votos_tag (id_tags, vote, id_users) select * from (select tags.id, CAST('like' AS VOTE) as vote, CAST('66' AS INTEGER) as id_user from tags join leyenda_tags on tags.id_leyenda_tag = tags.id where leyenda_tags.nombre='Rock' and id_track = 1482417) as result ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote;
+
+
+listar playlist_songs (tracks solo con toda la información).
+
+select array_to_json(array_agg(tracks)) from tracks join playlist_songs on tracks.id = playlist_songs.tracks_id join playlist on playlist.id = playlist_songs.playlist_id where playlist.users_id = 66;
+            

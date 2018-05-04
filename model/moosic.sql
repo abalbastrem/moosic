@@ -50,7 +50,8 @@ CREATE TABLE playlist (
 -- Table: playlist_songs
 CREATE TABLE playlist_songs (
     playlist_id bigint  NOT NULL,
-    tracks_id bigint  NOT NULL
+    tracks_id bigint  NOT NULL,
+    CONSTRAINT playlist_songs_pk PRIMARY KEY (playlist_id,tracks_id)
 );
 
 -- Table: tags
@@ -143,13 +144,18 @@ ALTER TABLE moods ADD CONSTRAINT moods_tracks
 ;
 
 -- Reference: playlist_songs_playlist (table: playlist_songs)
-ALTER TABLE playlist_songs ADD CONSTRAINT playlist_songs_playlist
+ALTER TABLE playlist_songs ADD CONSTRAINT playlist_songs_tracks
     FOREIGN KEY (playlist_id)
     REFERENCES playlist (id) ON DELETE CASCADE
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
-
+ALTER TABLE playlist_songs ADD CONSTRAINT playlist_songs_playlist
+    FOREIGN KEY (tracks_id)
+    REFERENCES tracks (id) ON DELETE CASCADE
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
 -- Reference: playlist_songs_tracks (table: playlist_songs)
 ALTER TABLE playlist_songs ADD CONSTRAINT playlist_songs_tracks
     FOREIGN KEY (tracks_id)
