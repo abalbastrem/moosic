@@ -31,6 +31,14 @@
 <body>
   <!-- No slide menu -->
   <span id="icon-open" class="glyphicon glyphicon-menu-hamburger" onclick="openNavMenu()"></span>
+  <div id="promptTags" class="prompt hide">
+    <form id="formTags">
+      <input id="pop" type="checkbox" value="pop">Pop</input>
+      <input id="rock" type="checkbox" value="rock">Rock</input>
+      <input id="trap" type="checkbox" value="trap">Trap</input>
+      <input id="submitTags" type="button" value="READY!"/>
+    </form>
+  </div>
   <!-- gojs -->
   <div id="myDiagramDiv"></div>
   <div id="mySidenavBg" class="sidenav-bg"></div>
@@ -52,6 +60,7 @@
       <div class="row">
         <div class="col-md-12">
           <h3 id="login" onclick="openNavLogin()">Login</h3>
+          <h3 id="logout" class="hide">Logout</h3>
           <h3 id="register" onclick="openNavRegister()">Register</h3>
           <h3 id="track" onclick="openNavTrack()">Track</h3>
           <h3 id="playlist" onclick="openNavPlaylist()">Playlist</h3>
@@ -95,7 +104,7 @@
                 <input type="checkbox" name="remember" id="remember"> Remember login
               </label>
             </div>
-            <button id="signin" type="submit" class="btn btn-primary btn-block"><strong>Sign in</strong></button>
+            <button id="signin" type="button" class="btn btn-primary btn-block"><strong>Sign in</strong></button>
           </form>
         </div>
       </div>
@@ -123,7 +132,7 @@
             <div id="nameDiv" class="form-group col-md-5 col-sm-5">
               <input id="name" type="text" class="form-control" name="username" title="Please enter your name" placeholder="Name" required/>
             </div>
-            <div  id="lastnameDiv" class="form-group col-md-7 col-sm-7">
+            <div id="lastnameDiv" class="form-group col-md-7 col-sm-7">
               <input id="lastname" type="text" class="form-control" name="lastname" title="Please enter your Last name" placeholder="Last name" required/>
             </div>
             <div id="usernameDiv" class="form-group col-md-12 col-sm-12">
@@ -140,8 +149,8 @@
             </div>
             <div class="form-group col-md-12 col-sm-12">
               <select id="sex" class="form-control">
-                <option>Man</option>
-                <option>Woman</option>
+                <option value="h">Man</option>
+                <option value="m">Woman</option>
               </select>
             </div>
             <div class="form-group">

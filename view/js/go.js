@@ -56,7 +56,7 @@ $(document).ready(function() {
         height: 40,
         alignment: go.Spot.Center,
         alignmentFocus: go.Spot.Center,
-        opacity: 0,
+        opacity: 1,
         // customize the expander behavior to
         // create children if the node has never been expanded
         click: function(e, obj) { // OBJ is the Button
@@ -108,6 +108,7 @@ $(document).ready(function() {
   // upon the first tree-expand of a node.
   function createSubTree(parentdata) {
     var numchildren = Math.floor(Math.random() * 10);
+    // console.log(numchildren);
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
     }

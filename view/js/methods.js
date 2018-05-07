@@ -21,6 +21,13 @@ $(document).ready(function() {
         success: function(data) {
           console.log('success');
           console.log(data);
+          closeNav();
+          closeNavMenu();
+          //data = JSON.parse(data);
+          // alert(data.data['name'] + " " + data.data['lastname']);
+          $('#promptTags').removeClass('hide');
+          promptTags();
+          $('#register').addClass('hide');
         },
         error: function(data) {
           console.log('error');
@@ -56,44 +63,40 @@ $(document).ready(function() {
     }
     console.log(params);
 
-    validLogin = validateLogin(params, terms, repeatPassword);
-    console.log(validLogin);
-    if (validLogin == true) {
+    validSignIn = validateSignIn(params, terms, repeatPassword);
+    console.log(validSignIn);
+    if (validSignIn == true) {
       console.log("login valido");
-      // if (password == repeatPassword) {
-      //   var options = {
-      //     url: url_signup,
-      //     dataType: "json",
-      //     type: "POST",
-      //     data: "json="+JSON.stringify(params),
-      //     processData: true,
-      //     success : function(data) {
-      //       console.log('success');
-      //       console.log(data);
-      //     },
-      //     error: function(data) {
-      //       console.log('error');
-      //       // console.log(data);
-      //     }
-      //   };
-      //   $.ajax(options);
-      // } else {
-      //   $('#loginErrorMsgRepeatPass').removeClass('hide');
-      // }
+        var options = {
+          url: url_signup,
+          dataType: "json",
+          type: "POST",
+          data: "json="+JSON.stringify(params),
+          processData: true,
+          success : function(data) {
+            console.log('success');
+            console.log(data);
+          },
+          error: function(data) {
+            console.log('error');
+            // console.log(data);
+          }
+        };
+        $.ajax(options);
     }
   });
 });
 
-function validateLogin(params, terms, repeatPassword) {
+function validateSignIn(params, terms, repeatPassword) {
 
   console.log(name);
-  var validLogin = true;
+  var validSignIn = true;
 
   // if terms not checked
   if (!terms) {
     console.log("not checked");
     $('#loginErrorMsgAgreeTerms').removeClass('hide');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#loginErrorMsgAgreeTerms').addClass('hide');
   }
@@ -101,7 +104,7 @@ function validateLogin(params, terms, repeatPassword) {
   if (params.password != repeatPassword) {
     console.log("password no identical");
     $('#loginErrorMsgRepeatPass').removeClass('hide');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#loginErrorMsgRepeatPass').addClass('hide');
   }
@@ -109,40 +112,48 @@ function validateLogin(params, terms, repeatPassword) {
   // required camps red
   if (params.name == '') {
     $('#nameDiv').addClass('required');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#nameDiv').removeClass('required');
   }
   if (params.lastname == '') {
     $('#lastnameDiv').addClass('required');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#lastnameDiv').removeClass('required');
   }
   if (params.username == '') {
     $('#usernameDiv').addClass('required');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#usernameDiv').removeClass('required');
   }
   if (params.email == '') {
     $('#emailDiv').addClass('required');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#emailDiv').removeClass('required');
   }
   if (params.password == '') {
     $('#passwordDiv').addClass('required');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#passwordDiv').removeClass('required');
   }
   if (repeatPassword == '') {
     $('#repeatPasswordDiv').addClass('required');
-    validLogin = false;
+    validSignIn = false;
   } else {
     $('#repeatPasswordDiv').removeClass('required');
   }
 
-  return validLogin;
+  return validSignIn;
+}
+
+function promptTags() {
+  $('#submitTags').click(function() {
+    var pop = $('input[id=pop]').val();
+    console.log(pop);
+  });
+  $('#promptTags').addClass('hide');
 }
