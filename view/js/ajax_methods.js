@@ -192,7 +192,7 @@ function vote() {
 function addFavoriteTrack() {
   var args = {
     "id_track": 10632,
-    "id_user": 66, 
+    "id_user": 66,
   };
 
   var port = 8888;
@@ -225,7 +225,7 @@ function addFavoriteTrack() {
 function dropFavoriteTrack() {
   var args = {
     "id_track": 10632,
-    "id_user": 66, 
+    "id_user": 66,
   };
 
   var port = 8888;

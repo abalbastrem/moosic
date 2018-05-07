@@ -2,6 +2,8 @@ var port = 8888;
 var url_login = "http://192.168.1.17:" + port + "/login";
 var url_signup = "http://192.168.1.17:" + port + "/signup";
 
+
+
 $(document).ready(function() {
   // Login
   $('#signin').click(function() {
@@ -153,7 +155,41 @@ function validateSignIn(params, terms, repeatPassword) {
 function promptTags() {
   $('#submitTags').click(function() {
     var pop = $('input[id=pop]').val();
+    var trap = $('input[id=trap]').val();
+    var rock = $('input[id=rock]').val();
     console.log(pop);
+    console.log(rock);
+    console.log(trap);
+    $('#promptTags').addClass('hide');
   });
-  $('#promptTags').addClass('hide');
 }
+
+function getTracks(tagsArray) {
+  var tags = {
+    "tags": tagsArray
+  };
+
+  var port = 8888;
+  var url_s = "http://192.168.1.17:" + port + "/get";
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_s,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(tags),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+// getTracks(new Array('rock','pop','trap'));

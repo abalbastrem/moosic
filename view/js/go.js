@@ -1,3 +1,6 @@
+var genres = new Array("pop","rock","electronic","hiphop","jazz","indie","soundtrack","classical","chillout","ambient","folk","metal","latina","rnb","reggae","punk","country","house","blues");
+var index = 0;
+
 $(document).ready(function() {
   // Go.js
   if (window.goSamples) goSamples(); // init for these samples -- you don't need to call this
@@ -56,7 +59,7 @@ $(document).ready(function() {
         height: 40,
         alignment: go.Spot.Center,
         alignmentFocus: go.Spot.Center,
-        opacity: 1,
+        opacity: 0,
         // customize the expander behavior to
         // create children if the node has never been expanded
         click: function(e, obj) { // OBJ is the Button
@@ -107,7 +110,7 @@ $(document).ready(function() {
   // for a node until we look for them the first time, which happens
   // upon the first tree-expand of a node.
   function createSubTree(parentdata) {
-    var numchildren = Math.floor(Math.random() * 10);
+    var numchildren = genres.length-1;
     // console.log(numchildren);
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
@@ -125,10 +128,11 @@ $(document).ready(function() {
 
     for (var i = 0; i < numchildren; i++) {
       var childdata = {
-        key: model.nodeDataArray.length,
+        key: genres[index],
         parent: parentdata.key,
         rootdistance: degrees
       };
+      index++;
       // add to model.nodeDataArray and create a Node
       model.addNodeData(childdata);
       // position the new child node close to the parent
