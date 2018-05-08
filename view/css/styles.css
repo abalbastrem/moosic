@@ -1,16 +1,19 @@
 body {
   font-family: 'Roboto', sans-serif;
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;/*/
 }
 
 .prompt {
-  position: absolute;
-  top: 10%;
-  left: 35%;
+  margin: auto;/
+  /*top: 10%;*/
+  /*left: 35%;*/
   width: 30%;
-  height: 30%;
+  /*height: 30%;*/
   padding: 5%;
   border-radius: 20px 20px 20px 20px;
-  background-color: green;
+  background-color: #111;
   z-index: 99;
 }
 
@@ -27,8 +30,8 @@ body {
   overflow-x: hidden;
   transition: 1s;
   text-align: center;
-  /* opacity: 0.7; */
-  /* filter: blur(1px); */
+   opacity: 0.9;
+   /*filter: blur(1px);*/
 }
 
 .sidenav {
@@ -168,7 +171,7 @@ body {
 
 /* Register Form */
 
-.registerForm input {
+.inputForm input {
   border-left: 3px solid;
 }
 

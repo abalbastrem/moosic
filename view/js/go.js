@@ -1,4 +1,16 @@
 var genres = new Array("pop","rock","electronic","hiphop","jazz","indie","soundtrack","classical","chillout","ambient","folk","metal","latina","rnb","reggae","punk","country","house","blues");
+var top_tags = new Array(
+"Electronic",
+ "Rock",
+ "Pop",
+ "World",
+ "Metal",
+ "Ambient",
+ "Soundtrack",
+ "Experimental",
+ "Jazz",
+ "hiphop"
+);
 var index = 0;
 
 $(document).ready(function() {
@@ -52,7 +64,7 @@ $(document).ready(function() {
           },
           new go.Binding("text", "key"))
       ),
-      // the expand/collapse button, at the top-right corner
+      // the expand/collapse button, at the center corner
       $("TreeExpanderButton", {
         name: 'TREEBUTTON',
         width: 40,
@@ -63,18 +75,29 @@ $(document).ready(function() {
         // customize the expander behavior to
         // create children if the node has never been expanded
         click: function(e, obj) { // OBJ is the Button
+
+          // console.log(e);
+          // console.log(obj);
           var node = obj.part; // get the Node containing this Button
-          // console.log(node);
+          key = node.data.key;
+          console.log(node.data.key);
+          //console.log(node);
           if (node === null) return;
           e.handled = true;
-          expandNode(node);
+          if (key == 0) {
+              expandNode(node);
+          } else {
+            getTracks(new Array(key));
+          }
         }
       }) // end TreeExpanderButton
     ); // end Node
 
   // create the model with a root node data
+  key = 0;
   myDiagram.model = new go.TreeModel([{
     key: 0,
+    id: key,
     color: blues[0],
     everExpanded: false
   }]);
@@ -88,9 +111,9 @@ $(document).ready(function() {
     if (!data.everExpanded) {
       // only create children once per node
       diagram.model.setDataProperty(data, "everExpanded", true);
-      console.log(data);
+      // console.log(data);
       var numchildren = createSubTree(data);
-      console.log(numchildren);
+      // console.log(numchildren);
       if (numchildren === 0) { // now known no children: don't need Button!
         node.findObject('TREEBUTTON').visible = false;
       }
@@ -105,12 +128,14 @@ $(document).ready(function() {
     // myDiagram.zoomToFit();
   }
 
+
+
   // This dynamically creates the immediate children for a node.
   // The sample assumes that we have no idea of whether there are any children
   // for a node until we look for them the first time, which happens
   // upon the first tree-expand of a node.
   function createSubTree(parentdata) {
-    var numchildren = genres.length-1;
+    var numchildren = top_tags.length-1;
     // console.log(numchildren);
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
@@ -128,7 +153,7 @@ $(document).ready(function() {
 
     for (var i = 0; i < numchildren; i++) {
       var childdata = {
-        key: genres[index],
+        key: top_tags[index],
         parent: parentdata.key,
         rootdistance: degrees
       };
@@ -142,13 +167,4 @@ $(document).ready(function() {
     return numchildren;
   }
 
-  // function expandAtRandom() {
-  //   console.log("hola");
-  //   var eligibleNodes = [];
-  //   myDiagram.nodes.each(function(n) {
-  //     if (!n.isTreeExpanded) eligibleNodes.push(n);
-  //   })
-  //   var node = eligibleNodes[Math.floor(Math.random() * (eligibleNodes.length))];
-  //   expandNode(node);
-  // }
 });

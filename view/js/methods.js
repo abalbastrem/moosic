@@ -2,8 +2,6 @@ var port = 8888;
 var url_login = "http://192.168.1.17:" + port + "/login";
 var url_signup = "http://192.168.1.17:" + port + "/signup";
 
-
-
 $(document).ready(function() {
   // Login
   $('#signin').click(function() {
@@ -13,6 +11,7 @@ $(document).ready(function() {
       "username": email,
       "password": password
     };
+
     if (email != '' && password != '') {
       var options = {
         url: url_login,
@@ -39,6 +38,11 @@ $(document).ready(function() {
       $.ajax(options);
     } else {
       console.log("nombre o pass vacio");
+      if (email == '') {
+        // $('#usernameDiv').addClass('required');
+      } else if (password == '') {
+        // $('#usernameDiv').addClass('required');
+      }
       $('#loginErrorEmptyFields').removeClass('hide');
     }
   });
@@ -54,7 +58,7 @@ $(document).ready(function() {
     var sex = $('select[id=sex]').val();
     var terms = $('input[id=agreeTerms]').is(':checked');
 
-    console.log(name + "," + lastname + "," + username + "," + email + "," + password + "," + repeatPassword + "," + sex + "," + terms);
+    //console.log(name + "," + lastname + "," + username + "," + email + "," + password + "," + repeatPassword + "," + sex + "," + terms);
     var params = {
       "name": name,
       "lastname": lastname,
@@ -65,9 +69,9 @@ $(document).ready(function() {
     }
     console.log(params);
 
-    validSignIn = validateSignIn(params, terms, repeatPassword);
-    console.log(validSignIn);
-    if (validSignIn == true) {
+    validSignUp = validateSignUp(params, terms, repeatPassword);
+    console.log(validSignUp);
+    if (validSignUp == true) {
       console.log("login valido");
         var options = {
           url: url_signup,
@@ -77,7 +81,14 @@ $(document).ready(function() {
           processData: true,
           success : function(data) {
             console.log('success');
-            console.log(data);
+            console.log(data.message);
+
+            if (data.message == 'user already exists') {
+              $('#loginErrorMsgUserAlreadyExists').removeClass('hide');
+            } else {
+              $('#loginErrorMsgUserAlreadyExists').addClass('hide');
+            }
+
           },
           error: function(data) {
             console.log('error');
@@ -85,20 +96,23 @@ $(document).ready(function() {
           }
         };
         $.ajax(options);
+    } else {
+      $('#loginErrorMsgUserAlreadyExists').addClass('hide');
+      console.log("login no valido");
     }
   });
+  // end document ready
 });
 
-function validateSignIn(params, terms, repeatPassword) {
-
+function validateSignUp(params, terms, repeatPassword) {
   console.log(name);
-  var validSignIn = true;
+  var validSignUp = true;
 
   // if terms not checked
   if (!terms) {
     console.log("not checked");
     $('#loginErrorMsgAgreeTerms').removeClass('hide');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#loginErrorMsgAgreeTerms').addClass('hide');
   }
@@ -106,7 +120,7 @@ function validateSignIn(params, terms, repeatPassword) {
   if (params.password != repeatPassword) {
     console.log("password no identical");
     $('#loginErrorMsgRepeatPass').removeClass('hide');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#loginErrorMsgRepeatPass').addClass('hide');
   }
@@ -114,42 +128,42 @@ function validateSignIn(params, terms, repeatPassword) {
   // required camps red
   if (params.name == '') {
     $('#nameDiv').addClass('required');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#nameDiv').removeClass('required');
   }
   if (params.lastname == '') {
     $('#lastnameDiv').addClass('required');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#lastnameDiv').removeClass('required');
   }
   if (params.username == '') {
     $('#usernameDiv').addClass('required');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#usernameDiv').removeClass('required');
   }
   if (params.email == '') {
     $('#emailDiv').addClass('required');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#emailDiv').removeClass('required');
   }
   if (params.password == '') {
     $('#passwordDiv').addClass('required');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#passwordDiv').removeClass('required');
   }
   if (repeatPassword == '') {
     $('#repeatPasswordDiv').addClass('required');
-    validSignIn = false;
+    validSignUp = false;
   } else {
     $('#repeatPasswordDiv').removeClass('required');
   }
 
-  return validSignIn;
+  return validSignUp;
 }
 
 function promptTags() {
@@ -169,8 +183,10 @@ function getTracks(tagsArray) {
     "tags": tagsArray
   };
 
+  console.log(tags);
+
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/get";
+  var url_s = "http://192.168.1.17:" + port + "/getmoosics";
   //console.log(url_s);
   //console.log(tags);
 

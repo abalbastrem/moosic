@@ -88,8 +88,8 @@
       <!-- Form Login -->
       <div class="row">
         <div class="col-md-12">
-          <form id="loginForm" method="POST">
-            <div class="form-group">
+          <form id="loginForm" class="inputForm" method="POST">
+            <div class="form-group ">
               <input id="email" type="text" class="form-control" name="email" title="Please enter your email" placeholder="Email" required/>
               <span class="help-block"></span>
             </div>
@@ -128,7 +128,7 @@
       <!-- Form Register -->
       <div class="row">
         <div class="col-md-12">
-          <form id="registerForm" class="registerForm" method="POST">
+          <form id="registerForm" class="inputForm" method="POST">
             <div id="nameDiv" class="form-group col-md-5 col-sm-5">
               <input id="name" type="text" class="form-control" name="username" title="Please enter your name" placeholder="Name" required/>
             </div>
@@ -153,14 +153,15 @@
                 <option value="m">Woman</option>
               </select>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <input id="agreeTerms" type="checkbox" required>
               <label class="form-check-label" for="invalidCheck3">Agree to terms and conditions</label>
-            </div>
+            </div> -->
             <div class="form-group col-md-12 col-sm-12">
               <div id="loginErrorMsgRepeatPass" class="alert alert-danger hide">The passwords are not identical.</div>
               <div id="loginErrorMsgEmptyFills" class="alert alert-danger hide">Empty fields.</div>
-              <div id="loginErrorMsgAgreeTerms" class="alert alert-danger hide">You must agree before submitting.</div>
+              <!-- <div id="loginErrorMsgAgreeTerms" class="alert alert-danger hide">You must agree before submitting.</div> -->
+              <div id="loginErrorMsgUserAlreadyExists" class="alert alert-danger hide">User already exists</div>
               <button id="signup" type="button" class="btn btn-primary btn-block"><strong>Sign up</strong></button>
             </div>
           </form>
@@ -186,7 +187,7 @@
       <!-- Artwork, next Song, Back Song -->
       <div class="row">
         <div class="col-md-12 col-sm-12">
-          <img id="artwork" class="artwork-track" src="img/artwork-jamendo.jpg"></img>
+          <!-- <img id="artwork" class="artwork-track" src="img/artwork-jamendo.jpg"></img> -->
         </div>
       </div>
       <!-- Buttons Track -->
