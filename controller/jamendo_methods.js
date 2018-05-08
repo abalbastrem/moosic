@@ -14,15 +14,14 @@ exports.api = async function(url) {
   }
 };
 
-exports.urlBuilder = function urlBuilder(tag) {
+exports.urlBuilder = function(tag) {
   var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&order=relevance&include=musicinfo&audioformat=ogg&tags=" + tag + "&limit=100";
   return url;
 };
 
-exports.urlBuilderForWeeklyDump = function urlBuilder(tag) {
-  var currentDate = new Date();
-  currentDate = currentDate.toISOString().substring(0, 10);
-  console.log(currentDate);
-  var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&order=relevance&include=musicinfo&audioformat=ogg&tags=" + tag + "&limit=10";
+exports.urlBuilderForWeeklyDump = function(tag, from, to) {
+  console.log("::::: FROM: " + from);
+  console.log("::::: TO: " + to);
+  var url = "https://api.jamendo.com/v3.0/tracks/?client_id=e106f235&order=relevance&include=musicinfo&audioformat=ogg&tags=" + tag + "&datebetween=" + from + "_" + to + "&limit=10";
   return url;
 };

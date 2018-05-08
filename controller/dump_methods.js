@@ -56,9 +56,9 @@ async function apiAllTags() {
 };
 
 // WEEKLY
-exports.weeklyDump = async function() {
+exports.weeklyDump = async function(from, to) {
   try {
-    const jsonArray = await apiAllTagsForWeeklyDump();
+    const jsonArray = await apiAllTagsForWeeklyDump(from, to);
     // console.log(JSON.stringify(jsonArray, null, 2));
     console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
     for (let jsonTrack of jsonArray) {
@@ -74,7 +74,7 @@ exports.weeklyDump = async function() {
   }
 };
 
-async function apiAllTagsForWeeklyDump() {
+async function apiAllTagsForWeeklyDump(from, to) {
   var n = 0;
   var tracksArray = [];
   var json = {};
@@ -82,7 +82,7 @@ async function apiAllTagsForWeeklyDump() {
     for (let tag of GLOBALS.TAGS) {
       if (tag != "") {
         console.log("::::: tag: " + tag);
-        var url = jamendo.urlBuilderForWeeklyDump(tag);
+        var url = jamendo.urlBuilderForWeeklyDump(tag, from, to);
         json = await jamendo.api(url);
         for (let jsonTrack of json) {
           tracksArray.push(jsonTrack);

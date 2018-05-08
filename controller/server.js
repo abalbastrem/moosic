@@ -70,7 +70,7 @@ app.post('/signup', async function(request, response) {
   log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
-    console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
+    // console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
     if (await user.userExists(jsonObj)) {
       response.send({
         "status": true,
@@ -91,7 +91,9 @@ app.post('/signup', async function(request, response) {
     }
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "data": null,
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
@@ -101,7 +103,7 @@ app.post('/login', async function(request, response) {
   log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
-    console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
+    // console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
     const res = await user.logIn(jsonObj);
     if (res == null) { // If no user is found
       response.send({
@@ -117,13 +119,60 @@ app.post('/login', async function(request, response) {
     }
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "data": null,
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
 });
 
-app.post('/get', async function(request, response) {
+app.post('/blindstart', async function(request, response) {
+  log(request, response);
+  try {
+    const res = await user.blindStart();
+    response.send({
+      "status": "true",
+      "data": res
+    })
+  } catch (e) {
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    })
+  }
+});
+
+// Gets moosics based on tags
+app.post('/getmoosics', async function(request, response) {
+  log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    var tagArray = [];
+    for (i in jsonObj.tags) {
+      tagArray.push(jsonObj.tags[i]);
+    }
+    console.log("::::: TAG ARRAY: " + tagArray);
+    const res = await user.getMoosics(tagArray);
+    // console.log("::::: in handler RESPONSE:\n" + JSON.stringify(res, null, 2));
+    // response.write(res);
+    response.send({
+      "status": true,
+      "data": res.slice(0, 100)
+    });
+  } catch (e) {
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+// Gets popular tags based on input coexisting tags
+app.post('/gettags', async function(request, response) {
   log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
@@ -142,7 +191,8 @@ app.post('/get', async function(request, response) {
   } catch (e) {
     response.send({
       "status": false,
-      "data": null
+      "data": null,
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
@@ -168,7 +218,8 @@ app.post('/beforevote', async function(request, response) {
   } catch (e) {
     response.send({
       "status": false,
-      "data": e
+      "data": null,
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
@@ -184,7 +235,8 @@ app.post('/vote', async function(request, response) {
     });
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
@@ -193,15 +245,25 @@ app.post('/vote', async function(request, response) {
 app.post('/beforemoods', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
-    const res = user.beforeMoods(jsonObj); // boolean
-    response.send({
-      "status": true,
-      "data": res
-    });
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.hasUserVotedMoods(jsonObj)) {
+      response.send({
+        "status": true,
+        "data": null,
+        "message": "user has already voted moods for this moosic"
+      })
+    } else {
+      const res = await user.whichMoodsToVote();
+      response.send({
+        "status": false,
+        "data": res
+      });
+    }
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "message": "error",
+      "data": null
     });
     console.error("ERROR: " + e);
   }
@@ -210,14 +272,22 @@ app.post('/beforemoods', async function(request, response) {
 app.post('/moods', async function(request, response) {
   log(request, response);
   try {
-    var jsonObj = request.body.json;
-    await user.moods(jsonObj);
-    response.send({
-      "status": true
-    });
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.moods(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "moods voted correctly"
+      });
+    } else {
+      response.send({
+        "status": false,
+        "message": "moods could not be voted"
+      });
+    }
   } catch (e) {
     response.send({
-      "status": false
+      "status": false,
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
@@ -231,7 +301,7 @@ app.post('/favoritetrack', async function(request, response) {
     if (await user.favoriteTrack(jsonObj)) {
       response.send({
         "status": true,
-        "message": "moosic added"
+        "message": "moosic has been added"
       })
     } else {
       response.send({
@@ -242,7 +312,7 @@ app.post('/favoritetrack', async function(request, response) {
   } catch (e) {
     response.send({
       "status": false,
-      "message": e
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
@@ -266,7 +336,7 @@ app.post('/unfavoritetrack', async function(request, response) {
   } catch (e) {
     response.send({
       "status": false,
-      "message": e
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
@@ -278,7 +348,6 @@ app.post('/userfavorites', async function(request, response) {
   try {
     var jsonObj = JSON.parse(request.body.json);
     const res = await user.userFavorites(jsonObj);
-    console.log("::::: IN HANDLER:\n " + JSON.stringify(res, null, 2));
     response.send({
       "status": true,
       "data": res
@@ -286,25 +355,27 @@ app.post('/userfavorites', async function(request, response) {
   } catch (e) {
     response.send({
       "status": false,
-      "message": e
+      "message": "error"
     });
     console.error("ERROR: " + e);
   }
 });
 
 /// DUMP ///
-// runs once a week on Sundays
+// weekly dump on Sundays
 cron.schedule('* * * * * Sunday', function() {
   console.log('*** PERFORMING WEEKLY DUMP ***');
-  const currentDate = new Date();
+  var currentDate = new Date();
+  var lastWeekDate = new Date();
+  lastWeekDate.setDate(currentDate.getDate() - 7);
+  currentDate.setDate(currentDate.getDate() - 1);
   const currentDateStr = currentDate.toISOString().substring(0, 10);
-  const lastWeekDate = currentDate.getDate() - 7;
-  console.log(currentDate);
-  console.log(lastWeekDate);
-  // db.weeklyDump();
+  const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
+  db.weeklyDump(lastWeekDateStr, currentDateStr);
 });
 
-// db.firstDump();
+/// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
+db.firstDump();
 
 /// QUICK LOG ///
 var n = 0;

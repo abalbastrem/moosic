@@ -1,6 +1,17 @@
 const con = require('./connection');
 
-exports.get = async function(tagArray) {
+exports.blindStart = async function() {
+  try {
+    var text = "SELECT array_to_json(array_agg(nombre)) FROM top_tags";
+    const res = await con.pgClient.query(text);
+    return res.rows[0].array_to_json;
+  } catch (e) {
+    console.log("ERROR: " + e);
+  }
+}
+
+// returns moosics based on tags input
+exports.getMoosics = async function(tagArray) {
   try {
     var text = "";
     text += "SELECT array_to_json(array_agg(tracks)) ";
@@ -13,7 +24,6 @@ exports.get = async function(tagArray) {
       }
     }
     text += ")";
-    console.log("::::: TEXT: " + text);
     const res = await con.pgClient.query(text, tagArray);
     return res.rows[0].array_to_json;
   } catch (e) {
@@ -21,22 +31,37 @@ exports.get = async function(tagArray) {
   }
 };
 
+// returns most popular tags that coexist with input tags
+exports.getTags = async function(tagArray) {
+  try {
+    var text = "";
+    for (let i = 1; i < tagArray.length + 1; i++) {
+      text += "nombre ILIKE $" + i;
+      if (i != tagArray.length) {
+        text += " AND ";
+      }
+    }
+    text += ")";
+    const res = await con.pgClient.query(text, tagArray);
+    console.log("::::: " + res.rows[0].array_to_json);
+    return res.rows[0].array_to_json;
+  } catch (e) {
+    console.log("ERROR: " + e);
+  }
+}
+
 // Checks if user is already present in the database
 exports.userExists = async function(jsonObj) {
   try {
-    console.log("::::: IN USER EXISTS:\n" + JSON.stringify(jsonObj));
+    // console.log("::::: IN USER EXISTS:\n" + JSON.stringify(jsonObj));
     var text = "";
-    text += "SELECT * FROM USERS WHERE username=$1 AND password=md5($2)";
+    text += "SELECT * FROM USERS WHERE username=$1";
     var values = [];
     values.push(jsonObj.username);
-    values.push(jsonObj.password);
     const res = await con.pgClient.query(text, values);
-    console.log("::::: IN USER EXISTS:\n" + res);
     if (res.rows[0] == null) {
-      console.log("::::: No devuelve user");
       return false;
     } else {
-      console.log("::::: Devuelve user");
       return true;
     }
   } catch (e) {
@@ -80,7 +105,7 @@ exports.logIn = async function(jsonObj) {
     if (res.rows[0] == undefined) {
       return null;
     } else {
-      console.log("::::: AFTER LOGGED IN:\n" + JSON.stringify(res.rows[0].row_to_json));
+      // console.log("::::: AFTER LOGGED IN:\n" + JSON.stringify(res.rows[0].row_to_json));
       return res.rows[0].row_to_json;
     }
   } catch (e) {
@@ -108,7 +133,7 @@ exports.beforeVote = async function(jsonObj) {
     values.push(jsonObj.id_user);
     values.push(jsonObj.id_track);
     const res = await con.pgClient.query(text, values);
-    return res;
+    return res.rows[0].array_agg;
   } catch (e) {
     console.error("ERROR: " + e);
   }
@@ -136,14 +161,19 @@ exports.vote = async function(jsonObj) {
   }
 };
 
-exports.beforeMoods = async function(jsonObj) {
+exports.hasUserVotedMoods = async function(jsonObj) {
   try {
-    var text = "";
+    var text = "SELECT moods.id_track, votos_moods.id_user, votos_moods.vote, leyenda_mood.nombre ";
+    text += "FROM votos_moods ";
+    text += "JOIN moods ON votos_moods.id_moods = moods.id ";
+    text += "JOIN leyenda_mood ON leyenda_mood.id = moods.id_leyenda_mood ";
+    text += "WHERE moods.id_track = $1 AND id_user = $2";
     var values = [];
-    values.push(jsonObj.id_moods);
+    values.push(jsonObj.id_track);
     values.push(jsonObj.id_user);
     const res = await con.pgClient.query(text, values);
-    if (res[0] == null) {
+    console.log("::::: HAS USER VOTED MOODS? ", res.rows[0]);
+    if (res.rows[0] == null) {
       return false;
     } else {
       return true;
@@ -153,16 +183,77 @@ exports.beforeMoods = async function(jsonObj) {
   }
 };
 
+exports.whichMoodsToVote = async function() {
+  try {
+    var text = "SELECT array_to_json(array_agg(nombre)) from leyenda_mood";
+    const res = await con.pgClient.query(text);
+    console.log("::::: WHICH MOODS TO VOTE: \n" + JSON.stringify(res.rows[0].array_to_json));
+    return res.rows[0].array_to_json;
+  } catch (e) {
+    console.error("ERROR: " + e);
+  }
+}
+
 // Votes for moods
 exports.moods = async function(jsonObj) {
   try {
-    var text = "";
-    var values = [];
-    values.push(jsonObj.id_moods);
-    values.push(jsonObj.vote);
-    values.push(jsonObj.id_user);
-    const res = await con.pgClient.query(text, values);
-    return res;
+    for (let i = 0; i < jsonObj.moods_like.length; i++) {
+      console.log("::::: TAG: " + jsonObj.moods_like[i]);
+      var text1 = "INSERT INTO moods (id_leyenda_mood, id_track) ";
+      text1 += "SELECT id, cast($1 AS INTEGER) FROM ";
+      text1 += "leyenda_mood WHERE nombre ILIKE $2 ";
+      text1 += "ON CONFLICT (id_leyenda_mood, id_track) DO NOTHING ";
+      text1 += "RETURNING true";
+      var values1 = [];
+      values1.push(jsonObj.id_track);
+      values1.push(jsonObj.moods_like[i]);
+      var text2 = "INSERT INTO votos_moods (id_moods, vote, id_user) ";
+      text2 += "SELECT moods.id, cast('like' AS vote_mood), CAST($1 AS BIGINT) AS id_user ";
+      text2 += "FROM moods JOIN leyenda_mood ON moods.id_leyenda_mood = leyenda_mood.id ";
+      text2 += "WHERE moods.id_track = $2 AND leyenda_mood.nombre ILIKE $3 ";
+      text2 += "ON CONFLICT (id_moods, id_user) DO UPDATE SET vote = excluded.vote ";
+      text2 += "RETURNING true";
+      var values2 = [];
+      values2.push(jsonObj.id_user);
+      values2.push(jsonObj.id_track);
+      values2.push(jsonObj.moods_like[i]);
+      res1 = await con.pgClient.query(text1, values1); // may return true or nothing
+      console.log("::::: RES1: ", res1.rows[0]);
+      res2 = await con.pgClient.query(text2, values2);
+      console.log("::::: RES2: ", res2.rows[0]);
+      if (!res2.rows[0]) {
+        return false;
+      }
+    } // end for
+    for (let i = 0; i < jsonObj.moods_zero.length; i++) {
+      console.log("::::: TAG: " + jsonObj.moods_zero[i]);
+      var text1 = "INSERT INTO moods (id_leyenda_mood, id_track) ";
+      text1 += "SELECT id, cast($1 AS INTEGER) FROM ";
+      text1 += "leyenda_mood WHERE nombre ILIKE $2 ";
+      text1 += "ON CONFLICT (id_leyenda_mood, id_track) DO NOTHING ";
+      text1 += "RETURNING true";
+      var values1 = [];
+      values1.push(jsonObj.id_track);
+      values1.push(jsonObj.moods_zero[i]);
+      var text2 = "INSERT INTO votos_moods (id_moods, vote, id_user) ";
+      text2 += "SELECT moods.id, cast('zero' AS vote_mood), CAST($1 AS BIGINT) AS id_user ";
+      text2 += "FROM moods JOIN leyenda_mood ON moods.id_leyenda_mood = leyenda_mood.id ";
+      text2 += "WHERE moods.id_track = $2 AND leyenda_mood.nombre ILIKE $3 ";
+      text2 += "ON CONFLICT (id_moods, id_user) DO UPDATE SET vote = excluded.vote ";
+      text2 += "RETURNING true";
+      var values2 = [];
+      values2.push(jsonObj.id_user);
+      values2.push(jsonObj.id_track);
+      values2.push(jsonObj.moods_zero[i]);
+      res1 = await con.pgClient.query(text1, values1);
+      console.log("::::: RES1: ", res1.rows[0]);
+      res2 = await con.pgClient.query(text2, values2);
+      console.log("::::: RES2: ", res2.rows[0]);
+      if (!res2.rows[0]) {
+        return false;
+      }
+    } // end for
+    return true;
   } catch (e) {
     console.error("ERROR: " + e);
   }
