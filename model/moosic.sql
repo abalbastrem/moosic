@@ -144,7 +144,7 @@ ALTER TABLE moods ADD CONSTRAINT moods_tracks
 ;
 
 -- Reference: playlist_songs_playlist (table: playlist_songs)
-ALTER TABLE playlist_songs ADD CONSTRAINT playlist_songs_tracks
+ALTER TABLE playlist_songs ADD CONSTRAINT playlist_songs_tracks_playlist
     FOREIGN KEY (playlist_id)
     REFERENCES playlist (id) ON DELETE CASCADE
     NOT DEFERRABLE 
@@ -513,6 +513,9 @@ grant UPDATE ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_son
 
 -- damos permiso al uso y consulta de las secuencias para que se autogenere el id en las tablas
 GRANT USAGE, SELECT ON SEQUENCE genre_id_seq, leyenda_mood_id_seq,moods_id_seq,users_id_seq,leyenda_tags_id_seq,playlist_id_seq,tags_id_seq to admin_moosic;
+
+
+alter table users add unique(username);
 
 -- En la siguiente query, consultaremos las canciones de la playlist de nombre 'my playlist' para obtener las canciones.
 --select users_id, title, name, audio from playlist pl join playlist_songs ps on pl.id = ps.playlist_id join tracks tr on ps.tracks_id = tr.id where pl.title = 'my playlist'; 

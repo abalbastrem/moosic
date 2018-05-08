@@ -248,3 +248,65 @@ listar playlist_songs (tracks solo con toda la información).
 
 select array_to_json(array_agg(tracks)) from tracks join playlist_songs on tracks.id = playlist_songs.tracks_id join playlist on playlist.id = playlist_songs.playlist_id where playlist.users_id = 66;
             
+
+moods:
+
+si usuario ha votado en moods de una cancion concreta
+herramientas: user_id
+			track_id
+
+si no ha votado la cancion regresar todos los moods
+
+
+create or replace insertMood(text, bigint, bigint, vote) returns void as $$
+	declare
+	id_moods_insert bigint;
+	begin
+	insert into moods (id_leyenda_mood, id_track) select id, cast($2 as integer) from leyenda_mood where nombre ilike $1 returning id into strict id_moods_insert;
+	insert into votos_moods(id_moods, vote, id_user) $id_moods_insert, $4, $3);
+	end;
+
+
+tags mas populares dentro de indie
+
+
+LA BASE DE datos tinene que volver array de las tags ordenadas de mas populares a menos
+que convivan con las tags que albert le entra
+es decir:
+si jordi envia rock
+albert mira canciones de la base de datos que tengan tag rock, pop,
+mirar que otras tags tienen 
+y volver las mas populares de las restantes.
+
+array de tags
+
+10 mas populares
+
+var top_tags = new Array(
+"Electronic",
+ "Rock",
+ "Pop",
+ "World",
+ "Metal",
+ "Ambient",
+ "Soundtrack",
+ "Experimental",
+ "Jazz",
+ "hiphop"
+);
+
+pistas con pop y rock
+select tracks.id as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where leyenda_tags.nombre ilike 'pop' or leyenda_tags.nombre ilike 'rock';
+
+
+select tags, count(tags) from (select tracks.id, leyenda_tags.nombre as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag  group by tracks.id, leyenda_tags.nombre) as tabla group by tags;
+
+
+regresa id con pop y rock
+select tracks.id from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in (select tracks.id as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where leyenda_tags.nombre ilike 'pop') and leyenda_tags.nombre ilike 'rock';
+
+final:
+
+select tags, count(tags) as cantidad_tags from (select tracks.id, leyenda_tags.nombre as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in (select tracks.id from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in (select tracks.id as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where leyenda_tags.nombre ilike 'pop') and leyenda_tags.nombre ilike 'rock')) as tabla group by tags order by cantidad_tags;
+
+select * from (select tracks.id, array_agg(leyenda_tags.nombre) as tags from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag group by tracks.id) as tabla where 'Rock' = ANY (tags);

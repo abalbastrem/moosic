@@ -182,11 +182,6 @@ function vote() {
     }
   };
   $.ajax(options);
-  // Resultados esperados
-  /*
-  {Rock,acidjazz}
-  */
-
 }
 
 function addFavoriteTrack() {
@@ -216,10 +211,6 @@ function addFavoriteTrack() {
     }
   };
   $.ajax(options);
-  // Resultados esperados
-  /*
-  {Rock,acidjazz}
-  */
 
 }
 function dropFavoriteTrack() {
@@ -258,6 +249,68 @@ function getUserPlaylist() {
 
   var port = 8888;
   var url_s = "http://192.168.1.17:" + port + "/userfavorites";
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_s,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+
+function beforeMoods() {
+  var args = {
+    "id_user": 66,
+    "id_track": 1344750
+  };
+
+  var port = 8888;
+  var url_s = "http://192.168.1.17:" + port + "/beforemoods";
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_s,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+
+function voteMood() {
+  var args = {
+    "id_user": 66,
+    "id_track": 1344750, 
+    "moods_like": ['Happy', 'Anxious', 'Epic'],
+    "moods_zero": ['Frantic', 'Energetic', 'Melancholic', 'Depressive', 'Calm']
+  };
+
+  var port = 8888;
+  var url_s = "http://192.168.1.17:" + port + "/moods";
   //console.log(url_s);
   //console.log(tags);
 
