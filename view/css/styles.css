@@ -1,5 +1,20 @@
 body {
-  font-family: "Lato", sans-serif;
+  font-family: 'Roboto', sans-serif;
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;/*/
+}
+
+.prompt {
+  margin: auto;/
+  /*top: 10%;*/
+  /*left: 35%;*/
+  width: 30%;
+  /*height: 30%;*/
+  padding: 5%;
+  border-radius: 20px 20px 20px 20px;
+  background-color: #111;
+  z-index: 99;
 }
 
 /* Slide menu */
@@ -15,8 +30,8 @@ body {
   overflow-x: hidden;
   transition: 1s;
   text-align: center;
-  opacity: 0.7;
-  filter: blur(1px);
+   opacity: 0.9;
+   /*filter: blur(1px);*/
 }
 
 .sidenav {
@@ -66,6 +81,15 @@ body {
   }
 }
 
+.container-form {
+  padding-top: 20%;
+}
+
+.artwork-track {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 /* Icons */
 
 #icon-open {
@@ -76,6 +100,25 @@ body {
 
 #icons-track {
   padding-left: ;
+}
+
+.icon-track {
+  margin-left: 12px;
+  font-size: 22px;
+}
+
+.icon-like {
+  margin-right: 42px;
+  float: right;
+  font-size: 22px;
+}
+
+.first-icon {
+  padding-left: 20%;
+}
+
+.icon-playlist {
+  font-size: 15px;
 }
 
 /* Footer */
@@ -100,8 +143,8 @@ body {
 /* Bootstrap changes */
 
 .container {
-  width: 650px;
-  height: 913px;
+  width: 350px;
+  /* height: 913px; */
 }
 
 .row {
@@ -124,4 +167,14 @@ body {
   width: 95%;
   height: 100%;
   background-color: #FFFF;
+}
+
+/* Register Form */
+
+.inputForm input {
+  border-left: 3px solid;
+}
+
+.required input {
+  border-left-color: red;
 }

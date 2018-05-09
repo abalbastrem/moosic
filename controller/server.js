@@ -1,135 +1,379 @@
 /// PROJECT GLOBALS SETUP ///
-const GLOBALS = require('./setup');
-const db = require('./db_methods');
+const GLOBALS = require('./setup_globals');
+const db = require('./dump_methods');
 const jamendo = require('./jamendo_methods');
-console.log("::::: PROJECT SET UP SUCCESSFULLY :::::");
+const user = require('./user_methods');
+const logger = require('./logger');
+console.log("::::: PROJECT GLOBALS SET UP SUCCESSFULLY :::::");
 
 /// SERVER CONFIG ///
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-const bcrypt = require('bcryptjs');
-const requestify = require('requestify');
-const SQLBuilder = require('json-sql-builder2');
+const bodyParser = require('body-parser');
+const cron = require('node-cron');
+// const SQLBuilder = require('json-sql-builder2');
 const pg = require('pg');
-const pgquery = require('pg-query');
+// const pgquery = require('pg-query');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
 
-/// HANDLERS ///
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+console.log("::::: POST HANDLING ENABLED ::::::\n");
+
+/// CONNECTION TO DATABASE ///
+const con = require('./connection');
+// con.pgClient.connect();
+
+/// TEST HANDLERS ///
 app.get('/', function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   response.write('hello world');
   response.end();
 });
 
-app.get('/test', function(request, response) {
-  log(request, response);
-  response.end();
+app.post('/test', function(request, response) {
+  logger.log(request, response);
+  response.send({
+    "status": true,
+    "message": "todo bien"
+  });
 });
 
 app.get('/testdb', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
-    var ret = await db.testdb();
-    console.log("::::: in handler RESPONSE:\n" + ret);
+    const res = await db.testdb();
+    console.log("::::: in handler RESPONSE:\n" + JSON.stringify(res, null, 2));
     response.writeHead(200, {
       'Content-type': 'text/html'
     });
-    response.write(ret);
+    response.write(JSON.stringify(ret, null, 2));
     response.end();
   } catch (e) {
-    response.writeHead(500);
+    // response.writeHead(500);
     response.end();
     console.error("ERROR: " + e);
   }
 });
 
-app.get('/get', async function(request, response) {
-  log(request, response);
+/// USER ///
+app.post('/signup', async function(request, response) {
+  logger.log(request, response);
   try {
-    var url = jamendo.urlBuilder();
-    var ret = await db.get(url);
-    console.log("::::: in handler RESPONSE:\n" + ret);
-    response.writeHead(200, {
-      'Content-type': 'text/html'
-    });
-    response.write(ret);
-    response.end();
-  } catch (e) {
-    response.writeHead(500);
-    response.end();
-    console.error("ERROR: " + e);
-  }
-});
-
-app.get('/get2', function(request, response) {
-  var ret = "";
-  log(request, response);
-  var url = jamendo.urlBuilderOLD();
-  console.log(url);
-  jamendo.get2(request, response, url, jamendo.cbReturnFromApi);
-});
-
-/// THE D U M P ///
-async function apiAllTags() {
-  var n = 0;
-  var tracksArray = [];
-  var json = {};
-  try {
-    for (let tag of GLOBALS.TAGS) {
-      if (tag != "") {
-        console.log("::::: tag: " + tag);
-        var url = jamendo.urlBuilder(tag);
-        json = await jamendo.api(url);
-        for (let jsonTrack of json) {
-          tracksArray.push(jsonTrack);
-          console.log("::::: acc json obj length: " + tracksArray.length);
-        }
+    var jsonObj = JSON.parse(request.body.json);
+    // console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
+    if (await user.userExists(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "user already exists"
+      });
+    } else {
+      if (await user.signUp(jsonObj)) {
+        response.send({
+          "status": true,
+          "message": "user registered. Please log in"
+        })
+      } else {
+        response.send({
+          "status": false,
+          "message": "user could not be registered"
+        })
       }
-    };
-    return tracksArray;
-  } catch (e) {
-    console.error("ERROR: " + e);
-  }
-};
-
-async function dump() {
-  try {
-    const jsonArray = await apiAllTags();
-    // console.log(JSON.stringify(jsonArray, null, 2));
-    console.log(jsonArray.length);
-    for (let jsonTrack of jsonArray) {
-      console.log("::::: query TRACK");
-      let SQLtrack = db.jsonTrack2sql(jsonTrack);
-      console.log("::::: query TAGS");
-      let SQLtags = db.jsonTags2sql(jsonTrack);
-      await db.insertTrack(SQLtrack);
-      await db.insertTags(SQLtags);
     }
   } catch (e) {
-    console.log("::::: ERROR: " + e);
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
   }
-};
+});
 
-dump();
+app.post('/login', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    // console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
+    const res = await user.logIn(jsonObj);
+    if (res == null) { // If no user is found
+      response.send({
+        "status": true,
+        "message": "this user does not exist. Please register",
+        "data": null
+      });
+    } else {
+      response.send({
+        "status": true,
+        "data": res
+      });
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
 
-/// QUICK LOG ///
-var n = 0;
+app.post('/blindstart', async function(request, response) {
+  logger.log(request, response);
+  try {
+    const res = await user.blindStart();
+    response.send({
+      "status": "true",
+      "data": res
+    })
+  } catch (e) {
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    })
+  }
+});
 
-function log(request, response) {
-  console.log("::::: REQ " + ++n + "\t" + new Date().toISOString());
-  console.log("::::: PATH:\t" + request.route.path);
-  console.log("::::: URL:\t" + request.originalUrl);
-  console.log("::::: IP:\t" + request.ip);
-  console.log("");
-};
+// Gets moosics based on tags
+app.post('/getmoosics', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    var tagArray = [];
+    for (i in jsonObj.tags) {
+      tagArray.push(jsonObj.tags[i]);
+    }
+    const res = await user.getMoosics(tagArray);
+    if (res == null) {
+      response.send({
+        "status": false,
+        "data": null,
+        "message": "That tag has no moosics"
+      });
+    } else {
+      response.send({
+        "status": true,
+        "data": res.slice(0, 100)
+      });
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
 
-function logwrapper(request, response, cb) {
-  console.log("REQ " + ++n + "\t" + new Date().toISOString());
-  console.log("PATH:\t" + request.route.path);
-  console.log("URL:\t" + request.originalUrl);
-  console.log("IP:\t" + request.ip);
-  console.log("");
-  cb();
-};
+// Gets popular tags based on input coexisting tags
+app.post('/gettags', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    var tagArray = [];
+    for (i in jsonObj.tags) {
+      tagArray.push(jsonObj.tags[i]);
+    }
+    const res = await user.getTags(tagArray);
+    response.send({
+      "status": true,
+      "data": res.slice(0, 100)
+    });
+  } catch (e) {
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+// Asks the server whether it should show a voting prompt to the user
+app.post('/beforevote', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    const tagArray = await user.beforeVote(jsonObj);
+    if (tagArray.length == 0) {
+      response.send({
+        "status": false,
+        "data": null
+      });
+    } else {
+      response.send({
+        "status": true,
+        "data": tagArray
+      });
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "data": null,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+app.post('/vote', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    await user.vote(jsonObj);
+    response.send({
+      "status": true
+    });
+  } catch (e) {
+    response.send({
+      "status": false,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+app.post('/beforemoods', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.hasUserVotedMoods(jsonObj)) {
+      response.send({
+        "status": true,
+        "data": null,
+        "message": "user has already voted moods for this moosic"
+      })
+    } else {
+      const res = await user.whichMoodsToVote();
+      response.send({
+        "status": false,
+        "data": res
+      });
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "message": "error",
+      "data": null
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+app.post('/moods', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.moods(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "moods voted correctly"
+      });
+    } else {
+      response.send({
+        "status": false,
+        "message": "moods could not be voted"
+      });
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+// Adds or remove a track from user playlist
+app.post('/favoritetrack', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.favoriteTrack(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "moosic has been added"
+      })
+    } else {
+      response.send({
+        "status": false,
+        "message": "moosic could not be added"
+      })
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+app.post('/unfavoritetrack', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    if (await user.unfavoriteTrack(jsonObj)) {
+      response.send({
+        "status": true,
+        "message": "moosic has been removed"
+      })
+    } else {
+      response.send({
+        "status": true,
+        "message": "moosic could not be removed"
+      })
+    }
+  } catch (e) {
+    response.send({
+      "status": false,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+// Asks for a user playlist
+app.post('/userfavorites', async function(request, response) {
+  logger.log(request, response);
+  try {
+    var jsonObj = JSON.parse(request.body.json);
+    const res = await user.userFavorites(jsonObj);
+    response.send({
+      "status": true,
+      "data": res
+    })
+  } catch (e) {
+    response.send({
+      "status": false,
+      "message": "error"
+    });
+    console.error("ERROR: " + e);
+  }
+});
+
+
+
+/// DUMP ///
+// weekly dump on Sundays
+cron.schedule('* * * * * Sunday', function() {
+  console.log('*** PERFORMING WEEKLY DUMP ***');
+  var currentDate = new Date();
+  var lastWeekDate = new Date();
+  lastWeekDate.setDate(currentDate.getDate() - 7);
+  currentDate.setDate(currentDate.getDate() - 1);
+  const currentDateStr = currentDate.toISOString().substring(0, 10);
+  const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
+  db.weeklyDump(lastWeekDateStr, currentDateStr);
+  db.updateViews();
+});
+
+/// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
+// db.firstDump();
+// db.updateViews();
