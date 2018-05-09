@@ -93,11 +93,11 @@ function login() {
 
 function getTracks() {
   var tags = {
-    "tags": ["rock", "pop", "indie"]
+    "tags": ["Rock", "Pop", "Indie"]
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/get";
+  var url_s = "http://192.168.1.17:" + port + "/getmoosics";
   //console.log(url_s);
   //console.log(tags);
 
@@ -311,6 +311,35 @@ function voteMood() {
 
   var port = 8888;
   var url_s = "http://192.168.1.17:" + port + "/moods";
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_s,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+
+function getTags() {
+  var args = {
+    "tags": ['Rock', 'Pop', 'Indie']
+  };
+
+  var port = 8888;
+  var url_s = "http://192.168.1.17:" + port + "/getTags";
   //console.log(url_s);
   //console.log(tags);
 

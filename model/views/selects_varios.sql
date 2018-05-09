@@ -210,6 +210,27 @@ de menor a mayor tags por cantidad de votos, los cuales el usuario X no ha votad
 
 select array_agg(nombre) from (SELECT tags.id, leyenda_tags.nombre, count(*) as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id = 1344749 and votos_tag.id_tags not in (SELECT votos_tag.id_tags as votos from votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id where tracks.id = 1344749 and votos_tag.id_users = 66) group by tags.id, leyenda_tags.nombre having count(*) < 5 order by votos ASC) as result;
 
+-------------------------------------------
+
+
+
+CREATE OR REPLACE FUNCTION creaViews() RETURNS void as $$
+	BEGIN
+	CREATE OR REPLACE VIEW top_tags AS select row_number() OVER (order by count(*) DESC) as position, id_leyenda_tag, leyenda_tags.nombre, count(*) as popularidad from tags join leyenda_tags on id_leyenda_tag = leyenda_tags.id group by id_leyenda_tag, leyenda_tags.nombre order by popularidad DESC;
+	CREATE OR REPLACE view moods_general as select tabla_like.id_track, tabla_like.id_moods, tabla_like.nombre, tabla_like.votos_like, tabla_dislike.votos_dislike from (select id_moods,leyenda_mood.nombre, moods.id_track, count(vote) as votos_like from votos_moods join moods on moods.id = votos_moods.id_moods join leyenda_mood on leyenda_mood.id = moods.id_leyenda_mood group by id_moods, vote, moods.id_track, leyenda_mood.nombre having vote = 'like' order by votos_like DESC) as tabla_like join (select id_moods,leyenda_mood.nombre, moods.id_track, count(vote) as votos_dislike from votos_moods join moods on moods.id = votos_moods.id_moods join leyenda_mood on leyenda_mood.id = moods.id_leyenda_mood group by id_moods, vote, moods.id_track, leyenda_mood.nombre having vote = 'zero' order by votos_dislike DESC) as tabla_dislike on tabla_like.id_track = tabla_dislike.id_track;
+	CREATE or replace view baby_tracks as select distinct(id_track), age(tracks.dumpdate) < INTERVAL '7 day' AS validada from votos_tag join tags on id_tags = id join tracks on tags.id_track = tracks.id group by votos_tag.id_tags, tags.id_track, validada having count(*) < 3;
+		RAISE NOTICE 'Se han creado las VIEWS correctamente';
+	END;
+	$$LANGUAGE plpgsql;
+
+
+
+
+
+
+
+
+
 
 -------------------------------------------
 funcion prueba:
@@ -310,3 +331,32 @@ final:
 select tags, count(tags) as cantidad_tags from (select tracks.id, leyenda_tags.nombre as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in (select tracks.id from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in (select tracks.id as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where leyenda_tags.nombre ilike 'pop') and leyenda_tags.nombre ilike 'rock')) as tabla group by tags order by cantidad_tags;
 
 select * from (select tracks.id, array_agg(leyenda_tags.nombre) as tags from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag group by tracks.id) as tabla where 'Rock' = ANY (tags);
+
+select * from (select tracks.id, array_agg(leyenda_tags.nombre) as tags from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag group by tracks.id) as tabla where tags @> ('{Rock,Pop,Indie}'::varchar[]);
+
+
+
+consulta final:
+
+select array_to_json(array_agg(tags)) from (select tags, count(tags) as cantidad_tags from (select tracks.id, leyenda_tags.nombre as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in (select tracks.id from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in ( select id as tags from (select tracks.id, array_agg(leyenda_tags.nombre) as tags from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag group by tracks.id) as tabla_1 where tags @> ('{Rock,Pop,Indie}'::varchar[])))) as tabla_2 group by tags ORDER BY cantidad_tags DESC offset 3) as tabla;
+
+comprobamos su orden y relevancia
+
+select tags, count(tags) as cantidad_tags from (select tracks.id, leyenda_tags.nombre as tags from tracks join tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in (select tracks.id from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag where tracks.id in ( select id as tags from (select tracks.id, array_agg(leyenda_tags.nombre) as tags from tracks join  tags on tracks.id = tags.id_track join leyenda_tags on leyenda_tags.id = tags.id_leyenda_tag group by tracks.id) as tabla_1 where tags @> ('{Rock,Pop,Indie}'::varchar[])))) as tabla_2 group by tags ORDER BY cantidad_tags DESC offset 3;
+--        tags       | cantidad_tags 
+-- ------------------+---------------
+--  lofi             |            18
+--  poprock          |             3
+--  Grunge           |             2
+--  Electronic       |             2
+--  indiepop         |             2
+--  singersongwriter |             1
+--  march            |             1
+--  surfrock         |             1
+--  poppunk          |             1
+--  Punk             |             1
+--  indierock        |             1
+--  Folk             |             1
+-- (12 rows)
+
+
