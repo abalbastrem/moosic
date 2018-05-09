@@ -59,6 +59,14 @@ $(document).ready(function() {
       }
     });
   });
+
+  // click body clove slide menu
+  $('#myDiagramDiv').click(function() {
+    closeNav();
+    closeNavMenu();
+  });
+
+
   // load the song
   // Spectrum.load('https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235');
 });

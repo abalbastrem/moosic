@@ -1,16 +1,4 @@
 var genres = new Array("pop","rock","electronic","hiphop","jazz","indie","soundtrack","classical","chillout","ambient","folk","metal","latina","rnb","reggae","punk","country","house","blues");
-var top_tags = new Array(
-"Electronic",
- "Rock",
- "Pop",
- "World",
- "Metal",
- "Ambient",
- "Soundtrack",
- "Experimental",
- "Jazz",
- "hiphop"
-);
 var index = 0;
 
 $(document).ready(function() {
@@ -49,8 +37,8 @@ $(document).ready(function() {
           name: "PANEL"
         },
         $(go.Shape, "Circle", {
-            // width: 50,
-            // height: 50,
+            // width: 60,
+            // height: 60,
             fill: "whitesmoke",
             stroke: "black"
           },
@@ -59,10 +47,10 @@ $(document).ready(function() {
             return blues[dist];
           })),
         $(go.TextBlock, {
-            font: "12pt Fira Mono",
+            font: "12pt Roboto",
             margin: 10
           },
-          new go.Binding("text", "key"))
+          new go.Binding("text", "name"))
       ),
       // the expand/collapse button, at the center corner
       $("TreeExpanderButton", {
@@ -75,32 +63,72 @@ $(document).ready(function() {
         // customize the expander behavior to
         // create children if the node has never been expanded
         click: function(e, obj) { // OBJ is the Button
-
           // console.log(e);
           // console.log(obj);
           var node = obj.part; // get the Node containing this Button
+          // console.log(node);
           key = node.data.key;
           console.log(node.data.key);
+          // console.log(node.data.name);
           //console.log(node);
           if (node === null) return;
           e.handled = true;
           if (key == 0) {
               expandNode(node);
           } else {
+            // method getTags()
             getTracks(new Array(key));
+            getTags(key);
+            expandNodeTag(node);
+
           }
         }
       }) // end TreeExpanderButton
     ); // end Node
 
+    async function getTagAsync(tag) {
+      var tags = await getTags(tag);
+      return tags;
+    }
+
   // create the model with a root node data
   key = 0;
   myDiagram.model = new go.TreeModel([{
     key: 0,
+    name: "TAGS",
     id: key,
     color: blues[0],
     everExpanded: false
   }]);
+
+  function expandNodeTag(node) {
+    var diagram = node.diagram;
+    diagram.startTransaction("CollapseExpandTree");
+    // this behavior is specific to this incrementalTree sample:
+    var data = node.data;
+    // console.log(data);
+    if (!data.everExpanded) {
+      // console.log("HOLA");
+      // only create children once per node
+      diagram.model.setDataProperty(data, "everExpanded", true);
+
+      var numchildren = createSubTreeTags(data);
+      console.log(numchildren);
+      // console.log(numchildren);
+      if (numchildren === 0) { // now known no children: don't need Button!
+        node.findObject('TREEBUTTON').visible = false;
+      }
+    }
+    // this behavior is generic for most expand/collapse tree buttons:
+    if (node.isTreeExpanded) {
+      diagram.commandHandler.collapseTree(node);
+    } else {
+      diagram.commandHandler.expandTree(node);
+    }
+    diagram.commitTransaction("CollapseExpandTree");
+    // myDiagram.zoomToFit();
+  }
+
 
   function expandNode(node) {
     var diagram = node.diagram;
@@ -128,14 +156,14 @@ $(document).ready(function() {
     // myDiagram.zoomToFit();
   }
 
-
-
   // This dynamically creates the immediate children for a node.
   // The sample assumes that we have no idea of whether there are any children
   // for a node until we look for them the first time, which happens
   // upon the first tree-expand of a node.
   function createSubTree(parentdata) {
+    console.log(top_tags);
     var numchildren = top_tags.length-1;
+    // console.log(numchildren);
     // console.log(numchildren);
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
@@ -154,6 +182,44 @@ $(document).ready(function() {
     for (var i = 0; i < numchildren; i++) {
       var childdata = {
         key: top_tags[index],
+        name: (top_tags[index]).toUpperCase(),
+        parent: parentdata.key,
+        rootdistance: degrees
+      };
+      index++;
+      // add to model.nodeDataArray and create a Node
+      model.addNodeData(childdata);
+      // position the new child node close to the parent
+      var child = myDiagram.findNodeForData(childdata);
+      child.location = parent.location;
+    }
+    return numchildren;
+  }
+
+  function createSubTreeTags(parentdata) {
+    console.log("hola");
+    console.log(more_tags);
+    var numchildren = more_tags.length-1;
+    console.log(numchildren);
+    // console.log(numchildren);
+    if (myDiagram.nodes.count <= 1) {
+      numchildren += 1; // make sure the root node has at least one child
+    }
+    // create several node data objects and add them to the model
+    var model = myDiagram.model;
+    var parent = myDiagram.findNodeForData(parentdata);
+
+    var degrees = 1;
+    var grandparent = parent.findTreeParentNode();
+    while (grandparent) {
+      degrees++;
+      grandparent = grandparent.findTreeParentNode();
+    }
+
+    for (var i = 0; i < numchildren; i++) {
+      var childdata = {
+        key: more_tags[index],
+        name: more_tags[index],
         parent: parentdata.key,
         rootdistance: degrees
       };

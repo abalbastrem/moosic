@@ -1,6 +1,13 @@
 var port = 8888;
-var url_login = "http://192.168.1.17:" + port + "/login";
-var url_signup = "http://192.168.1.17:" + port + "/signup";
+url = "http://192.168.1.17"
+var url_login = url + ":" + port + "/login";
+var url_signup = url + ":" + port + "/signup";
+var url_getMoosics = url + ":" + port + "/getmoosics";
+var url_blindStart = url + ":" + port + "/blindstart";
+var url_tags = url + ":" + port + "/gettags";
+var top_tags = new Array();
+var more_tags = new Array();
+
 
 $(document).ready(function() {
   // Login
@@ -26,22 +33,25 @@ $(document).ready(function() {
           closeNavMenu();
           //data = JSON.parse(data);
           // alert(data.data['name'] + " " + data.data['lastname']);
-          $('#promptTags').removeClass('hide');
-          promptTags();
+          // $('#promptTags').removeClass('hide');
+          // promptTags();
           $('#register').addClass('hide');
         },
         error: function(data) {
           console.log('error');
-          // console.log(data);
         }
       };
       $.ajax(options);
     } else {
-      console.log("nombre o pass vacio");
       if (email == '') {
-        // $('#usernameDiv').addClass('required');
-      } else if (password == '') {
-        // $('#usernameDiv').addClass('required');
+        $('#emailLoginDiv').addClass('required');
+      } else {
+        $('#emailLoginDiv').removeClass('required');
+      }
+      if (password == '') {
+        $('#passwordLoginDiv').addClass('required');
+      } else {
+        $('#passwordLoginDiv').removeClass('required');
       }
       $('#loginErrorEmptyFields').removeClass('hide');
     }
@@ -73,29 +83,29 @@ $(document).ready(function() {
     console.log(validSignUp);
     if (validSignUp == true) {
       console.log("login valido");
-        var options = {
-          url: url_signup,
-          dataType: "json",
-          type: "POST",
-          data: "json="+JSON.stringify(params),
-          processData: true,
-          success : function(data) {
-            console.log('success');
-            console.log(data.message);
+      var options = {
+        url: url_signup,
+        dataType: "json",
+        type: "POST",
+        data: "json=" + JSON.stringify(params),
+        processData: true,
+        success: function(data) {
+          console.log('success');
+          console.log(data.message);
 
-            if (data.message == 'user already exists') {
-              $('#loginErrorMsgUserAlreadyExists').removeClass('hide');
-            } else {
-              $('#loginErrorMsgUserAlreadyExists').addClass('hide');
-            }
-
-          },
-          error: function(data) {
-            console.log('error');
-            // console.log(data);
+          if (data.message == 'user already exists') {
+            $('#loginErrorMsgUserAlreadyExists').removeClass('hide');
+          } else {
+            $('#loginErrorMsgUserAlreadyExists').addClass('hide');
           }
-        };
-        $.ajax(options);
+
+        },
+        error: function(data) {
+          console.log('error');
+          // console.log(data);
+        }
+      };
+      $.ajax(options);
     } else {
       $('#loginErrorMsgUserAlreadyExists').addClass('hide');
       console.log("login no valido");
@@ -182,16 +192,8 @@ function getTracks(tagsArray) {
   var tags = {
     "tags": tagsArray
   };
-
-  console.log(tags);
-
-  var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/getmoosics";
-  //console.log(url_s);
-  //console.log(tags);
-
   var options = {
-    url: url_s,
+    url: url_getMoosics,
     dataType: "json",
     type: "POST",
     data: 'json=' + JSON.stringify(tags),
@@ -208,4 +210,48 @@ function getTracks(tagsArray) {
   $.ajax(options);
 }
 
-// getTracks(new Array('rock','pop','trap'));
+function getTags(tag) {
+  var args = {
+    "tags": [tag]
+  };
+
+  var options = {
+    url: url_tags,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      more_tags = data.data.slice(0,10);
+      console.log(more_tags);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+// top tags
+(function getTopTags() {
+  var port = 8888;
+  var options = {
+    url: url_blindStart,
+    type: "POST",
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+      // top_tags = JSON.parse(data.data);
+      top_tags = data.data.slice(0,10);
+      // console.log(top_tags);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+})()
+;
