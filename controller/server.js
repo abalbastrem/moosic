@@ -1,8 +1,9 @@
 /// PROJECT GLOBALS SETUP ///
-const GLOBALS = require('./setup');
+const GLOBALS = require('./setup_globals');
 const db = require('./dump_methods');
 const jamendo = require('./jamendo_methods');
 const user = require('./user_methods');
+const logger = require('./logger');
 console.log("::::: PROJECT GLOBALS SET UP SUCCESSFULLY :::::");
 
 /// SERVER CONFIG ///
@@ -11,8 +12,6 @@ const app = express();
 const server = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
-const bcrypt = require('bcryptjs');
-const requestify = require('requestify');
 // const SQLBuilder = require('json-sql-builder2');
 const pg = require('pg');
 // const pgquery = require('pg-query');
@@ -153,14 +152,19 @@ app.post('/getmoosics', async function(request, response) {
     for (i in jsonObj.tags) {
       tagArray.push(jsonObj.tags[i]);
     }
-    console.log("::::: TAG ARRAY: " + tagArray);
     const res = await user.getMoosics(tagArray);
-    // console.log("::::: in handler RESPONSE:\n" + JSON.stringify(res, null, 2));
-    // response.write(res);
-    response.send({
-      "status": true,
-      "data": res.slice(0, 100)
-    });
+    if (res == null) {
+      response.send({
+        "status": false,
+        "data": null,
+        "message": "That tag has no moosics"
+      });
+    } else {
+      response.send({
+        "status": true,
+        "data": res.slice(0, 100)
+      });
+    }
   } catch (e) {
     response.send({
       "status": false,
@@ -180,10 +184,7 @@ app.post('/gettags', async function(request, response) {
     for (i in jsonObj.tags) {
       tagArray.push(jsonObj.tags[i]);
     }
-    console.log("::::: TAG ARRAY: " + tagArray);
-    const res = await user.get(tagArray);
-    // console.log("::::: in handler RESPONSE:\n" + JSON.stringify(res, null, 2));
-    // response.write(res);
+    const res = await user.getTags(tagArray);
     response.send({
       "status": true,
       "data": res.slice(0, 100)
@@ -372,10 +373,13 @@ cron.schedule('* * * * * Sunday', function() {
   const currentDateStr = currentDate.toISOString().substring(0, 10);
   const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
   db.weeklyDump(lastWeekDateStr, currentDateStr);
+  db.updateViews();
 });
 
 /// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
-db.firstDump();
+// db.firstDump();
+// db.updateViews();
+
 
 /// QUICK LOG ///
 var n = 0;
@@ -388,14 +392,4 @@ function log(request, response) {
   console.log("::::: IP:\t" + request.ip);
   console.log("::::: DATA:\t" + request.body.json);
   console.log("");
-};
-
-function logwrapper(request, response, cb) {
-  console.log("");
-  console.log("REQ " + ++n + "\t" + new Date().toISOString());
-  console.log("PATH:\t" + request.route.path);
-  console.log("URL:\t" + request.originalUrl);
-  console.log("IP:\t" + request.ip);
-  console.log("");
-  cb();
 };

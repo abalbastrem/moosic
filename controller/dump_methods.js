@@ -1,4 +1,4 @@
-const GLOBALS = require('./setup');
+const GLOBALS = require('./setup_globals');
 const jamendo = require('./jamendo_methods');
 const con = require('./connection');
 // console.log(con);
@@ -7,7 +7,7 @@ exports.testdb = async function() {
   try {
     await con.pgtest();
     var resultJson = await con.pgClient.query('SELECT row_to_json(tracks) FROM tracks LIMIT 3');
-    console.log("::::: JSON IN METHOD: " + JSON.stringify(resultJson.rows[0].row_to_json,null,2));
+    console.log("::::: JSON IN METHOD: " + JSON.stringify(resultJson.rows[0].row_to_json, null, 2));
     return resultJson;
   } catch (e) {
     console.error("ERROR: " + e);
@@ -74,6 +74,7 @@ exports.weeklyDump = async function(from, to) {
   }
 };
 
+// Auxiliary functions
 async function apiAllTagsForWeeklyDump(from, to) {
   var n = 0;
   var tracksArray = [];
@@ -133,20 +134,41 @@ async function insertTrack(SQLtrack) {
   console.log("::::: inserting track into database");
   try {
     await con.pgClient.query(SQLtrack);
-    console.log("::::: track inserted");
+    // console.log("::::: track inserted");
   } catch (e) {
     console.error("::::: ERROR while inserting track: " + e);
   }
 };
 
- async function insertTags(SQLtags) {
+async function insertTags(SQLtags) {
   console.log("::::: inserting array of tags into database");
   try {
     for (let SQLquery of SQLtags) {
       await con.pgClient.query(SQLquery);
-      console.log("::::: tag inserted");
+      // console.log("::::: tag inserted");
     }
   } catch (e) {
     console.error("::::: ERROR while inserting tag: " + e);
+  }
+};
+
+
+/// DB FUNCTIONS ///
+
+exports.demo = async function() {
+  try {
+    const res = await con.pgClient.query('SELECT demo(3)');
+    console.log("::::: RESULT FROM DEMO: " + JSON.stringify(res.rows[0].demo));
+  } catch (e) {
+    console.log("ERROR WHILE DEMO: " + e);
+  }
+};
+
+exports.updateViews = async function() {
+  try {
+    const res = await con.pgClient.query('SELECT creaviews()');
+    console.log("::::: RESULT FROM VIEWS: " + res);
+  } catch (e) {
+    console.log("ERROR WHILE UPDATING VIEWS: " + e);
   }
 };

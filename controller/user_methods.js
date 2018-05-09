@@ -1,5 +1,6 @@
 const con = require('./connection');
 
+// Returns most popular tags when the first moosic is clicked
 exports.blindStart = async function() {
   try {
     var text = "SELECT array_to_json(array_agg(nombre)) FROM top_tags";
@@ -13,18 +14,14 @@ exports.blindStart = async function() {
 // returns moosics based on tags input
 exports.getMoosics = async function(tagArray) {
   try {
-    var text = "";
-    text += "SELECT array_to_json(array_agg(tracks)) ";
-    text += "FROM tracks JOIN tags ON tracks.id=tags.id_track JOIN leyenda_tags ON tags.id_leyenda_tag=leyenda_tags.id ";
-    text += "WHERE tags.id_leyenda_tag IN (SELECT leyenda_tags.genre FROM leyenda_tags WHERE ";
-    for (let i = 1; i < tagArray.length + 1; i++) {
-      text += "nombre ILIKE $" + i;
-      if (i != tagArray.length) {
-        text += " OR ";
-      }
-    }
-    text += ")";
-    const res = await con.pgClient.query(text, tagArray);
+    var text = "SELECT array_to_json(array_agg(tracks)) ";
+    text += "FROM tracks JOIN (SELECT * FROM (SELECT tracks.id, array_agg(leyenda_tags.nombre) AS tags ";
+    text += "FROM tracks JOIN tags ON tracks.id=tags.id_track ";
+    text += "JOIN leyenda_tags ON leyenda_tags.id=tags.id_leyenda_tag GROUP BY tracks.id) AS tabla ";
+    text += "WHERE tags @> ($1::varchar[])) AS tabla_general ON tabla_general.id=tracks.id;"
+    var values = [];
+    values.push(tagArray);
+    const res = await con.pgClient.query(text, values);
     return res.rows[0].array_to_json;
   } catch (e) {
     console.error("ERROR: " + e);
@@ -34,17 +31,24 @@ exports.getMoosics = async function(tagArray) {
 // returns most popular tags that coexist with input tags
 exports.getTags = async function(tagArray) {
   try {
-    var text = "";
-    for (let i = 1; i < tagArray.length + 1; i++) {
-      text += "nombre ILIKE $" + i;
-      if (i != tagArray.length) {
-        text += " AND ";
-      }
-    }
-    text += ")";
-    const res = await con.pgClient.query(text, tagArray);
-    console.log("::::: " + res.rows[0].array_to_json);
-    return res.rows[0].array_to_json;
+    var text = "SELECT tags AS tag, COUNT(tags) AS cantidad ";
+    text += "FROM (SELECT tracks.id, leyenda_tags.nombre AS tags ";
+    text += "FROM tracks ";
+    text += "JOIN tags ON tracks.id = tags.id_track ";
+    text += "JOIN leyenda_tags ON leyenda_tags.id=tags.id_leyenda_tag ";
+    text += "WHERE tracks.id IN (SELECT tracks.id ";
+    text += "FROM tracks ";
+    text += "JOIN tags ON tracks.id=tags.id_track JOIN leyenda_tags ON leyenda_tags.id=tags.id_leyenda_tag ";
+    text += "WHERE tracks.id IN (SELECT id AS tags ";
+    text += "FROM (SELECT tracks.id, array_agg(leyenda_tags.nombre) AS tags ";
+    text += "FROM tracks JOIN tags ON tracks.id = tags.id_track JOIN leyenda_tags ON leyenda_tags.id=tags.id_leyenda_tag ";
+    text += "GROUP BY tracks.id) AS tabla_1 WHERE tags @> ($1::varchar[])))) AS tabla_2 ";
+    text += "GROUP BY tags ORDER BY cantidad DESC OFFSET $2";
+    var values = [];
+    values.push(tagArray);
+    values.push(tagArray.length);
+    const res = await con.pgClient.query(text, values);
+    return res.rows;
   } catch (e) {
     console.log("ERROR: " + e);
   }

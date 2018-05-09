@@ -1,3 +1,4 @@
+// Sets the global variables
 const fs = require('fs');
 const path = require('path');
 const lineReader = require('line-reader');
