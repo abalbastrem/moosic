@@ -1,6 +1,5 @@
 const pg = require('pg');
-// var pgp = require('pg-promise')();
-// const GLOBALS = require('./setup');
+// const GLOBALS = require('./setup_globals');
 // console.log(GLOBALS.DBCONFIG);
 
 const dbCon = {
@@ -20,18 +19,6 @@ pgClient.connect();
 exports.pgClient = pgClient;
 console.log("::::: PG CLIENT CONNECTED :::::");
 
-// PGPROMISE - for user interaction from views
-// var pgpClient = pgp(dbCfg);
-
-// pg.connect()
-//   .then(obj => {
-//     obj.done(); // success, release the connection;
-//     console.log("Connection succesful");
-//   })
-//   .catch(error => {
-//     console.error('ERROR:', error.message || error);
-//   });
-
 // TESTCHECK
 exports.pgptest = async function() {
   for (let i = 0; i < 3; i++) {
@@ -43,28 +30,6 @@ exports.pgptest = async function() {
 };
 
 exports.pgtest = async function() {
-  // var res = await pg.query('SELECT now()');
-  // console.log(res);
-  // var res = await pg.query('SELECT $1:name FROM $2:name', ['id_track', 'tags']);
   var res = await pgClient.query('SELECT id_track FROM tags LIMIT 3');
   console.log(res.rows);
-  // await sleep();
-  // var res = await pg.query('SELECT $1:name FROM $2:name', ['id_leyenda_tag', 'tags']);
-  // console.log(res);
-
 };
-
-//
-// function sleep() {
-//   pgpTest();
-//   setTimeout(function() {
-//     pgpTest();
-//     console.log("sleeping...");
-//   }, 5000)
-// };
-
-
-
-// exports.pgp = client;
-// exports.client = client;
-// module.exports = pg;

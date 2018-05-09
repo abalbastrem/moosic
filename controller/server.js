@@ -30,17 +30,13 @@ const con = require('./connection');
 
 /// TEST HANDLERS ///
 app.get('/', function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   response.write('hello world');
   response.end();
 });
 
 app.post('/test', function(request, response) {
-  log(request, response);
-  // response.writeHead('200');
-  // response.write('hello world');
-  // response.write('this is a test with post');
-  // response.end();
+  logger.log(request, response);
   response.send({
     "status": true,
     "message": "todo bien"
@@ -48,7 +44,7 @@ app.post('/test', function(request, response) {
 });
 
 app.get('/testdb', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     const res = await db.testdb();
     console.log("::::: in handler RESPONSE:\n" + JSON.stringify(res, null, 2));
@@ -66,7 +62,7 @@ app.get('/testdb', async function(request, response) {
 
 /// USER ///
 app.post('/signup', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     // console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
@@ -99,7 +95,7 @@ app.post('/signup', async function(request, response) {
 });
 
 app.post('/login', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     // console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
@@ -127,7 +123,7 @@ app.post('/login', async function(request, response) {
 });
 
 app.post('/blindstart', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     const res = await user.blindStart();
     response.send({
@@ -145,7 +141,7 @@ app.post('/blindstart', async function(request, response) {
 
 // Gets moosics based on tags
 app.post('/getmoosics', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     var tagArray = [];
@@ -177,7 +173,7 @@ app.post('/getmoosics', async function(request, response) {
 
 // Gets popular tags based on input coexisting tags
 app.post('/gettags', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     var tagArray = [];
@@ -201,7 +197,7 @@ app.post('/gettags', async function(request, response) {
 
 // Asks the server whether it should show a voting prompt to the user
 app.post('/beforevote', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     const tagArray = await user.beforeVote(jsonObj);
@@ -227,7 +223,7 @@ app.post('/beforevote', async function(request, response) {
 });
 
 app.post('/vote', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     await user.vote(jsonObj);
@@ -244,7 +240,7 @@ app.post('/vote', async function(request, response) {
 });
 
 app.post('/beforemoods', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     if (await user.hasUserVotedMoods(jsonObj)) {
@@ -271,7 +267,7 @@ app.post('/beforemoods', async function(request, response) {
 });
 
 app.post('/moods', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     if (await user.moods(jsonObj)) {
@@ -296,7 +292,7 @@ app.post('/moods', async function(request, response) {
 
 // Adds or remove a track from user playlist
 app.post('/favoritetrack', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     if (await user.favoriteTrack(jsonObj)) {
@@ -320,7 +316,7 @@ app.post('/favoritetrack', async function(request, response) {
 });
 
 app.post('/unfavoritetrack', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     if (await user.unfavoriteTrack(jsonObj)) {
@@ -345,7 +341,7 @@ app.post('/unfavoritetrack', async function(request, response) {
 
 // Asks for a user playlist
 app.post('/userfavorites', async function(request, response) {
-  log(request, response);
+  logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
     const res = await user.userFavorites(jsonObj);
@@ -361,6 +357,8 @@ app.post('/userfavorites', async function(request, response) {
     console.error("ERROR: " + e);
   }
 });
+
+
 
 /// DUMP ///
 // weekly dump on Sundays
@@ -379,17 +377,3 @@ cron.schedule('* * * * * Sunday', function() {
 /// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
 // db.firstDump();
 // db.updateViews();
-
-
-/// QUICK LOG ///
-var n = 0;
-
-function log(request, response) {
-  console.log("");
-  console.log("::::: REQ " + ++n + "\t" + new Date().toISOString());
-  console.log("::::: PATH:\t" + request.route.path);
-  console.log("::::: URL:\t" + request.originalUrl);
-  console.log("::::: IP:\t" + request.ip);
-  console.log("::::: DATA:\t" + request.body.json);
-  console.log("");
-};

@@ -4,10 +4,7 @@ exports.api = async function(url) {
   try {
     var response = await requestify.get(url);
     var ret = response.body;
-    // console.log(ret);
     var json = JSON.parse(ret);
-    // console.log(url);
-    // console.log("::::: JSON OBJ: " + JSON.stringify(json.results, null, 2));
     return json.results;
   } catch (e) {
     console.error("ERROR: " + e);
