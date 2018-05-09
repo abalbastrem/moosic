@@ -14,7 +14,7 @@ exports.testdb = async function() {
   }
 };
 
-// FIRST
+/// FIRST DUMP EVER ///
 exports.firstDump = async function() {
   try {
     const jsonArray = await apiAllTags();
@@ -55,7 +55,7 @@ async function apiAllTags() {
   }
 };
 
-// WEEKLY
+/// WEEKLY DUMPS ///
 exports.weeklyDump = async function(from, to) {
   try {
     const jsonArray = await apiAllTagsForWeeklyDump(from, to);
@@ -119,8 +119,6 @@ function jsonTags2sql(jsonTrack) {
     console.log(":::: genre: " + genre);
     var subtext = "(SELECT id FROM leyenda_tags WHERE nombre ILIKE $2)";
     var text = "INSERT INTO tags (id_track, id_leyenda_tag) VALUES ($1, " + subtext + ") ON CONFLICT (id_track, id_leyenda_tag) DO NOTHING";
-    // console.log(":::::  SUB: " + subquery);
-    // console.log("::::: QUERY: " + query);
     var query = {
       text: text,
       values: params
