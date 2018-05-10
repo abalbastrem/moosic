@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- go.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.17/go-debug.js"></script>
+  <!-- randomColor -->
+  <script type="text/javascript" src="librerias/randomColor.min.js"></script> //XXX
   <!-- font-awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- WavesSurfer -->
@@ -29,6 +31,20 @@
 </head>
 
 <body>
+  <script>
+    var colorArray = randomColor({
+      hue: 'red',
+      count: 18
+    });
+    for (element in colorArray) {
+      $('#colorCanvas').append('<DIV></DIV>')
+        .attr({
+          "background-color": element
+        })
+        .addClass("colordiv")
+    };
+  </script>
+  <div id="colorCanvas"></div>
   <!-- No slide menu -->
   <span id="icon-open" class="glyphicon glyphicon-menu-hamburger" onclick="openNavMenu()"></span>
   <div id="promptTags" class="prompt hide">
@@ -36,7 +52,7 @@
       <input id="pop" type="checkbox" value="pop">Pop</input>
       <input id="rock" type="checkbox" value="rock">Rock</input>
       <input id="trap" type="checkbox" value="trap">Trap</input>
-      <input id="submitTags" type="button" value="READY!"/>
+      <input id="submitTags" type="button" value="READY!" />
     </form>
   </div>
   <!-- gojs -->
