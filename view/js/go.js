@@ -1,5 +1,8 @@
-var genres = new Array("pop","rock","electronic","hiphop","jazz","indie","soundtrack","classical","chillout","ambient","folk","metal","latina","rnb","reggae","punk","country","house","blues");
+var genres = new Array("pop", "rock", "electronic", "hiphop", "jazz", "indie", "soundtrack", "classical", "chillout", "ambient", "folk", "metal", "latina", "rnb", "reggae", "punk", "country", "house", "blues");
 var index = 0;
+var tags;
+var moosics;
+var path_tags = new Array();
 
 $(document).ready(function() {
   // Go.js
@@ -47,7 +50,7 @@ $(document).ready(function() {
             return blues[dist];
           })),
         $(go.TextBlock, {
-            font: "12pt Roboto",
+            // font: "12pt Roboto",
             margin: 10
           },
           new go.Binding("text", "name"))
@@ -62,34 +65,38 @@ $(document).ready(function() {
         opacity: 0,
         // customize the expander behavior to
         // create children if the node has never been expanded
-        click: function(e, obj) { // OBJ is the Button
+        click: async function(e, obj) { // OBJ is the Button
           // console.log(e);
           // console.log(obj);
           var node = obj.part; // get the Node containing this Button
           // console.log(node);
           key = node.data.key;
-          console.log(node.data.key);
+          // console.log(node.data.key);
           // console.log(node.data.name);
           //console.log(node);
           if (node === null) return;
           e.handled = true;
-          if (key == 0) {
-              expandNode(node);
-          } else {
-            // method getTags()
-            getTracks(new Array(key));
-            getTags(key);
-            expandNodeTag(node);
+          // console.log(node.data);
 
+          if (key == 0) {
+
+            expandNode(node);
+          } else {
+
+            // console.log(node.data.__gohashid);
+
+            moosics = await getTracks(new Array(key));
+
+            createPathTags(key,node);
+
+            // path_tags.push(key);
+            tags = await getTags(path_tags);
+            tags = tags.data.slice(0,10);
+            expandNodeTag(node);
           }
         }
       }) // end TreeExpanderButton
     ); // end Node
-
-    async function getTagAsync(tag) {
-      var tags = await getTags(tag);
-      return tags;
-    }
 
   // create the model with a root node data
   key = 0;
@@ -101,51 +108,50 @@ $(document).ready(function() {
     everExpanded: false
   }]);
 
-  function expandNodeTag(node) {
-    var diagram = node.diagram;
-    diagram.startTransaction("CollapseExpandTree");
-    // this behavior is specific to this incrementalTree sample:
-    var data = node.data;
-    // console.log(data);
-    if (!data.everExpanded) {
-      // console.log("HOLA");
-      // only create children once per node
-      diagram.model.setDataProperty(data, "everExpanded", true);
+  function createPathTags(key,data) {
+    var next_tag;
+    var rootdistance = data.data.rootdistance;
 
-      var numchildren = createSubTreeTags(data);
-      console.log(numchildren);
-      // console.log(numchildren);
-      if (numchildren === 0) { // now known no children: don't need Button!
-        node.findObject('TREEBUTTON').visible = false;
-      }
+
+    while (rootdistance > 0) {
+      next_tag = data.findTreeParentNode();
+      console.log(next_tag);
+      console.log(data.findTreeParentNode().data.key);
+      rootdistance--;
     }
-    // this behavior is generic for most expand/collapse tree buttons:
-    if (node.isTreeExpanded) {
-      diagram.commandHandler.collapseTree(node);
-    } else {
-      diagram.commandHandler.expandTree(node);
-    }
-    diagram.commitTransaction("CollapseExpandTree");
-    // myDiagram.zoomToFit();
+
+    // console.log(data.findTreeParentNode());
+
+    // if (path_tags.length == 0) {
+    //     path_tags.push(key);
+    // } else {
+    //   path_tags.push(key);
+    //   if (data.parent == 0) {
+    //     path_tags = new Array();
+    //     path_tags.push(key);
+    //   }
+    // }
+
+    console.log(path_tags);
+    console.log(data);
+    console.log(key);
+
   }
-
 
   function expandNode(node) {
     var diagram = node.diagram;
     diagram.startTransaction("CollapseExpandTree");
     // this behavior is specific to this incrementalTree sample:
     var data = node.data;
-    // console.log(data);
     if (!data.everExpanded) {
       // only create children once per node
       diagram.model.setDataProperty(data, "everExpanded", true);
-      // console.log(data);
       var numchildren = createSubTree(data);
-      // console.log(numchildren);
       if (numchildren === 0) { // now known no children: don't need Button!
         node.findObject('TREEBUTTON').visible = false;
       }
     }
+
     // this behavior is generic for most expand/collapse tree buttons:
     if (node.isTreeExpanded) {
       diagram.commandHandler.collapseTree(node);
@@ -161,10 +167,7 @@ $(document).ready(function() {
   // for a node until we look for them the first time, which happens
   // upon the first tree-expand of a node.
   function createSubTree(parentdata) {
-    console.log(top_tags);
-    var numchildren = top_tags.length-1;
-    // console.log(numchildren);
-    // console.log(numchildren);
+    var numchildren = top_tags.length - 1;
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
     }
@@ -182,7 +185,7 @@ $(document).ready(function() {
     for (var i = 0; i < numchildren; i++) {
       var childdata = {
         key: top_tags[index],
-        name: (top_tags[index]).toUpperCase(),
+        name: (top_tags[index]).toLowerCase(),
         parent: parentdata.key,
         rootdistance: degrees
       };
@@ -193,21 +196,46 @@ $(document).ready(function() {
       var child = myDiagram.findNodeForData(childdata);
       child.location = parent.location;
     }
+    index = 0;
     return numchildren;
   }
 
+  function expandNodeTag(node) {
+    var diagram = node.diagram;
+    diagram.startTransaction("CollapseExpandTree");
+    // this behavior is specific to this incrementalTree sample:
+    var data = node.data;
+    if (!data.everExpanded) {
+      // only create children once per node
+      diagram.model.setDataProperty(data, "everExpanded", true);
+      // console.log(data);
+      // path_tags.push(data.key);
+      var numchildren = createSubTreeTags(data);
+
+      if (numchildren === 0) { // now known no children: don't need Button!
+        node.findObject('TREEBUTTON').visible = false;
+      }
+    }
+    // this behavior is generic for most expand/collapse tree buttons:
+    if (node.isTreeExpanded) {
+      diagram.commandHandler.collapseTree(node);
+    } else {
+      diagram.commandHandler.expandTree(node);
+    }
+    diagram.commitTransaction("CollapseExpandTree");
+    // myDiagram.zoomToFit();
+  }
+
   function createSubTreeTags(parentdata) {
-    console.log("hola");
-    console.log(more_tags);
-    var numchildren = more_tags.length-1;
-    console.log(numchildren);
-    // console.log(numchildren);
+    var numchildren = tags.length;
+
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
     }
     // create several node data objects and add them to the model
     var model = myDiagram.model;
     var parent = myDiagram.findNodeForData(parentdata);
+    // console.log(parent.data);
 
     var degrees = 1;
     var grandparent = parent.findTreeParentNode();
@@ -215,12 +243,14 @@ $(document).ready(function() {
       degrees++;
       grandparent = grandparent.findTreeParentNode();
     }
-
+    // path_tags.push(parentdata.key);
     for (var i = 0; i < numchildren; i++) {
       var childdata = {
-        key: more_tags[index],
-        name: more_tags[index],
+        key: tags[index].tag,
+        id: tags[index].tag,
+        name: (tags[index].tag).toLowerCase(),
         parent: parentdata.key,
+        tags: path_tags,
         rootdistance: degrees
       };
       index++;
@@ -230,6 +260,7 @@ $(document).ready(function() {
       var child = myDiagram.findNodeForData(childdata);
       child.location = parent.location;
     }
+    index = 0;
     return numchildren;
   }
 
