@@ -1,15 +1,15 @@
-var genres = new Array("pop","rock","electronic","hiphop","jazz","indie","soundtrack","classical","chillout","ambient","folk","metal","latina","rnb","reggae","punk","country","house","blues");
+var genres = new Array("pop", "rock", "electronic", "hiphop", "jazz", "indie", "soundtrack", "classical", "chillout", "ambient", "folk", "metal", "latina", "rnb", "reggae", "punk", "country", "house", "blues");
 var top_tags = new Array(
-"Electronic",
- "Rock",
- "Pop",
- "World",
- "Metal",
- "Ambient",
- "Soundtrack",
- "Experimental",
- "Jazz",
- "hiphop"
+  "Electronic",
+  "Rock",
+  "Pop",
+  "World",
+  "Metal",
+  "Ambient",
+  "Soundtrack",
+  "Experimental",
+  "Jazz",
+  "hiphop"
 );
 var index = 0;
 
@@ -85,7 +85,7 @@ $(document).ready(function() {
           if (node === null) return;
           e.handled = true;
           if (key == 0) {
-              expandNode(node);
+            expandNode(node);
           } else {
             getTracks(new Array(key));
           }
@@ -95,10 +95,15 @@ $(document).ready(function() {
 
   // create the model with a root node data
   key = 0;
+  var mainColor = randomColor({
+    luminosity: 'light',
+    count: 1
+  });
+  console.log(mainColor[0]);
   myDiagram.model = new go.TreeModel([{
     key: 0,
     id: key,
-    color: blues[0],
+    color: mainColor[0],
     everExpanded: false
   }]);
 
@@ -135,7 +140,7 @@ $(document).ready(function() {
   // for a node until we look for them the first time, which happens
   // upon the first tree-expand of a node.
   function createSubTree(parentdata) {
-    var numchildren = top_tags.length-1;
+    var numchildren = top_tags.length - 1;
     // console.log(numchildren);
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
