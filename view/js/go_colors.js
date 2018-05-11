@@ -2,7 +2,7 @@ var genres = new Array("pop", "rock", "electronic", "hiphop", "jazz", "indie", "
 var index = 0;
 var tags;
 var moosics;
-var path_tags;
+var path_tags = new Array();
 
 $(document).ready(function() {
   // Go.js
@@ -84,16 +84,17 @@ $(document).ready(function() {
           // console.log(node.data);
 
           if (key == 0) {
-            console.log(node);
+
             expandNode(node);
           } else {
+
             // console.log(node.data.__gohashid);
 
+            moosics = await getTracks(new Array(key));
+
             createPathTags(key,node);
-            // console.log(path_tags);
+
             // path_tags.push(key);
-            moosics = await getTracks(path_tags);
-            console.log(moosics);
             tags = await getTags(path_tags);
             tags = tags.data.slice(0,10);
             expandNodeTag(node);
@@ -113,27 +114,33 @@ $(document).ready(function() {
   }]);
 
   function createPathTags(key,data) {
-
-    key = key.replace(/[0-9]/g, '');
-
-
     var next_tag;
     var rootdistance = data.data.rootdistance;
-    // var key_tag = "";
-    path_tags = new Array();
-    // path_tags.push(name);
-    path_tags.push(key);
 
-    next_tag = data.findTreeParentNode();
-    while (rootdistance > 1) {
 
-      path_tags.push((next_tag.data.key).replace(/[0-9]/g, ''));
-      next_tag = next_tag.findTreeParentNode();
-      // console.log(next_tag);
-      // console.log(next_tag.name);
-
+    while (rootdistance > 0) {
+      next_tag = data.findTreeParentNode();
+      console.log(next_tag);
+      console.log(data.findTreeParentNode().data.key);
       rootdistance--;
     }
+
+    // console.log(data.findTreeParentNode());
+
+    // if (path_tags.length == 0) {
+    //     path_tags.push(key);
+    // } else {
+    //   path_tags.push(key);
+    //   if (data.parent == 0) {
+    //     path_tags = new Array();
+    //     path_tags.push(key);
+    //   }
+    // }
+
+    console.log(path_tags);
+    console.log(data);
+    console.log(key);
+
   }
 
   function expandNode(node) {
@@ -183,7 +190,7 @@ $(document).ready(function() {
     for (var i = 0; i < numchildren; i++) {
       var childdata = {
         key: top_tags[index],
-        name: top_tags[index].toLowerCase(),
+        name: (top_tags[index]).toLowerCase(),
         parent: parentdata.key,
         rootdistance: degrees
       };

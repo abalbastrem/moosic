@@ -1,5 +1,5 @@
 var port = 8888;
-var url = "http://192.168.1.17"
+url = "http://192.168.1.17"
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
@@ -188,29 +188,7 @@ function promptTags() {
   });
 }
 
-// function getTracks(tagsArray) {
-//   var tags = {
-//     "tags": tagsArray
-//   };
-//   var options = {
-//     url: url_getMoosics,
-//     dataType: "json",
-//     type: "POST",
-//     data: 'json=' + JSON.stringify(tags),
-//     processData: true,
-//     success: function(data) {
-//       console.log('success get tracks');
-//       console.log(data);
-//     },
-//     error: function(data) {
-//       console.log('error');
-//       console.log(data);
-//     }
-//   };
-//   $.ajax(options);
-// }
-
-async function getTracks(tagsArray) {
+function getTracks(tagsArray) {
   var tags = {
     "tags": tagsArray
   };
@@ -220,38 +198,54 @@ async function getTracks(tagsArray) {
     type: "POST",
     data: 'json=' + JSON.stringify(tags),
     processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+      playSongs(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
   };
-  const result = await $.ajax(options);
-  playSongs(result);
-  return result;
+  $.ajax(options);
 }
 
-async function getTags(tag) {
+function getTags(tag) {
   var args = {
-    "tags": tag
+    "tags": [tag]
   };
+
   var options = {
     url: url_tags,
     dataType: "json",
     type: "POST",
     data: 'json=' + JSON.stringify(args),
     processData: true,
+    success: function(data) {
+      console.log('success');
+      more_tags = data.data.slice(0,10);
+      console.log(more_tags);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
   };
-  const result = await $.ajax(options);
-  return result;
+  $.ajax(options);
 }
 
-// init function for top tags
+// top tags
 (function getTopTags() {
   var port = 8888;
   var options = {
     url: url_blindStart,
     type: "POST",
     success: function(data) {
-      console.log('success get top tags');
+      console.log('success');
       console.log(data);
       // top_tags = JSON.parse(data.data);
-      top_tags = data.data.slice(0, 10);
+      top_tags = data.data.slice(0,10);
       // console.log(top_tags);
     },
     error: function(data) {
@@ -260,4 +254,5 @@ async function getTags(tag) {
     }
   };
   $.ajax(options);
-})();
+})()
+;

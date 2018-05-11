@@ -1,0 +1,219 @@
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      /*display: flex;*/
+      /*align-items: center;*/
+      /*justify-content: center;/*/
+    }
+
+    .colorDiv {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      margin: 10px;
+      line-height: 6.5;
+      text-align: center;
+      float: left;
+    }
+
+    /*.red {
+      float: left;
+    }
+
+    .green {
+      float: left;
+    }
+
+    .blue {
+      float: left;
+    }*/
+  </style>
+  <!-- randomColor -->
+  <script type="text/javascript" src="librerias/randomColor.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="colorCanvas"></div>
+
+  <script>
+    var redlight = randomColor({
+      hue: 'red',
+      luminosity: 'light',
+      count: 8
+    });
+    var redbright = randomColor({
+      hue: 'red',
+      luminosity: 'bright',
+      count: 8
+    });
+    var reddark = randomColor({
+      hue: 'red',
+      luminosity: 'dark',
+      count: 8
+    });
+
+    var greenlight = randomColor({
+      hue: 'green',
+      luminosity: 'light',
+      count: 8
+    });
+    var greenbright = randomColor({
+      hue: 'green',
+      luminosity: 'bright',
+      count: 8
+    });
+    var greendark = randomColor({
+      hue: 'green',
+      luminosity: 'dark',
+      count: 8
+    });
+
+    var bluelight = randomColor({
+      hue: 'blue',
+      luminosity: 'light',
+      count: 8
+    });
+    var bluebright = randomColor({
+      hue: 'blue',
+      luminosity: 'bright',
+      count: 8
+    });
+    var bluedark = randomColor({
+      hue: 'blue',
+      luminosity: 'dark',
+      count: 8
+    });
+
+    var yellowlight = randomColor({
+      hue: 'yellow',
+      luminosity: 'light',
+      count: 8
+    });
+    var yellowbright = randomColor({
+      hue: 'yellow',
+      luminosity: 'bright',
+      count: 8
+    });
+    var yellowdark = randomColor({
+      hue: 'yellow',
+      luminosity: 'dark',
+      count: 8
+    });
+
+    var orangelight = randomColor({
+      hue: 'orange',
+      luminosity: 'light',
+      count: 8
+    });
+    var orangebright = randomColor({
+      hue: 'orange',
+      luminosity: 'bright',
+      count: 8
+    });
+    var orangedark = randomColor({
+      hue: 'orange',
+      luminosity: 'dark',
+      count: 8
+    });
+
+    var pinklight = randomColor({
+      hue: 'pink',
+      luminosity: 'light',
+      count: 8
+    });
+    var pinkbright = randomColor({
+      hue: 'pink',
+      luminosity: 'bright',
+      count: 8
+    });
+    var pinkdark = randomColor({
+      hue: 'pink',
+      luminosity: 'dark',
+      count: 8
+    });
+
+    for (let i = 0; i < redlight.length - 1; i++) {
+      console.log('<DIV id="red' + i + '" class="colordiv"></DIV>');
+      var $div = $('<DIV id="red' + i + '" class="colordiv"></DIV>')
+      $('#colorCanvas').append($div)
+      $('#red' + i)
+        .addClass('red')
+        .css("background-color", redlight[i])
+        .css("border", "4px solid" + redlight[i + 1])
+        .css("color", reddark[i + 1])
+        .html(redlight[i])
+    };
+
+    for (let i = 0; i < greenlight.length - 1; i++) {
+      console.log('<DIV id="green' + i + '" class="colordiv"></DIV>');
+      var $div = $('<DIV id="green' + i + '" class="colordiv"></DIV>')
+      $('#colorCanvas').append($div)
+      $('#green' + i)
+        .addClass('green')
+        .css("background-color", greenlight[i])
+        .css("border", "4px solid" + greenlight[i + 1])
+        .css("color", greendark[i + 1])
+        .html(greenlight[i])
+    };
+
+    for (let i = 0; i < bluelight.length - 1; i++) {
+      console.log('<DIV id="blue' + i + '" class="colordiv"></DIV>');
+      var $div = $('<DIV id="blue' + i + '" class="colordiv"></DIV>')
+      $('#colorCanvas').append($div)
+      $('#blue' + i)
+        .addClass('blue')
+        .css("background-color", bluelight[i])
+        .css("border", "4px solid" + bluelight[i + 1])
+        .css("color", bluedark[i + 1])
+        .html(bluelight[i])
+    };
+
+    for (let i = 0; i < yellowlight.length - 1; i++) {
+      console.log('<DIV id="yellow' + i + '" class="colordiv"></DIV>');
+      var $div = $('<DIV id="yellow' + i + '" class="colordiv"></DIV>')
+      $('#colorCanvas').append($div)
+      $('#yellow' + i)
+        .addClass('yellow')
+        .css("background-color", yellowlight[i])
+        .css("border", "4px solid" + yellowbright[i + 1])
+        .css("color", yellowdark[i + 1])
+        .html(yellowlight[i])
+    };
+
+    for (let i = 0; i < orangelight.length - 1; i++) {
+      console.log('<DIV id="orange' + i + '" class="colordiv"></DIV>');
+      var $div = $('<DIV id="orange' + i + '" class="colordiv"></DIV>')
+      $('#colorCanvas').append($div)
+      $('#orange' + i)
+        .addClass('orange')
+        .css("background-color", orangelight[i])
+        .css("border", "4px solid" + orangelight[i + 1])
+        .css("color", orangedark[i + 1])
+        .html(orangelight[i])
+    };
+
+    for (let i = 0; i < pinklight.length - 1; i++) {
+      console.log('<DIV id="pink' + i + '" class="colordiv"></DIV>');
+      var $div = $('<DIV id="pink' + i + '" class="colordiv"></DIV>')
+      $('#colorCanvas').append($div)
+      $('#pink' + i)
+        .addClass('pink')
+        .css("background-color", pinklight[i])
+        .css("border", "4px solid" + pinklight[i + 1])
+        .css("color", pinkdark[i + 1])
+        .html(pinklight[i])
+    };
+
+
+
+    $('.colordiv').css("color", "rgba(16,16,16,0.65)");
+
+  </script>
+</body>
+
+</html>

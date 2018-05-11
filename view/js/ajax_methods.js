@@ -182,6 +182,11 @@ function vote() {
     }
   };
   $.ajax(options);
+  // Resultados esperados
+  /*
+  {Rock,acidjazz}
+  */
+
 }
 
 function addFavoriteTrack() {
@@ -211,6 +216,10 @@ function addFavoriteTrack() {
     }
   };
   $.ajax(options);
+  // Resultados esperados
+  /*
+  {Rock,acidjazz}
+  */
 
 }
 function dropFavoriteTrack() {
@@ -269,6 +278,7 @@ function getUserPlaylist() {
   };
   $.ajax(options);
 }
+<<<<<<< Updated upstream
 
 
 function beforeMoods() {
@@ -304,7 +314,7 @@ function beforeMoods() {
 function voteMood() {
   var args = {
     "id_user": 66,
-    "id_track": 1344750, 
+    "id_track": 1344750,
     "moods_like": ['Happy', 'Anxious', 'Epic'],
     "moods_zero": ['Frantic', 'Energetic', 'Melancholic', 'Depressive', 'Calm']
   };

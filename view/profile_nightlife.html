@@ -1,0 +1,75 @@
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      /*display: flex;*/
+      /*align-items: center;*/
+      /*justify-content: center;/*/
+    }
+
+    .colorDiv {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      margin: 10px;
+      line-height: 6.5;
+      text-align: center;
+      float: left;
+    }
+
+    /*.red {
+      float: left;
+    }
+
+    .green {
+      float: left;
+    }
+
+    .blue {
+      float: left;
+    }*/
+  </style>
+  <!-- randomColor -->
+  <script type="text/javascript" src="librerias/randomColor.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="colorCanvas"></div>
+
+  <script>
+    var light = randomColor({
+      luminosity: 'light',
+      count: 43
+    });
+
+    var bright = randomColor({
+      luminosity: 'bright',
+      count: 43
+    });
+
+    var dark = randomColor({
+      luminosity: 'dark',
+      count: 43
+    });
+
+    for (let i = 0; i < light.length - 1; i++) {
+      console.log('<DIV id="light' + i + '" class="colordiv"></DIV>');
+      var $div = $('<DIV id="light' + i + '" class="colordiv"></DIV>')
+      $('#colorCanvas').append($div)
+      $('#light' + i)
+        .addClass('light')
+        .css("background-color", dark[i])
+        .css("border", "4px solid" + bright[i + 1])
+        .html(light[i])
+    };
+
+    $('.colordiv').css("color", "rgba(250,250,250,0.9)");
+
+  </script>
+</body>
+
+</html>
