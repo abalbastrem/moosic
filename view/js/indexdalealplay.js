@@ -99,7 +99,6 @@ function playSongBefore() {
   } else {
     console.log(index_songs > 0);
   }
-
 }
 
 function playSongs(songs) {

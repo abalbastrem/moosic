@@ -84,11 +84,11 @@ $(document).ready(function() {
           } else {
             // console.log(node.data.__gohashid);
 
-            moosics = await getTracks(new Array(key));
-
             createPathTags(key,node);
-            console.log(path_tags);
+            // console.log(path_tags);
             // path_tags.push(key);
+            moosics = await getTracks(path_tags);
+            console.log(moosics);
             tags = await getTags(path_tags);
             tags = tags.data.slice(0,10);
             expandNodeTag(node);

@@ -1,7 +1,11 @@
+var array_songs_url;
+var index_songs = 0;
+var playtimeout;
+var Spectrum;
 // document is ready.
 $(document).ready(function() {
   // Waves audio
-  var Spectrum = WaveSurfer.create({
+  Spectrum = WaveSurfer.create({
     container: '#audio-spectrum',
     progressColor: "#03a9f4",
     height: 40,
@@ -38,10 +42,12 @@ $(document).ready(function() {
     $('#forward').click(function() {
       // Spectrum.skipForward();
       console.log("skip song");
+      playNextSong();
     });
     // backward 10s the song
     $('#backward').click(function() {
       console.log("skipback song");
+      playSongBefore();
       // Spectrum.skipBackward();
     });
     // like
@@ -68,13 +74,58 @@ $(document).ready(function() {
 
 
   // load the song
-  Spectrum.load('https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235');
+  //Spectrum.load('https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235');
 });
+
+function playNext() {
+  console.log(index_songs);
+  if (index_songs < array_songs_url.length) {
+    Spectrum.load(array_songs_url[index_songs]);
+    index_songs++;
+  }
+}
+
+function playNextSong() {
+  clearTimeout(playtimeout);
+  console.log(index_songs);
+  playNext();
+}
+
+function playSongBefore() {
+  clearTimeout(playtimeout);
+  if (index_songs > 0) {
+    console.log(index_songs);
+    index_songs--;
+    playNext();
+  } else {
+    console.log(index_songs > 0);
+  }
+}
+
+function playSongs(songs) {
+  console.log("atention se reproducira la siguiente lista: ");
+  // console.log(songs);
+  array_songs_url = new Array();
+  for (let i = 0; i < songs.data.length; i++) {
+    array_songs_url.push(songs.data[i].audio);
+  }
+  // console.log(array_songs_url);
+  Spectrum.load(array_songs_url[0]);
+  Spectrum.on("ready", function() {
+    Spectrum.play();
+    playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
+    console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
+  });
+  openNavMenu();
+  openNavTrack();
+}
+
 
 // Slide menu functions
 function openNavMenu() {
-  document.getElementById("mySideMenu").style.width = "350px";
+  // document.getElementById("mySideMenu").style.width = "350px";
   document.getElementById("mySidenavBg").style.width = "350px";
+  document.getElementById("mySidenavTrack").style.width = "350px";
   document.getElementById("icon-open").style.opacity = 0;
 }
 

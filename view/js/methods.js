@@ -1,5 +1,5 @@
 var port = 8888;
-url = "http://192.168.1.17"
+var url = "http://192.168.1.17"
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
@@ -222,15 +222,14 @@ async function getTracks(tagsArray) {
     processData: true,
   };
   const result = await $.ajax(options);
+  playSongs(result);
   return result;
 }
 
 async function getTags(tag) {
-  // console.log(tag);
   var args = {
     "tags": tag
   };
-
   var options = {
     url: url_tags,
     dataType: "json",
@@ -239,7 +238,6 @@ async function getTags(tag) {
     processData: true,
   };
   const result = await $.ajax(options);
-  // console.log(JSON.stringify(result,null,2));
   return result;
 }
 
