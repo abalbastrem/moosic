@@ -249,7 +249,7 @@ async function getTags(tag) {
     type: "POST",
     success: function(data) {
       console.log('success get top tags');
-      console.log(data);
+      // console.log(data);
       // top_tags = JSON.parse(data.data);
       top_tags = data.data.slice(0, 10);
       // console.log(top_tags);
