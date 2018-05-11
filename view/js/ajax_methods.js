@@ -121,7 +121,7 @@ function getTracks() {
 
 function beforeVote() {
   var args = {
-    "id_track": 1344749,
+    "id_track": 1367863,
     "id_user": 66 // track es 1344749 y id_user = 66
   };
 
@@ -278,7 +278,7 @@ function getUserPlaylist() {
   };
   $.ajax(options);
 }
-<<<<<<< Updated upstream
+//<<<<<<< Updated upstream
 
 
 function beforeMoods() {
