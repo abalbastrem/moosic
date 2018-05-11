@@ -120,23 +120,22 @@ exports.logIn = async function(jsonObj) {
 // Checks whether user should vote
 exports.beforeVote = async function(jsonObj) {
   try {
-    var text = "";
-    text += "SELECT array_agg(nombre) FROM ";
-    text += "(SELECT tags.id, leyenda_tags.nombre, COUNT(*) AS votos FROM ";
-    text += "votos_tag JOIN tags ON votos_tag.id_tags = tags.id ";
-    text += "JOIN tracks ON tags.id_track = tracks.id ";
+    var text = "SELECT array_agg(nombre) FROM ";
+    text += "(SELECT tags.id, leyenda_tags.nombre ";
+    text += "FROM tags JOIN tracks ON tags.id_track = tracks.id ";
     text += "JOIN leyenda_tags ON leyenda_tags.id = tags.id_leyenda_tag ";
-    text += "WHERE tracks.id = $2 and votos_tag.id_tags NOT IN ";
-    text += "(SELECT votos_tag.id_tags AS votos FROM votos_tag ";
-    text += "JOIN tags ON votos_tag.id_tags = tags.id ";
-    text += "JOIN tracks ON tags.id_track = tracks.id ";
-    text += "WHERE tracks.id = $2 AND votos_tag.id_users = $1) ";
-    text += "GROUP BY tags.id, leyenda_tags.nombre HAVING COUNT(*) < 5 ";
-    text += "ORDER BY votos ASC) AS result";
+    text += "WHERE tracks.id = 1367863 AND tags.id NOT IN ";
+    text += "(SELECT * FROM (SELECT votos_tag.id_tags FROM votos_tag ";
+    text += "JOIN tags ON votos_tag.id_tags = tags.id JOIN tracks ON tags.id_track = tracks.id ";
+    text += "WHERE tracks.id = 1367863 AND votos_tag.id_users = 66) AS tags_user ";
+    text += "WHERE tags_user.id_tags IN (SELECT votos_tag.id_tags ";
+    text += "FROM votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id ";
+    text += "WHERE tracks.id = 1367863 group by votos_tag.id_tags having count(votos_tag.id_tags) < 8))) as result";
     var values = [];
-    values.push(jsonObj.id_user);
     values.push(jsonObj.id_track);
-    const res = await con.pgClient.query(text, values);
+    values.push(jsonObj.id_user);
+    const res = await con.pgClient.query(text);
+    console.log("::::: METHOD" + JSON.stringify(res, null, 2));
     return res.rows[0].array_agg;
   } catch (e) {
     console.error("ERROR: " + e);

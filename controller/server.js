@@ -200,10 +200,12 @@ app.post('/beforevote', async function(request, response) {
   logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
+    console.log("::::: HANDLER: " + JSON.stringify(jsonObj,null,2));
     const tagArray = await user.beforeVote(jsonObj);
-    if (tagArray.length == 0) {
+    if (tagArray == null) {
       response.send({
         "status": false,
+        "message": "no tag in need of voting",
         "data": null
       });
     } else {
