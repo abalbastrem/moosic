@@ -46,8 +46,13 @@ $(document).ready(function() {
             stroke: "black"
           },
           new go.Binding("fill", "rootdistance", function(dist) {
-            dist = Math.min(blues.length - 1, dist);
-            return blues[dist];
+            // dist = Math.min(blues.length - 1, dist);
+            // return blues[dist];
+            var mainColor = randomColor({
+              luminosity: 'light',
+              count: 1
+            });
+            return mainColor[0];
           })),
         $(go.TextBlock, {
             // font: "12pt Roboto",
