@@ -5,6 +5,7 @@ exports.blindStart = async function() {
   try {
     var text = "SELECT array_to_json(array_agg(nombre)) FROM top_tags";
     const res = await con.pgClient.query(text);
+    // console.log("::::: " + JSON.stringify(res.rows[0].array_to_json, null, 2));
     return res.rows[0].array_to_json;
   } catch (e) {
     console.log("ERROR: " + e);

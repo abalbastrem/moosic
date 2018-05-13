@@ -106,8 +106,6 @@ function jsonTrack2sql(jsonTrack) {
     text: text,
     values: params
   };
-  // console.log("::::: QUERY: " + JSON.stringify(query,null,2));
-  // return [query, params];
   return query;
 };
 

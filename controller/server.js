@@ -15,6 +15,9 @@ const cron = require('node-cron');
 // const SQLBuilder = require('json-sql-builder2');
 const pg = require('pg');
 // const pgquery = require('pg-query');
+/// CONTROLLER ///
+app.use(require('../view/moosic_router'));
+// require('../view/moosic_router');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
 
@@ -29,12 +32,6 @@ const con = require('./connection');
 // con.pgClient.connect();
 
 /// TEST HANDLERS ///
-app.get('/', function(request, response) {
-  logger.log(request, response);
-  response.write('hello world');
-  response.end();
-});
-
 app.post('/test', function(request, response) {
   logger.log(request, response);
   response.send({
@@ -61,6 +58,11 @@ app.get('/testdb', async function(request, response) {
 });
 
 /// USER ///
+// app.get('/', function(request, response) {
+//   logger.log(request, response);
+//   response.sendFile(__dirname + '/moosic-v2.html');
+// });
+
 app.post('/signup', async function(request, response) {
   logger.log(request, response);
   try {
@@ -200,7 +202,7 @@ app.post('/beforevote', async function(request, response) {
   logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
-    console.log("::::: HANDLER: " + JSON.stringify(jsonObj,null,2));
+    console.log("::::: HANDLER: " + JSON.stringify(jsonObj, null, 2));
     const tagArray = await user.beforeVote(jsonObj);
     if (tagArray == null) {
       response.send({
@@ -364,17 +366,17 @@ app.post('/userfavorites', async function(request, response) {
 
 /// DUMP ///
 // weekly dump on Sundays
-cron.schedule('* * * * * Sunday', function() {
-  console.log('*** PERFORMING WEEKLY DUMP ***');
-  var currentDate = new Date();
-  var lastWeekDate = new Date();
-  lastWeekDate.setDate(currentDate.getDate() - 7);
-  currentDate.setDate(currentDate.getDate() - 1);
-  const currentDateStr = currentDate.toISOString().substring(0, 10);
-  const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
-  db.weeklyDump(lastWeekDateStr, currentDateStr);
-  db.updateViews();
-});
+// cron.schedule('* * * * * Sunday', function() {
+//   console.log('*** PERFORMING WEEKLY DUMP ***');
+//   var currentDate = new Date();
+//   var lastWeekDate = new Date();
+//   lastWeekDate.setDate(currentDate.getDate() - 7);
+//   currentDate.setDate(currentDate.getDate() - 1);
+//   const currentDateStr = currentDate.toISOString().substring(0, 10);
+//   const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
+//   db.weeklyDump(lastWeekDateStr, currentDateStr);
+//   // db.updateViews();
+// });
 
 /// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
 // db.firstDump();
