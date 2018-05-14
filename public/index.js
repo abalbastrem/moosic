@@ -128,6 +128,7 @@ function playSongs(songs) {
   Spectrum.on("ready", function() {
     Spectrum.play();
     playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
+	promptimeout = setTimeout(showPrompt(songs.data[0]), 1000); //(Spectrum.getDuration() * 1000) / 4 + (500)
     // console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
   });
   // alert("songs");
@@ -139,6 +140,59 @@ function playSongs(songs) {
   openNavMenu();
   openNavTrack();
 }
+
+
+
+function showPrompt(song) {
+  createPrompt(song);
+  $('#promptTags').removeClass('hide');
+  // $('#promptTags').css({'background-color':'black'});
+
+}
+
+async function createPrompt(song) {
+  var id_user = 100;
+  // console.log("CREAR PROMPT CON LOS VALORES DE " + beforeVote(song.id, 66));
+  /*
+  <form id="formTags">
+    <input id="pop" type="checkbox" value="pop">Pop</input>
+    <input id="rock" type="checkbox" value="rock">Rock</input>
+    <input id="trap" type="checkbox" value="trap">Trap</input>
+    <input id="submitTags" type="button" value="READY!"/>
+  </form>
+  */
+  var tags_by_song = await beforeVote(song.id, 66);
+  console.log(tags_by_song);
+  var s = '';
+  // s += '<form id="formTags" type="POST">';
+  for(let i = 0; i < tags_by_song.data.length; i++) {
+    tag = (tags_by_song.data[i]).toLowerCase();
+    var like = "like";
+    var dislike = "dislike";
+    s += '<h2> ' + tag + ' </h2><button type="button" onclick="tagToVoteDislike(' + song.id + ', '+ id_user + ', this.id)" id="' + tag + '" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-thumbs-down"></i></button>';
+    s += '<button type="button" onclick="tagToVoteLike(' + song.id + ', '+ id_user + ', this.id)" id="' + tag + '"  class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-thumbs-up"></i></button>';
+    // s += '<input id="' + tags_by_song.data[i] + '" type="checkbox" value="' + tags_by_song.data[i] + '">' + tags_by_song.data[i] + '</input><br>';
+  }
+  s+= '<br><br><button type="button" id="submitTags" class="btn btn-info btn-circle btn-xl"><i class="glyphicon glyphicon-ok"></i></button>';
+  // s += '</form>';
+
+  document.getElementById('promptTags').innerHTML = s;
+
+  $('#submitTags').click(function() {
+    $('#promptTags').addClass('hide');
+  });
+}
+
+function tagToVoteDislike(id_track, id_user, tag) {
+  console.log('A votar en dislike ' + id_track + ", " + id_user + ", " + tag);
+  vote(id_track, id_user, 'dislike', tag);
+}
+
+function tagToVoteLike(id_track, id_user, tag) {
+  console.log('A votar en like ' + id_track + ", " + id_user + ", " + tag);
+  vote(id_track, id_user, 'like', tag);
+}
+
 
 
 // Slide menu functions

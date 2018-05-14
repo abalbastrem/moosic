@@ -239,6 +239,68 @@ async function getTracks(tagsArray) {
   return result;
 }
 
+async function beforeVote(id_track, id_user) {
+  var args = {
+    "id_track": id_track,
+    "id_user": id_user // track es 1344749 y id_user = 66
+  };
+
+  var port = 8888;
+  var url_s = "http://192.168.1.17:" + port + "/beforevote";
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_s,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    // success: function(data) {
+    //   console.log('success');
+    //   console.log(data.data);
+    //   return data.data;
+    // },
+    // error: function(data) {
+    //   console.log('error');
+    //   console.log(data);
+    // }
+  };
+  const res = await $.ajax(options);
+  return res;
+}
+
+function vote(id_track, id_user, vote, tag) {
+  var args = {
+    "id_track": id_track,
+    "id_user": id_user,
+    "vote": vote,
+    "tag": tag
+  };
+
+  var port = 8888;
+  var url_s = "http://192.168.1.18:" + port + "/vote";
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_s,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
 async function getTags(tag) {
   var args = {
     "tags": tag
