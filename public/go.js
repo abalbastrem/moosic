@@ -109,7 +109,7 @@ $(document).ready(function() {
             moosics = await getTracks(path_tags);
             console.log(moosics);
             tags = await getTags(path_tags);
-            tags = tags.data.slice(0, 10);
+            tags = tags.data.slice(0, 5);
             expandNodeTag(node);
           }
         }
@@ -171,7 +171,7 @@ $(document).ready(function() {
       diagram.commandHandler.expandTree(node);
     }
     diagram.commitTransaction("CollapseExpandTree");
-    // myDiagram.zoomToFit();
+    myDiagram.zoomToFit();
   }
 
   // This dynamically creates the immediate children for a node.

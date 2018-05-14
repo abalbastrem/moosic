@@ -2,6 +2,7 @@ var array_songs_url;
 var index_songs = 0;
 var playtimeout;
 var Spectrum;
+
 // document is ready.
 $(document).ready(function() {
   // Waves audio
@@ -14,18 +15,22 @@ $(document).ready(function() {
 
   Spectrum.on("ready", function() {
     // Do whatever you need to do with the player
-    $('#play').click(function() {
-      // console.log(this.id);
-      if (this.id === 'pause') {
-        $('#pause').removeClass('fa fa-pause').addClass('fa fa-play');
-        $('#pause').attr('id', 'play');
+    $('#pause').click(function() {
+        console.log(this.id+"::pause");
+        $('#pause').addClass('hide');
+        $('#play').removeClass('hide');
+        // $('#pause').attr('id', 'play');
         Spectrum.pause();
-      } else {
-        $('#play').removeClass('fa fa-play').addClass('fa fa-pause');
-        $('#play').attr('id', 'pause');
-        Spectrum.play();
-      }
     });
+
+    $('#play').click(function() {
+      console.log(this.id+"::play");
+      $('#play').addClass('hide');
+      $('#pause').removeClass('hide');
+      // $('#play').attr('id', 'pause');
+      Spectrum.play();
+    });
+
     $('#play-playlist').click(function() {
       // console.log(this.id);
       if (this.id === 'pause') {
@@ -52,16 +57,22 @@ $(document).ready(function() {
     });
     // like
     $('#like').click(function() {
-      if (document.getElementById("like").style.color != "rgb(255, 31, 89)") {
-        console.log("like");
-        document.getElementById("like").style.color = "rgb(255, 31, 89)";
-        // add to playlist
-        $('#playlist-table').append('<tr><td><img id="artwork" src="img/artwork-jamendo.jpg" height="42" width="42"></img></td><td>E. Satie - Trois Gnossiennes - I. Lent - Alessandro Simonetto</td><td>OnClassical</td><td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist"></span></td></tr>');
-        document.getElementById("like-playlist").style.color = "rgb(255, 31, 89)";
+      console.log(user);
+      if (user === null) {
+        closeNav();
+        openNavLogin();
       } else {
-        console.log("unlike");
-        document.getElementById("like").style.color = "white";
-        document.getElementById("like-playlist").style.color = "white";
+        if (document.getElementById("like").style.color != "rgb(255, 31, 89)") {
+          console.log("like");
+          document.getElementById("like").style.color = "rgb(255, 31, 89)";
+          // add to playlist
+          $('#playlist-table').append('<tr><td><img id="artwork" src="img/artwork-jamendo.jpg" height="42" width="42"></img></td><td>E. Satie - Trois Gnossiennes - I. Lent - Alessandro Simonetto</td><td>OnClassical</td><td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist"></span></td></tr>');
+          document.getElementById("like-playlist").style.color = "rgb(255, 31, 89)";
+        } else {
+          console.log("unlike");
+          document.getElementById("like").style.color = "white";
+          document.getElementById("like-playlist").style.color = "white";
+        }
       }
     });
   });
@@ -104,18 +115,27 @@ function playSongBefore() {
 
 function playSongs(songs) {
   // console.log("atention se reproducira la siguiente lista: ");
-  // console.log(songs);
+
   array_songs_url = new Array();
   for (let i = 0; i < songs.data.length; i++) {
-    array_songs_url.push(songs.data[i].audio);
+    array_songs_url.push(songs.data[i]);
   }
-  // console.log(array_songs_url);
-  Spectrum.load(array_songs_url[0]);
+  console.log(array_songs_url[0]);
+  $('#artwork').attr('src', array_songs_url[0].album_image);
+  $('#nameSong').text(array_songs_url[0].album_name);
+  $('#artistName').text(array_songs_url[0].artist_name);
+  Spectrum.load(array_songs_url[0].audio);
   Spectrum.on("ready", function() {
     Spectrum.play();
     playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
     // console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
   });
+  // alert("songs");
+  $('#play').addClass('hide');
+  $('#pause').removeClass('hide');
+  $('#backward').removeClass('hide');
+  $('#forward').removeClass('hide');
+  $('#like').removeClass('hide');
   openNavMenu();
   openNavTrack();
 }

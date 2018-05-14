@@ -104,7 +104,7 @@ function playSongBefore() {
 
 function playSongs(songs) {
   // console.log("atention se reproducira la siguiente lista: ");
-  // console.log(songs);
+  // alert("songs");
   array_songs_url = new Array();
   for (let i = 0; i < songs.data.length; i++) {
     array_songs_url.push(songs.data[i].audio);

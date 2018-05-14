@@ -1,5 +1,5 @@
 var port = 8888;
-var url = "http://192.168.1.17";
+var url = "http://192.168.1.16";
 // var url = "http://localhost";
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
@@ -8,6 +8,7 @@ var url_blindStart = url + ":" + port + "/blindstart";
 var url_tags = url + ":" + port + "/gettags";
 var top_tags = new Array();
 var more_tags = new Array();
+var user = null;
 
 
 $(document).ready(function() {
@@ -30,13 +31,15 @@ $(document).ready(function() {
         success: function(data) {
           console.log('success');
           console.log(data);
-          closeNav();
-          closeNavMenu();
-          //data = JSON.parse(data);
-          // alert(data.data['name'] + " " + data.data['lastname']);
-          // $('#promptTags').removeClass('hide');
-          // promptTags();
-          $('#register').addClass('hide');
+          if (data.status === true) {
+            user = data;
+            console.log(user);
+            closeNav();
+            closeNavMenu();
+            $('#register').addClass('hide');
+            $('#login').addClass('hide');
+            $('#logout').removeClass('hide');
+          }
         },
         error: function(data) {
           console.log('error');
@@ -56,6 +59,14 @@ $(document).ready(function() {
       }
       $('#loginErrorEmptyFields').removeClass('hide');
     }
+  });
+
+  // Logout
+  $('#logout').click(function(){
+      user = null;
+      $('#register').removeClass('hide');
+      $('#login').removeClass('hide');
+      $('#logout').addClass('hide');
   });
 
   // Sign up
@@ -94,10 +105,20 @@ $(document).ready(function() {
           console.log('success');
           console.log(data.message);
 
-          if (data.message == 'user already exists') {
+          if (data.status === true) {
+            $('#logout').removeClass('hide');
+          }
+
+          if (data.data == 1) {
             $('#loginErrorMsgUserAlreadyExists').removeClass('hide');
           } else {
             $('#loginErrorMsgUserAlreadyExists').addClass('hide');
+          }
+
+          if (data.data == 2) {
+            $('#loginErrorMsgUserCouldntBeRegister').removeClass('hide');
+          } else {
+            $('#loginErrorMsgUserCouldntBeRegister').addClass('hide');
           }
 
         },
@@ -118,15 +139,6 @@ $(document).ready(function() {
 function validateSignUp(params, terms, repeatPassword) {
   console.log(name);
   var validSignUp = true;
-
-  // if terms not checked
-  if (!terms) {
-    console.log("not checked");
-    $('#loginErrorMsgAgreeTerms').removeClass('hide');
-    validSignUp = false;
-  } else {
-    $('#loginErrorMsgAgreeTerms').addClass('hide');
-  }
 
   if (params.password != repeatPassword) {
     console.log("password no identical");
