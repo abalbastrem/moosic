@@ -3,6 +3,7 @@ const GLOBALS = require('./controller/setup_globals');
 const db = require('./controller/dump_methods');
 const jamendo = require('./controller/jamendo_methods');
 const user = require('./controller/user_methods');
+const util = require('./controller/util_methods');
 const logger = require('./controller/logger');
 console.log("::::: PROJECT GLOBALS SET UP SUCCESSFULLY :::::");
 
@@ -17,7 +18,7 @@ const path = require('path');
 const pg = require('pg');
 // const pgquery = require('pg-query');
 /// CONTROLLER ///
-app.use(require('./view/moosic_router'));
+// app.use(require('./view/moosic_router'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 // require('../view/moosic_router');
 server.listen(8888);
@@ -32,6 +33,9 @@ console.log("::::: POST HANDLING ENABLED ::::::\n");
 /// CONNECTION TO DATABASE ///
 const con = require('./controller/connection');
 // con.pgClient.connect();
+
+
+
 
 /// TEST HANDLERS ///
 app.get('/test', function(request, response) {
@@ -60,10 +64,10 @@ app.get('/testdb', async function(request, response) {
 });
 
 /// USER ///
-// app.get('/', function(request, response) {
-//   logger.log(request, response);
-//   response.sendFile(__dirname + '/moosic-v2.html');
-// });
+app.get('/', function(request, response) {
+  logger.log(request, response);
+  response.sendFile(__dirname + '/view/moosic-v2.html');
+});
 
 app.post('/signup', async function(request, response) {
   logger.log(request, response);
@@ -153,7 +157,7 @@ app.post('/getmoosics', async function(request, response) {
     for (i in jsonObj.tags) {
       tagArray.push(jsonObj.tags[i]);
     }
-    const res = await user.getMoosics(tagArray);
+    var res = await user.getMoosics(tagArray);
     if (res == null) {
       response.send({
         "status": false,
@@ -161,6 +165,7 @@ app.post('/getmoosics', async function(request, response) {
         "message": "That tag has no moosics"
       });
     } else {
+      var res = util.shuffleMoosics(res);
       response.send({
         "status": true,
         "data": res.slice(0, 100)
@@ -205,8 +210,9 @@ app.post('/beforevote', async function(request, response) {
   logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
-    console.log("::::: HANDLER: " + JSON.stringify(jsonObj, null, 2));
+    // console.log("::::: HANDLER: " + JSON.stringify(jsonObj, null, 2));
     const tagArray = await user.beforeVote(jsonObj);
+    console.log("::::: IN HANDLER: " + tagArray);
     if (tagArray == null) {
       response.send({
         "status": false,
@@ -369,17 +375,17 @@ app.post('/userfavorites', async function(request, response) {
 
 /// DUMP ///
 // weekly dump on Sundays
-// cron.schedule('* * * * * Sunday', function() {
-//   console.log('*** PERFORMING WEEKLY DUMP ***');
-//   var currentDate = new Date();
-//   var lastWeekDate = new Date();
-//   lastWeekDate.setDate(currentDate.getDate() - 7);
-//   currentDate.setDate(currentDate.getDate() - 1);
-//   const currentDateStr = currentDate.toISOString().substring(0, 10);
-//   const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
-//   db.weeklyDump(lastWeekDateStr, currentDateStr);
-//   // db.updateViews();
-// });
+cron.schedule('1 0 0 * * Sunday', function() {
+  console.log('*** PERFORMING WEEKLY DUMP ***');
+  var currentDate = new Date();
+  var lastWeekDate = new Date();
+  lastWeekDate.setDate(currentDate.getDate() - 7);
+  currentDate.setDate(currentDate.getDate() - 1);
+  const currentDateStr = currentDate.toISOString().substring(0, 10);
+  const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
+  db.weeklyDump(lastWeekDateStr, currentDateStr);
+  // db.updateViews();
+});
 
 /// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
 // db.firstDump();

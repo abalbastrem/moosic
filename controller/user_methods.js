@@ -125,17 +125,17 @@ exports.beforeVote = async function(jsonObj) {
     text += "(SELECT tags.id, leyenda_tags.nombre ";
     text += "FROM tags JOIN tracks ON tags.id_track = tracks.id ";
     text += "JOIN leyenda_tags ON leyenda_tags.id = tags.id_leyenda_tag ";
-    text += "WHERE tracks.id = 1367863 AND tags.id NOT IN ";
+    text += "WHERE tracks.id = $1 AND tags.id NOT IN ";
     text += "(SELECT * FROM (SELECT votos_tag.id_tags FROM votos_tag ";
     text += "JOIN tags ON votos_tag.id_tags = tags.id JOIN tracks ON tags.id_track = tracks.id ";
-    text += "WHERE tracks.id = 1367863 AND votos_tag.id_users = 66) AS tags_user ";
+    text += "WHERE tracks.id = $1 AND votos_tag.id_users = $2) AS tags_user ";
     text += "WHERE tags_user.id_tags IN (SELECT votos_tag.id_tags ";
     text += "FROM votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id ";
-    text += "WHERE tracks.id = 1367863 group by votos_tag.id_tags having count(votos_tag.id_tags) < 8))) as result";
+    text += "WHERE tracks.id = $1 group by votos_tag.id_tags having count(votos_tag.id_tags) < 5))) AS result";
     var values = [];
     values.push(jsonObj.id_track);
     values.push(jsonObj.id_user);
-    const res = await con.pgClient.query(text);
+    const res = await con.pgClient.query(text, values);
     console.log("::::: METHOD" + JSON.stringify(res, null, 2));
     return res.rows[0].array_agg;
   } catch (e) {

@@ -2,7 +2,8 @@ var genres = new Array("pop", "rock", "electronic", "hiphop", "jazz", "indie", "
 var index = 0;
 var tags;
 var moosics;
-var path_tags = new Array();
+var path_tags;
+var arrayColors = [];
 
 $(document).ready(function() {
   // Go.js
@@ -43,19 +44,55 @@ $(document).ready(function() {
             // width: 60,
             // height: 60,
             fill: "whitesmoke",
-            stroke: "black"
+            // $(go.Brush, "Pattern", {
+              // pattern: "https://i.ebayimg.com/images/g/6vcAAOxyq15SOOyM/s-l1600.jpg"
+              // pattern: "public/cow_patter_50px.jpg"
+            // }),
+            stroke: "rgba(16,16,16,0.65)",
+            strokeWidth: 4
           },
-          new go.Binding("fill", "rootdistance", function(dist) {
+          new go.Binding("fill", "fill", function(col) {
+            // console.log("::::: COLOR INIT: " + col);
+            var color = [];
+            color.push(col);
+            // console.log("::::: COLOR INIT: " + color[0]);
+            for (let i = 0; i < 100; i++) {
+              // console.log("::::: COLOR ITER: " + i + " " + color[0]);
+              color = randomColor({
+                hue: color[0],
+                luminosity: 'light',
+                count: 1
+              });
+            }
+            return color[0];
+          }),
+          new go.Binding("stroke", "fill", function(col) {
             // dist = Math.min(blues.length - 1, dist);
             // return blues[dist];
-            var mainColor = randomColor({
-              luminosity: 'light',
-              count: 1
-            });
-            return mainColor[0];
-          })),
+            // console.log("::::: FILL: " + color);
+            var color = [];
+            color.push(col);
+            // console.log("::::: COLOR INIT: " + color[0]);
+            for (let i = 0; i < 100; i++) {
+              // console.log("::::: COLOR ITER: " + i + " " + color[0]);
+              color = randomColor({
+                hue: color[0],
+                luminosity: 'light',
+                count: 1
+              });
+            }
+            return color[0];
+          })
+        ),
+        // $(go.Picture, {
+        //     stretch: go.GraphObject.Fill,
+        //     imageStretch: go.GraphObject.UniformToFill
+        //   },
+        //   new go.Binding("source", "src")
+        // ),
         $(go.TextBlock, {
-            // font: "12pt Roboto",
+            font: "12pt Roboto",
+            stroke: "rgba(0,0,0,0.90)",
             margin: 10
           },
           new go.Binding("text", "name"))
@@ -71,32 +108,21 @@ $(document).ready(function() {
         // customize the expander behavior to
         // create children if the node has never been expanded
         click: async function(e, obj) { // OBJ is the Button
-          // console.log(e);
-          // console.log(obj);
           var node = obj.part; // get the Node containing this Button
-          // console.log(node);
           key = node.data.key;
-          // console.log(node.data.key);
-          // console.log(node.data.name);
-          //console.log(node);
           if (node === null) return;
           e.handled = true;
-          // console.log(node.data);
+          console.log(node);
 
           if (key == 0) {
-
             expandNode(node);
+            // console.log(arrayColors);
           } else {
-
-            // console.log(node.data.__gohashid);
-
-            moosics = await getTracks(new Array(key));
-
-            createPathTags(key,node);
-
-            // path_tags.push(key);
+            createPathTags(key, node);
+            moosics = await getTracks(path_tags);
+            console.log(moosics);
             tags = await getTags(path_tags);
-            tags = tags.data.slice(0,10);
+            tags = tags.data.slice(0, 10);
             expandNodeTag(node);
           }
         }
@@ -107,40 +133,34 @@ $(document).ready(function() {
   key = 0;
   myDiagram.model = new go.TreeModel([{
     key: 0,
-    name: "TAGS",
+    name: "moosic",
     id: key,
-    color: blues[0],
+    // color: blues[0],
     everExpanded: false
   }]);
 
-  function createPathTags(key,data) {
+  function createPathTags(key, data) {
+
+    key = key.replace(/[0-9]/g, '');
+
+
     var next_tag;
     var rootdistance = data.data.rootdistance;
+    // var key_tag = "";
+    path_tags = new Array();
+    // path_tags.push(name);
+    path_tags.push(key);
 
+    next_tag = data.findTreeParentNode();
+    while (rootdistance > 1) {
 
-    while (rootdistance > 0) {
-      next_tag = data.findTreeParentNode();
-      console.log(next_tag);
-      console.log(data.findTreeParentNode().data.key);
+      path_tags.push((next_tag.data.key).replace(/[0-9]/g, ''));
+      next_tag = next_tag.findTreeParentNode();
+      // console.log(next_tag);
+      // console.log(next_tag.name);
+
       rootdistance--;
     }
-
-    // console.log(data.findTreeParentNode());
-
-    // if (path_tags.length == 0) {
-    //     path_tags.push(key);
-    // } else {
-    //   path_tags.push(key);
-    //   if (data.parent == 0) {
-    //     path_tags = new Array();
-    //     path_tags.push(key);
-    //   }
-    // }
-
-    console.log(path_tags);
-    console.log(data);
-    console.log(key);
-
   }
 
   function expandNode(node) {
@@ -172,6 +192,7 @@ $(document).ready(function() {
   // for a node until we look for them the first time, which happens
   // upon the first tree-expand of a node.
   function createSubTree(parentdata) {
+    console.log("::::: PARENTDATA: " + parentdata);
     var numchildren = top_tags.length - 1;
     if (myDiagram.nodes.count <= 1) {
       numchildren += 1; // make sure the root node has at least one child
@@ -179,6 +200,8 @@ $(document).ready(function() {
     // create several node data objects and add them to the model
     var model = myDiagram.model;
     var parent = myDiagram.findNodeForData(parentdata);
+    console.log("::::: PARENT:");
+    console.log(parent);
 
     var degrees = 1;
     var grandparent = parent.findTreeParentNode();
@@ -188,10 +211,19 @@ $(document).ready(function() {
     }
 
     for (var i = 0; i < numchildren; i++) {
+      mainColor = randomColor({
+        luminosity: 'light',
+        count: 1
+      });
+      // console.log("::::: REG: " + mainColor);
+      // console.log(parent.shape.fill);
       var childdata = {
+        fill: mainColor[0],
+        stroke: "green",
         key: top_tags[index],
-        name: (top_tags[index]).toLowerCase(),
+        name: top_tags[index].toLowerCase(),
         parent: parentdata.key,
+        // colorcode: ,
         rootdistance: degrees
       };
       index++;
@@ -199,6 +231,7 @@ $(document).ready(function() {
       model.addNodeData(childdata);
       // position the new child node close to the parent
       var child = myDiagram.findNodeForData(childdata);
+      child.fill = "red";
       child.location = parent.location;
     }
     index = 0;
@@ -240,7 +273,10 @@ $(document).ready(function() {
     // create several node data objects and add them to the model
     var model = myDiagram.model;
     var parent = myDiagram.findNodeForData(parentdata);
-    // console.log(parent.data);
+    // console.log(parent.data.__gohashid);
+    console.log("::::: INSIDE CREATESUBTREETAGS:");
+    console.log(parent);
+
 
     var degrees = 1;
     var grandparent = parent.findTreeParentNode();
@@ -250,11 +286,18 @@ $(document).ready(function() {
     }
     // path_tags.push(parentdata.key);
     for (var i = 0; i < numchildren; i++) {
+      mainColor = randomColor({
+        hue: parent.data.fill,
+        luminosity: 'light',
+        count: 1
+      });
       var childdata = {
+        fill: mainColor[0],
         key: tags[index].tag,
         id: tags[index].tag,
         name: (tags[index].tag).toLowerCase(),
         parent: parentdata.key,
+        // colorcode: myDiagram.findNodeForKey(parentdata.key).style.color,
         tags: path_tags,
         rootdistance: degrees
       };
