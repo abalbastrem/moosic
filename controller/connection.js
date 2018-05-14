@@ -3,7 +3,7 @@ const pg = require('pg');
 // console.log(GLOBALS.DBCONFIG);
 
 const dbCon = {
-  host: 'localhost', // '192.168.1.18'
+  host: '192.168.1.18',
   type: 'postgresql',
   port: 5432, // postgresql port
   database: 'moosic_final',

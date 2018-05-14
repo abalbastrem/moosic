@@ -1,6 +1,6 @@
-var port = 9229;
-// var url = "http://192.168.1.17";
-var url = "http://localhost";
+var port = 8888;
+var url = "http://192.168.1.17";
+// var url = "http://localhost";
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
@@ -252,7 +252,6 @@ async function getTags(tag) {
     success: function(data) {
       console.log('success get top tags');
       console.log(data);
-      top_tags = JSON.parse(data.data);
       top_tags = data.data.slice(0, 10);
       console.log(top_tags);
     },

@@ -20,7 +20,7 @@ const pg = require('pg');
 app.use(require('./view/moosic_router'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 // require('../view/moosic_router');
-server.listen(9229);
+server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
 
 app.use(bodyParser.urlencoded({
@@ -126,7 +126,7 @@ app.post('/login', async function(request, response) {
   }
 });
 
-app.get('/blindstart', async function(request, response) {
+app.post('/blindstart', async function(request, response) {
   logger.log(request, response);
   try {
     const res = await user.blindStart();
