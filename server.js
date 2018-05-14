@@ -76,7 +76,8 @@ app.post('/signup', async function(request, response) {
     // console.log("::::: IN HANDLER:\n" + JSON.stringify(jsonObj));
     if (await user.userExists(jsonObj)) {
       response.send({
-        "status": true,
+        "status": false,
+        "data": 1,
         "message": "user already exists"
       });
     } else {
@@ -88,6 +89,7 @@ app.post('/signup', async function(request, response) {
       } else {
         response.send({
           "status": false,
+          "data": 2,
           "message": "user could not be registered"
         })
       }
@@ -110,14 +112,15 @@ app.post('/login', async function(request, response) {
     const res = await user.logIn(jsonObj);
     if (res == null) { // If no user is found
       response.send({
-        "status": true,
+        "status": false,
         "message": "this user does not exist. Please register",
         "data": null
       });
     } else {
       response.send({
         "status": true,
-        "data": res
+        "data": res,
+        "message": "login successful"
       });
     }
   } catch (e) {

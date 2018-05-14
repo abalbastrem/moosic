@@ -43,10 +43,10 @@ $(document).ready(function() {
         $(go.Shape, "Circle", {
             // width: 60,
             // height: 60,
-            fill: "whitesmoke",
+            fill: "rgb(253,253,253)",
             // $(go.Brush, "Pattern", {
-              // pattern: "https://i.ebayimg.com/images/g/6vcAAOxyq15SOOyM/s-l1600.jpg"
-              // pattern: "public/cow_patter_50px.jpg"
+            // pattern: "https://i.ebayimg.com/images/g/6vcAAOxyq15SOOyM/s-l1600.jpg"
+            // pattern: "public/cow_patter_50px.jpg"
             // }),
             stroke: "rgba(16,16,16,0.65)",
             strokeWidth: 4
@@ -64,6 +64,7 @@ $(document).ready(function() {
                 count: 1
               });
             }
+            console.log(color[0]);
             return color[0];
           }),
           new go.Binding("stroke", "fill", function(col) {
@@ -77,7 +78,7 @@ $(document).ready(function() {
               // console.log("::::: COLOR ITER: " + i + " " + color[0]);
               color = randomColor({
                 hue: color[0],
-                luminosity: 'light',
+                luminosity: 'bright',
                 count: 1
               });
             }
