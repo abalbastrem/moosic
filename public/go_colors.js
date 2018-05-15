@@ -257,6 +257,9 @@ $(document).ready(function() {
   }
 
   function expandNodeTag(node) {
+    clearTimeout(promptimeout);
+    // clearTimeout(playtimeout);
+    hideTag("promptTags");
     var diagram = node.diagram;
     diagram.startTransaction("CollapseExpandTree");
     // this behavior is specific to this incrementalTree sample:

@@ -165,8 +165,10 @@ function playSongs(songs) {
   Spectrum.load(array_songs_url[0].audio);
   Spectrum.on("ready", function() {
     Spectrum.play();
-    playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
-	promptimeout = setTimeout(showPrompt(songs.data[0]), 1000); //(Spectrum.getDuration() * 1000) / 4 + (500)
+      playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
+    promptimeout = setTimeout(function() {
+      showPrompt(songs.data[0])
+    }, (Spectrum.getDuration() * 1000) / 8); //(Spectrum.getDuration() * 1000) / 4 + (500)
     // console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
   });
   // alert("songs");
@@ -181,6 +183,7 @@ function playSongs(songs) {
 }
 
 function showPrompt(song) {
+  console.log("LA DURACION ES " + Spectrum.getDuration());
   createPrompt(song);
   $('#promptTags').removeClass('hide');
   // $('#promptTags').css({'background-color':'black'});
@@ -188,7 +191,13 @@ function showPrompt(song) {
 }
 
 async function createPrompt(song) {
-  var id_user = 100;
+  if (user == null) {
+    // closeNav();
+    // openNavLogin();
+    id_user = 100;
+  } else {
+    var id_user = user.id;
+  }
   // console.log("CREAR PROMPT CON LOS VALORES DE " + beforeVote(song.id, 66));
   /*
   <form id="formTags">
@@ -202,15 +211,17 @@ async function createPrompt(song) {
   console.log(tags_by_song);
   var s = '';
   // s += '<form id="formTags" type="POST">';
-  for(let i = 0; i < tags_by_song.data.length; i++) {
+  for (let i = 0; i < tags_by_song.data.length; i++) {
     tag = (tags_by_song.data[i]).toLowerCase();
     var like = "like";
     var dislike = "dislike";
-    s += '<h2> ' + tag + ' </h2><button type="button" onclick="tagToVoteDislike(' + song.id + ', '+ id_user + ', this.id)" id="' + tag + '" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-thumbs-down"></i></button>';
-    s += '<button type="button" onclick="tagToVoteLike(' + song.id + ', '+ id_user + ', this.id)" id="' + tag + '"  class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-thumbs-up"></i></button>';
+    s += '<div id="' + tag + '"><h3> ' + tag + ' </h3>';
+    s += '<button type="button" onclick="hideTag(this.id), tagToVoteLike(' + song.id + ', ' + id_user + ', this.id)" id="' + tag + '"  class="btn btn-success btn-circle btn-lg"><i class="glyphicon glyphicon-thumbs-up"></i></button>';
+    s += '<button type="button" onclick="hideTag(this.id), tagToVoteNull(' + song.id + ', ' + id_user + ', this.id)" id="' + tag + '"  class="btn btn-warning btn-circle btn-lg"><i class="far fa-meh"></i></button>';
+    s += '<button type="button" onclick="hideTag(this.id), tagToVoteDislike(' + song.id + ', ' + id_user + ', this.id)" id="' + tag + '" class="btn btn-danger btn-circle btn-lg"><i class="glyphicon glyphicon-thumbs-down"></i></button></div>';
     // s += '<input id="' + tags_by_song.data[i] + '" type="checkbox" value="' + tags_by_song.data[i] + '">' + tags_by_song.data[i] + '</input><br>';
   }
-  s+= '<br><br><button type="button" id="submitTags" class="btn btn-info btn-circle btn-xl"><i class="glyphicon glyphicon-ok"></i></button>';
+  // s+= '<br><br><button type="button" id="submitTags" class="btn btn-info btn-circle btn-xl"><i class="glyphicon glyphicon-ok"></i></button>';
   // s += '</form>';
 
   document.getElementById('promptTags').innerHTML = s;
@@ -218,6 +229,11 @@ async function createPrompt(song) {
   $('#submitTags').click(function() {
     $('#promptTags').addClass('hide');
   });
+}
+
+function hideTag(id_div) {
+  console.log(id_div);
+  $('#' + id_div).addClass('hide');
 }
 
 function tagToVoteDislike(id_track, id_user, tag) {
@@ -228,6 +244,11 @@ function tagToVoteDislike(id_track, id_user, tag) {
 function tagToVoteLike(id_track, id_user, tag) {
   console.log('A votar en like ' + id_track + ", " + id_user + ", " + tag);
   vote(id_track, id_user, 'like', tag);
+}
+
+function tagToVoteNull(id_track, id_user, tag) {
+  console.log('A votar en null ' + id_track + ", " + id_user + ", " + tag);
+  vote(id_track, id_user, 'zero', tag);
 }
 
 
