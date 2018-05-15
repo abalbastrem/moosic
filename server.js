@@ -20,6 +20,8 @@ const pg = require('pg');
 /// CONTROLLER ///
 // app.use(require('./view/moosic_router'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/fonts', express.static(path.join(__dirname, 'fonts')));
+app.use('/webfonts', express.static(path.join(__dirname, 'webfonts')));
 // require('../view/moosic_router');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");

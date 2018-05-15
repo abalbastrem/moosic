@@ -136,7 +136,7 @@ exports.beforeVote = async function(jsonObj) {
     values.push(jsonObj.id_track);
     values.push(jsonObj.id_user);
     const res = await con.pgClient.query(text, values);
-    console.log("::::: METHOD" + JSON.stringify(res, null, 2));
+    console.log("::::: METHOD BEFOREVOTE: " + JSON.stringify(res, null, 2));
     return res.rows[0].array_agg;
   } catch (e) {
     console.error("ERROR: " + e);

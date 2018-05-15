@@ -13,7 +13,7 @@
   <!-- randomColor -->
   <script type="text/javascript" src="http://192.168.1.17:8888/public/randomColor.min.js"></script>
   <!-- font-awesome -->
-  <link rel="stylesheet" href="http://192.168.1.17:8888/public/font-awesome.min.css">
+  <link rel="stylesheet" href="http://192.168.1.17:8888/public/fontawesome-all.min.css">
   <!-- WavesSurfer -->
   <script src="http://192.168.1.17:8888/public/wavesurfer.min.js"></script>
   <!-- Google font-->
@@ -28,6 +28,20 @@
   <script type="text/javascript" src="http://192.168.1.17:8888/public/methods.js"></script>
   <!-- css extern file -->
   <link rel="stylesheet" type="text/css" href="http://192.168.1.17:8888/public/styles.css" media="screen" />
+  <script>
+  var bgArray = [];
+  bgArray.push('public/BG/BG_purple_arabtile.png');
+  bgArray.push('public/BG/BG_blue_waves.png');
+  bgArray.push('public/BG/BG_pink_wallpaper.png');
+  bgArray.push('public/BG/BG_green_scales.png');
+  bgArray.push('public/BG/BG_white_boplay3.png');
+
+    $(document).ready(function() {
+      // $('body').css("background-color", "yellow");
+      const index = Math.floor(Math.random() * bgArray.length);
+      $('body').css("background-image", "url(" + bgArray[index] + ")");
+    });
+  </script>
 </head>
 
 <body>
@@ -212,13 +226,13 @@
 
 
         <div id="promptTags" class="prompt hide">
-        <form id="formTags">
-          <input id="pop" type="checkbox" value="pop">Pop</input>
-          <input id="rock" type="checkbox" value="rock">Rock</input>
-          <input id="trap" type="checkbox" value="trap">Trap</input>
-          <input id="submitTags" type="button" value="READY!"/>
-        </form>
-      </div>
+          <form id="formTags">
+            <input id="pop" type="checkbox" value="pop">Pop</input>
+            <input id="rock" type="checkbox" value="rock">Rock</input>
+            <input id="trap" type="checkbox" value="trap">Trap</input>
+            <input id="submitTags" type="button" value="READY!" />
+          </form>
+        </div>
 
       </div>
     </div>
