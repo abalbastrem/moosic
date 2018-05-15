@@ -6,6 +6,8 @@ var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
 var url_blindStart = url + ":" + port + "/blindstart";
 var url_tags = url + ":" + port + "/gettags";
+var url_addFavTrack = url + ":" + port + "/favoritetrack";
+var url_getUserPlaylist = url + ":" + port + "/userfavorites";
 var top_tags = new Array();
 var more_tags = new Array();
 var user = null;
@@ -201,28 +203,6 @@ function promptTags() {
   });
 }
 
-// function getTracks(tagsArray) {
-//   var tags = {
-//     "tags": tagsArray
-//   };
-//   var options = {
-//     url: url_getMoosics,
-//     dataType: "json",
-//     type: "POST",
-//     data: 'json=' + JSON.stringify(tags),
-//     processData: true,
-//     success: function(data) {
-//       console.log('success get tracks');
-//       console.log(data);
-//     },
-//     error: function(data) {
-//       console.log('error');
-//       console.log(data);
-//     }
-//   };
-//   $.ajax(options);
-// }
-
 async function getTracks(tagsArray) {
   var tags = {
     "tags": tagsArray
@@ -315,6 +295,49 @@ async function getTags(tag) {
   const result = await $.ajax(options);
   return result;
 }
+
+// playlist
+function addFavoriteTrack(id_track, id_user) {
+  var args = {
+    "id_track": id_track,
+    "id_user": id_user,
+  };
+
+  var options = {
+    url: url_addFavTrack,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+async function getUserPlaylist(id_user) {
+  var args = {
+    "id_user": id_user
+  };
+
+  var options = {
+    url: url_getUserPlaylist,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+  };
+  const res = await $.ajax(options);
+  return res;
+
+}
+
 
 // init function for top tags
 (function getTopTags() {
