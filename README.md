@@ -5,7 +5,7 @@ Proyecto final de Desarrollo de Aplicaciones Web
 moosic is a platform where users are in power to discover and categorize music.
 moosic es una plataforma donde los usuarios están al mando y pueden descubrir y categorizar música.
 
-## Instructions / Instrucciones
+## Instructions ENG
 After downloading the repository, you will need a jamendo API key. Get one at https://devportal.jamendo.com/
 Files to modify:
   * ./controller/globals/JAMENDO_KEY :: Write in the jamendo API KEY
@@ -16,6 +16,8 @@ Files to modify:
 Once you're comfortable, you'll have to do the first database dump. Uncomment the penultimate line in .server.js where it says `db.firstDump();`
 Execute ./server.js in a terminal with 'node server.js'. The first dump will take place and will take a few minutes. You can close the server after that and comment the line again, then restart server.js as usual.
 
+
+## Instrucciones SPA
 Después de bajar o clonar el repositorio, neceistarás una KEY de la API de jamendo. Consigue una aquí: https://devportal.jamendo.com/
 Ficheros a modificar:
   * ./controller/globals/JAMENDO_KEY :: Escribe aquí tu KEY de jamendo
