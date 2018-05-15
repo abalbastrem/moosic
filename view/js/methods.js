@@ -1,5 +1,6 @@
 var port = 8888;
-var url = "http://192.168.1.17"
+var url = "http://192.168.1.17";
+// var url = "localhost";
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
@@ -7,6 +8,7 @@ var url_blindStart = url + ":" + port + "/blindstart";
 var url_tags = url + ":" + port + "/gettags";
 var top_tags = new Array();
 var more_tags = new Array();
+user = null;
 
 
 $(document).ready(function() {
@@ -29,13 +31,13 @@ $(document).ready(function() {
         success: function(data) {
           console.log('success');
           console.log(data);
-          closeNav();
-          closeNavMenu();
-          //data = JSON.parse(data);
-          // alert(data.data['name'] + " " + data.data['lastname']);
-          // $('#promptTags').removeClass('hide');
-          // promptTags();
-          $('#register').addClass('hide');
+          if (data.message == "this user does not exist. Please register") {
+            $('#loginErrorUserNotExist').removeClass('hide');
+          } else {
+            closeNav();
+            closeNavMenu();
+            $('#register').addClass('hide');
+          }
         },
         error: function(data) {
           console.log('error');
@@ -210,6 +212,10 @@ function promptTags() {
 //   $.ajax(options);
 // }
 
+function infoTrack() {
+
+}
+
 async function getTracks(tagsArray) {
   var tags = {
     "tags": tagsArray
@@ -243,14 +249,13 @@ async function getTags(tag) {
 
 // init function for top tags
 (function getTopTags() {
-  var port = 8888;
   var options = {
     url: url_blindStart,
     type: "POST",
     success: function(data) {
       console.log('success get top tags');
-      console.log(data);
-      // top_tags = JSON.parse(data.data);
+      // console.log(data);
+      top_tags = JSON.parse(data.data);
       top_tags = data.data.slice(0, 10);
       // console.log(top_tags);
     },

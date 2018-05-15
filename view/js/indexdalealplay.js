@@ -1,5 +1,8 @@
-// document is ready.
+var array_songs_url;
+var index_songs = 0;
+var playtimeout;
 var Spectrum;
+// document is ready.
 $(document).ready(function() {
   // Waves audio
   Spectrum = WaveSurfer.create({
@@ -71,11 +74,9 @@ $(document).ready(function() {
 
 
   // load the song
-
+  //Spectrum.load('https://mp3l.jamendo.com/?trackid=1501986&format=mp31&from=app-e106f235');
 });
-var array_songs_url;
-var index_songs = 0;
-var playtimeout;
+
 function playNext() {
   console.log(index_songs);
   if (index_songs < array_songs_url.length) {
@@ -111,68 +112,70 @@ function playSongs(songs) {
   // console.log(array_songs_url);
   Spectrum.load(array_songs_url[0]);
   Spectrum.on("ready", function() {
-      Spectrum.play();
-      playtimeout = setTimeout(playNext, Spectrum.getDuration()*1000 + (500));
-      console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
-    });
-    openNavMenu();
-    openNavTrack();
-  }
+    Spectrum.play();
+    playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
+    console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
+  });
+  openNavMenu();
+  openNavTrack();
+}
 
-  // Slide menu functions
-  function openNavMenu() {
-    document.getElementById("mySideMenu").style.width = "350px";
-    document.getElementById("mySidenavBg").style.width = "350px";
-    document.getElementById("icon-open").style.opacity = 0;
-  }
 
-  function closeNavMenu() {
-    document.getElementById("mySideMenu").style.width = "0";
-    document.getElementById("mySidenavBg").style.width = "0";
-    document.getElementById("icon-open").style.opacity = 1;
-  }
+// Slide menu functions
+function openNavMenu() {
+  // document.getElementById("mySideMenu").style.width = "350px";
+  document.getElementById("mySidenavBg").style.width = "350px";
+  document.getElementById("mySidenavTrack").style.width = "350px";
+  document.getElementById("icon-open").style.opacity = 0;
+}
 
-  // open right menu
-  function openNavTrack() {
-    document.getElementById("mySidenavTrack").style.width = "350px";
-    document.getElementById("mySideMenu").style.width = "0";
-  }
-  // close right menu
-  function closeNav() {
-    document.getElementById("mySideMenu").style.width = "350px";
-    document.getElementById("mySidenavLogin").style.width = "0";
-    document.getElementById("mySidenavTrack").style.width = "0";
-    document.getElementById("mySidenavRegister").style.width = "0";
-    document.getElementById("mySidenavPlaylist").style.width = "0";
-    document.getElementById("mySidenavAbout").style.width = "0";
-    document.getElementById("mySidenavContact").style.width = "0";
-  }
-  // open login
-  function openNavLogin() {
-    document.getElementById("mySidenavLogin").style.width = "350px";
-    document.getElementById("mySideMenu").style.width = "0";
+function closeNavMenu() {
+  document.getElementById("mySideMenu").style.width = "0";
+  document.getElementById("mySidenavBg").style.width = "0";
+  document.getElementById("icon-open").style.opacity = 1;
+}
 
-  }
-  // open Register
-  function openNavRegister() {
-    document.getElementById("mySidenavRegister").style.width = "350px";
-    document.getElementById("mySideMenu").style.width = "0";
-  }
+// open right menu
+function openNavTrack() {
+  document.getElementById("mySidenavTrack").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}
+// close right menu
+function closeNav() {
+  document.getElementById("mySideMenu").style.width = "350px";
+  document.getElementById("mySidenavLogin").style.width = "0";
+  document.getElementById("mySidenavTrack").style.width = "0";
+  document.getElementById("mySidenavRegister").style.width = "0";
+  document.getElementById("mySidenavPlaylist").style.width = "0";
+  document.getElementById("mySidenavAbout").style.width = "0";
+  document.getElementById("mySidenavContact").style.width = "0";
+}
+// open login
+function openNavLogin() {
+  document.getElementById("mySidenavLogin").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
 
-  // open playlist
-  function openNavPlaylist() {
-    document.getElementById("mySidenavPlaylist").style.width = "350px";
-    document.getElementById("mySideMenu").style.width = "0";
-  }
+}
+// open Register
+function openNavRegister() {
+  document.getElementById("mySidenavRegister").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}
 
-  // open about
-  function openNavAbout() {
-    document.getElementById("mySidenavAbout").style.width = "350px";
-    document.getElementById("mySideMenu").style.width = "0";
-  }
+// open playlist
+function openNavPlaylist() {
+  document.getElementById("mySidenavPlaylist").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}
 
-  // open contact
-  function openNavContact() {
-    document.getElementById("mySidenavContact").style.width = "350px";
-    document.getElementById("mySideMenu").style.width = "0";
-  }
+// open about
+function openNavAbout() {
+  document.getElementById("mySidenavAbout").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}
+
+// open contact
+function openNavContact() {
+  document.getElementById("mySidenavContact").style.width = "350px";
+  document.getElementById("mySideMenu").style.width = "0";
+}

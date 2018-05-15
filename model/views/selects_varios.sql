@@ -360,3 +360,6 @@ select tags, count(tags) as cantidad_tags from (select tracks.id, leyenda_tags.n
 -- (12 rows)
 
 
+mirar los tags que el usuario no ha votado de la cancion
+
+de los que no ha votado, mira los que tengan menos votos en general

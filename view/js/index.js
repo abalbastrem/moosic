@@ -103,8 +103,8 @@ function playSongBefore() {
 }
 
 function playSongs(songs) {
-  console.log("atention se reproducira la siguiente lista: ");
-  // console.log(songs);
+  // console.log("atention se reproducira la siguiente lista: ");
+  // alert("songs");
   array_songs_url = new Array();
   for (let i = 0; i < songs.data.length; i++) {
     array_songs_url.push(songs.data[i].audio);
@@ -114,7 +114,7 @@ function playSongs(songs) {
   Spectrum.on("ready", function() {
     Spectrum.play();
     playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
-    console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
+    // console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
   });
   openNavMenu();
   openNavTrack();

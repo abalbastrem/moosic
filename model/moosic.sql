@@ -527,9 +527,9 @@ SELECT tracks.id, tracks.name FROM tracks JOIN tags ON tracks.id=tags.id_track J
 
 
 
-CREATE OR REPLACE FUNCTION creaViews() RETURNS void as $$
-BEGIN
-\i views/crearviews.sql
-RAISE NOTICE 'Se han creado las VIEWS correctamente';
-END;
-$$LANGUAGE plpgsql;
+--CREATE OR REPLACE FUNCTION creaViews() RETURNS void as $$
+--BEGIN
+--\i crearviews.sql
+--RAISE NOTICE 'Se han creado las VIEWS correctamente';
+--END;
+--$$LANGUAGE plpgsql;

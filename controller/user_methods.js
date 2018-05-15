@@ -5,6 +5,7 @@ exports.blindStart = async function() {
   try {
     var text = "SELECT array_to_json(array_agg(nombre)) FROM top_tags";
     const res = await con.pgClient.query(text);
+    // console.log("::::: " + JSON.stringify(res.rows[0].array_to_json, null, 2));
     return res.rows[0].array_to_json;
   } catch (e) {
     console.log("ERROR: " + e);
@@ -120,23 +121,22 @@ exports.logIn = async function(jsonObj) {
 // Checks whether user should vote
 exports.beforeVote = async function(jsonObj) {
   try {
-    var text = "";
-    text += "SELECT array_agg(nombre) FROM ";
-    text += "(SELECT tags.id, leyenda_tags.nombre, COUNT(*) AS votos FROM ";
-    text += "votos_tag JOIN tags ON votos_tag.id_tags = tags.id ";
-    text += "JOIN tracks ON tags.id_track = tracks.id ";
+    var text = "SELECT array_agg(nombre) FROM ";
+    text += "(SELECT tags.id, leyenda_tags.nombre ";
+    text += "FROM tags JOIN tracks ON tags.id_track = tracks.id ";
     text += "JOIN leyenda_tags ON leyenda_tags.id = tags.id_leyenda_tag ";
-    text += "WHERE tracks.id = $2 and votos_tag.id_tags NOT IN ";
-    text += "(SELECT votos_tag.id_tags AS votos FROM votos_tag ";
-    text += "JOIN tags ON votos_tag.id_tags = tags.id ";
-    text += "JOIN tracks ON tags.id_track = tracks.id ";
-    text += "WHERE tracks.id = $2 AND votos_tag.id_users = $1) ";
-    text += "GROUP BY tags.id, leyenda_tags.nombre HAVING COUNT(*) < 5 ";
-    text += "ORDER BY votos ASC) AS result";
+    text += "WHERE tracks.id = $1 AND tags.id NOT IN ";
+    text += "(SELECT * FROM (SELECT votos_tag.id_tags FROM votos_tag ";
+    text += "JOIN tags ON votos_tag.id_tags = tags.id JOIN tracks ON tags.id_track = tracks.id ";
+    text += "WHERE tracks.id = $1 AND votos_tag.id_users = $2) AS tags_user ";
+    text += "WHERE tags_user.id_tags IN (SELECT votos_tag.id_tags ";
+    text += "FROM votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id ";
+    text += "WHERE tracks.id = $1 group by votos_tag.id_tags having count(votos_tag.id_tags) < 5))) AS result";
     var values = [];
-    values.push(jsonObj.id_user);
     values.push(jsonObj.id_track);
+    values.push(jsonObj.id_user);
     const res = await con.pgClient.query(text, values);
+    console.log("::::: METHOD BEFOREVOTE: " + JSON.stringify(res.rows[0].array_agg, null, 2));
     return res.rows[0].array_agg;
   } catch (e) {
     console.error("ERROR: " + e);
@@ -150,7 +150,7 @@ exports.vote = async function(jsonObj) {
     text += "INSERT INTO votos_tag (id_tags, vote, id_users) ";
     text += "SELECT * FROM (SELECT tags.id, CAST($3 AS VOTE) AS vote, ";
     text += "CAST($1 AS INTEGER) AS id_user FROM tags ";
-    text += "JOIN leyenda_tags ON tags.id_leyenda_tag = tags.id ";
+    text += "JOIN leyenda_tags ON tags.id_leyenda_tag = leyenda_tags.id ";
     text += "WHERE leyenda_tags.nombre ILIKE $4 AND id_track = $2) AS result ";
     text += "ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote";
     var values = [];
