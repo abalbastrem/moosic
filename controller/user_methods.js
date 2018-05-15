@@ -136,7 +136,7 @@ exports.beforeVote = async function(jsonObj) {
     values.push(jsonObj.id_track);
     values.push(jsonObj.id_user);
     const res = await con.pgClient.query(text, values);
-    console.log("::::: METHOD BEFOREVOTE: " + JSON.stringify(res, null, 2));
+    console.log("::::: METHOD BEFOREVOTE: " + JSON.stringify(res.rows[0].array_agg, null, 2));
     return res.rows[0].array_agg;
   } catch (e) {
     console.error("ERROR: " + e);
@@ -150,7 +150,7 @@ exports.vote = async function(jsonObj) {
     text += "INSERT INTO votos_tag (id_tags, vote, id_users) ";
     text += "SELECT * FROM (SELECT tags.id, CAST($3 AS VOTE) AS vote, ";
     text += "CAST($1 AS INTEGER) AS id_user FROM tags ";
-    text += "JOIN leyenda_tags ON tags.id_leyenda_tag = tags.id ";
+    text += "JOIN leyenda_tags ON tags.id_leyenda_tag = leyenda_tags.id ";
     text += "WHERE leyenda_tags.nombre ILIKE $4 AND id_track = $2) AS result ";
     text += "ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote";
     var values = [];

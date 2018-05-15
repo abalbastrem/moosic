@@ -37,7 +37,6 @@
   bgArray.push('public/BG/BG_white_boplay3.png');
 
     $(document).ready(function() {
-      // $('body').css("background-color", "yellow");
       const index = Math.floor(Math.random() * bgArray.length);
       $('body').css("background-image", "url(" + bgArray[index] + ")");
     });

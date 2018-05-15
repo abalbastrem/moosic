@@ -34,7 +34,11 @@ $(document).ready(function() {
     $(go.Node, "Spot", {
         selectionObjectName: "PANEL",
         isTreeExpanded: false,
-        isTreeLeaf: false
+        isTreeLeaf: false,
+        isShadowed: true,
+        shadowColor: "rgba(16,16,16,0.3)",
+        shadowBlur: 4
+        // shadowOffset: Point.parse("(5,5)")
       },
       // the node's outer shape, which will surround the text
       $(go.Panel, "Auto", {
@@ -43,21 +47,14 @@ $(document).ready(function() {
         $(go.Shape, "Circle", {
             // width: 60,
             // height: 60,
-            fill: "rgb(253,253,253)",
-            // $(go.Brush, "Pattern", {
-            // pattern: "https://i.ebayimg.com/images/g/6vcAAOxyq15SOOyM/s-l1600.jpg"
-            // pattern: "public/cow_patter_50px.jpg"
-            // }),
+            fill: "whitesmoke",
             stroke: "rgba(16,16,16,0.65)",
             strokeWidth: 4
           },
           new go.Binding("fill", "fill", function(col) {
-            // console.log("::::: COLOR INIT: " + col);
             var color = [];
             color.push(col);
-            // console.log("::::: COLOR INIT: " + color[0]);
             for (let i = 0; i < 100; i++) {
-              // console.log("::::: COLOR ITER: " + i + " " + color[0]);
               color = randomColor({
                 hue: color[0],
                 luminosity: 'light',
@@ -68,14 +65,9 @@ $(document).ready(function() {
             return color[0];
           }),
           new go.Binding("stroke", "fill", function(col) {
-            // dist = Math.min(blues.length - 1, dist);
-            // return blues[dist];
-            // console.log("::::: FILL: " + color);
             var color = [];
             color.push(col);
-            // console.log("::::: COLOR INIT: " + color[0]);
             for (let i = 0; i < 100; i++) {
-              // console.log("::::: COLOR ITER: " + i + " " + color[0]);
               color = randomColor({
                 hue: color[0],
                 luminosity: 'bright',
@@ -85,12 +77,13 @@ $(document).ready(function() {
             return color[0];
           })
         ),
-        // $(go.Picture, {
-        //     stretch: go.GraphObject.Fill,
-        //     imageStretch: go.GraphObject.UniformToFill
-        //   },
-        //   new go.Binding("source", "src")
-        // ),
+        $(go.Picture, {
+            // stretch: go.GraphObject.Fill,
+            // imageStretch: go.GraphObject.UniformToFill,
+            // source: "http://192.168.1.17:8888/public/img/cow_pattern_50px.jpg"
+          },
+          new go.Binding("source", "src")
+        ),
         $(go.TextBlock, {
             font: "12pt Roboto",
             stroke: "rgba(0,0,0,0.90)",
@@ -130,11 +123,38 @@ $(document).ready(function() {
       }) // end TreeExpanderButton
     ); // end Node
 
+  myDiagram.linkTemplate =
+    $(go.Link, // the whole link panel
+      {
+        curve: go.Link.Bezier
+      }, // Bezier curve
+      $(go.Shape, //
+        {
+          strokeWidth: 2
+        }, //
+        new go.Binding("stroke", "fromNode", function(n) {
+          console.log("::::: FILL 4 STROKE: " + n.data.fill);
+          if (n.data.fill == undefined) {
+            return "rgba(16,16,16,0.75)";
+          } else {
+          color = randomColor({
+            hue: n.data.fill,
+            luminosity: 'dark',
+            count: 1
+          });
+          return color[0];
+          // return n.data.fill;
+          }
+        }).ofObject()
+      )
+    ); // the link shape, default black stroke
+
   // create the model with a root node data
   key = 0;
   myDiagram.model = new go.TreeModel([{
     key: 0,
     name: "moosic",
+    source: "http://192.168.1.17:8888/public/img/cow_pattern_50px.jpg",
     id: key,
     // color: blues[0],
     everExpanded: false
@@ -216,11 +236,8 @@ $(document).ready(function() {
         luminosity: 'light',
         count: 1
       });
-      // console.log("::::: REG: " + mainColor);
-      // console.log(parent.shape.fill);
       var childdata = {
         fill: mainColor[0],
-        stroke: "green",
         key: top_tags[index],
         name: top_tags[index].toLowerCase(),
         parent: parentdata.key,
@@ -293,11 +310,13 @@ $(document).ready(function() {
         count: 1
       });
       var childdata = {
-        fill: mainColor[0],
+        fill: parent.data.fill,
+        stroke: parent.data.stroke,
         key: tags[index].tag,
         id: tags[index].tag,
         name: (tags[index].tag).toLowerCase(),
         parent: parentdata.key,
+        source: "asd",
         // colorcode: myDiagram.findNodeForKey(parentdata.key).style.color,
         tags: path_tags,
         rootdistance: degrees
