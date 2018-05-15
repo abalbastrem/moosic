@@ -28,4 +28,4 @@ Una vez estés cómodo, vas a tener que hacer un primer dump. Descomenta la pen�
 Ejecuta ./server.js en una terminal con 'node server.js'. El primer dump empezará de inmediato y tomará unos minutos. Puedes cerrar el servidor después de eso, comentar esa línea y ejecutar el servidor de nuevo.
 
 
-### Happy joorney into music
+### Happy joorney into moosic
