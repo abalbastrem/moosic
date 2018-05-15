@@ -1,15 +1,6 @@
 const pg = require('pg');
-// const GLOBALS = require('./setup_globals');
-// console.log(GLOBALS.DBCONFIG);
-
-const dbCon = {
-  host: '192.168.1.18',
-  type: 'postgresql',
-  port: 5432, // postgresql port
-  database: 'moosic_final',
-  user: 'albert',
-  password: 'jupiter'
-};
+const GLOBALS = require('./setup_globals');
+const dbCon = JSON.parse("{" + GLOBALS.DBCONFIG + "}");
 
 const dbConStr = dbCon.type + '://' + dbCon.user + ':' + dbCon.password + '@' + dbCon.host + ':' + dbCon.port + '/' + dbCon.database;
 
