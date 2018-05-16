@@ -9,6 +9,7 @@ var url_tags = url + ":" + port + "/gettags";
 var url_addFavTrack = url + ":" + port + "/favoritetrack";
 var url_getUserPlaylist = url + ":" + port + "/userfavorites";
 var url_vote = url + ":" + port + "/vote";
+var url_beforeVote = url + ":" + port + "/beforevote";
 var top_tags = new Array();
 var more_tags = new Array();
 var user = null;

@@ -185,7 +185,9 @@ function playSongs(songs) {
 function showPrompt(song) {
   console.log("LA DURACION ES " + Spectrum.getDuration());
   createPrompt(song);
+  if (user != null) {
   $('#promptTags').removeClass('hide');
+  }
   // $('#promptTags').css({'background-color':'black'});
 
 }
