@@ -3,6 +3,8 @@ var index = 0;
 var tags;
 var moosics;
 var path_tags;
+var promptimeout;
+var playtimeout;
 var arrayColors = [];
 
 $(document).ready(function() {
@@ -258,7 +260,7 @@ $(document).ready(function() {
 
   function expandNodeTag(node) {
     clearTimeout(promptimeout);
-    // clearTimeout(playtimeout);
+    clearTimeout(playtimeout);
     hideTag("promptTags");
     var diagram = node.diagram;
     diagram.startTransaction("CollapseExpandTree");

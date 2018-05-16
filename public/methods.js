@@ -206,6 +206,7 @@ function promptTags() {
 }
 
 async function getTracks(tagsArray) {
+  console.log("IN FUNCTION getTracks")
   var tags = {
     "tags": tagsArray
   };
@@ -222,6 +223,7 @@ async function getTracks(tagsArray) {
 }
 
 async function beforeVote(id_track, id_user) {
+  console.log("IN FUNCTION beforeVote")
   var args = {
     "id_track": id_track,
     "id_user": id_user // track es 1344749 y id_user = 66
@@ -239,6 +241,7 @@ async function beforeVote(id_track, id_user) {
 }
 
 function vote(id_track, id_user, vote, tag) {
+  console.log("IN FUNCTION vote")
   var args = {
     "id_track": id_track,
     "id_user": id_user,
@@ -265,6 +268,7 @@ function vote(id_track, id_user, vote, tag) {
 }
 
 async function getTags(tag) {
+  console.log("IN FUNCTION getTags")
   var args = {
     "tags": tag
   };
@@ -281,6 +285,7 @@ async function getTags(tag) {
 
 // playlist
 function addFavoriteTrack(id_track, id_user) {
+  console.log("IN FUNCTION addFavoriteTrack")
   var args = {
     "id_track": id_track,
     "id_user": id_user,
@@ -305,6 +310,7 @@ function addFavoriteTrack(id_track, id_user) {
 }
 
 async function getUserPlaylist(id_user) {
+  console.log("IN FUNCTION getUserPlaylist")
   var args = {
     "id_user": id_user
   };
@@ -324,6 +330,7 @@ async function getUserPlaylist(id_user) {
 
 // init function for top tags
 (function getTopTags() {
+  console.log("IN FUNCTION getTopTags")
   console.log("GETTOPTAGS");
   // var port = 9229;
   var options = {

@@ -1,5 +1,5 @@
 var array_songs_url;
-var index_songs = 0;
+var index_songs = 1;
 var playtimeout;
 var Spectrum;
 var Spectrum2;
@@ -22,6 +22,19 @@ $(document).ready(function() {
     height: 40,
     barWidth: 1,
   });
+  // forward 10s the song
+  $('#forward').click(function() {
+    // Spectrum.skipForward();
+    console.log("skip song");
+    playNextSong();
+  });
+
+  // backward 10s the song
+  $('#backward').click(function() {
+    console.log("skipback song");
+    playSongBefore();
+    // Spectrum.skipBackward();
+  });
 
   Spectrum.on("ready", function() {
     // Do whatever you need to do with the player
@@ -41,18 +54,6 @@ $(document).ready(function() {
       Spectrum.play();
     });
 
-    // forward 10s the song
-    $('#forward').click(function() {
-      // Spectrum.skipForward();
-      console.log("skip song");
-      playNextSong();
-    });
-    // backward 10s the song
-    $('#backward').click(function() {
-      console.log("skipback song");
-      playSongBefore();
-      // Spectrum.skipBackward();
-    });
     // like
     $('#like').click(function() {
       // console.log(user);
@@ -124,21 +125,37 @@ function playFavSong(audio_song) {
 }
 
 function playNext() {
-  console.log(index_songs);
+  console.log('LLAMADO PLAYNEXT' + index_songs);
   if (index_songs < array_songs_url.length) {
-    Spectrum.load(array_songs_url[index_songs]);
-    index_songs++;
+    // console.log(array_songs_url);
+    Spectrum.load(array_songs_url[index_songs].audio);
+    $('#artwork').attr('src', array_songs_url[index_songs].album_image);
+    $('#nameSong').text(array_songs_url[index_songs].album_name);
+    $('#artistName').text(array_songs_url[index_songs].artist_name);
+    Spectrum.on("ready", function(){
+      $('#audio-spectrum').removeClass('hide');
+      Spectrum.play();
+      playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
+    promptimeout = setTimeout(function() {
+      showPrompt(array_songs_url[index_songs])
+    }, (Spectrum.getDuration() * 1000) / 8);
+
+    });
   }
 }
 
 function playNextSong() {
   clearTimeout(playtimeout);
+  clearTimeout(promptimeout);
+  index_songs++;
   console.log(index_songs);
+
   playNext();
 }
 
 function playSongBefore() {
   clearTimeout(playtimeout);
+  clearTimeout(promptimeout);
   if (index_songs > 0) {
     console.log(index_songs);
     index_songs--;
