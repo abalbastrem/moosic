@@ -8,6 +8,7 @@ var url_blindStart = url + ":" + port + "/blindstart";
 var url_tags = url + ":" + port + "/gettags";
 var url_addFavTrack = url + ":" + port + "/favoritetrack";
 var url_getUserPlaylist = url + ":" + port + "/userfavorites";
+var url_vote = url + ":" + port + "/vote";
 var top_tags = new Array();
 var more_tags = new Array();
 var user = null;
@@ -225,26 +226,12 @@ async function beforeVote(id_track, id_user) {
     "id_user": id_user // track es 1344749 y id_user = 66
   };
 
-  var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/beforevote";
-  //console.log(url_s);
-  //console.log(tags);
-
   var options = {
-    url: url_s,
+    url: url_beforeVote,
     dataType: "json",
     type: "POST",
     data: 'json=' + JSON.stringify(args),
     processData: true,
-    // success: function(data) {
-    //   console.log('success');
-    //   console.log(data.data);
-    //   return data.data;
-    // },
-    // error: function(data) {
-    //   console.log('error');
-    //   console.log(data);
-    // }
   };
   const res = await $.ajax(options);
   return res;
@@ -258,13 +245,8 @@ function vote(id_track, id_user, vote, tag) {
     "tag": tag
   };
 
-  var port = 8888;
-  var url_s = "http://192.168.1.18:" + port + "/vote";
-  //console.log(url_s);
-  //console.log(tags);
-
   var options = {
-    url: url_s,
+    url: url_vote,
     dataType: "json",
     type: "POST",
     data: 'json=' + JSON.stringify(args),
