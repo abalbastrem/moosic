@@ -31,6 +31,11 @@ body {
   border-radius: 35px;
 }
 
+#registerLink {
+  margin-top: 10%;
+  font-size: 14px;
+}
+
 .prompt {
   margin: auto;/
   /*top: 10%;*/
@@ -116,6 +121,13 @@ body {
   margin-left: 10px;
 }
 
+/* playlist table */
+
+#playlist-table td {
+  padding-right: 15px;
+  padding-bottom: 10px;
+}
+
 /* Icons */
 
 #icon-open {
@@ -147,6 +159,12 @@ body {
   font-size: 15px;
 }
 
+/* WavesForm */
+
+#audio-spectrum2 {
+  margin-bottom: 5%;
+}
+
 /* Footer */
 
 .footer {
@@ -175,6 +193,10 @@ body {
 
 .row {
   padding-bottom: 10px;
+}
+
+.linkmenu {
+  padding-top: 225%;
 }
 
 /* artwork track */

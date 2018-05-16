@@ -13,6 +13,7 @@ var url_beforeVote = url + ":" + port + "/beforevote";
 var top_tags = new Array();
 var more_tags = new Array();
 var user = null;
+var username;
 
 
 $(document).ready(function() {
@@ -37,12 +38,18 @@ $(document).ready(function() {
           console.log(data);
           if (data.status === true) {
             user = data;
+            username = data.data.username;
             console.log(user);
             closeNav();
             closeNavMenu();
             $('#register').addClass('hide');
             $('#login').addClass('hide');
             $('#logout').removeClass('hide');
+            $('#loginMenuLink').addClass('hide');
+            $('#usernameMenu').removeClass('hide');
+            $('#usernameMenu').text("@" + username);
+          } else {
+            $('#loginErrorMsg').removeClass('hide');
           }
         },
         error: function(data) {
@@ -71,6 +78,9 @@ $(document).ready(function() {
       $('#register').removeClass('hide');
       $('#login').removeClass('hide');
       $('#logout').addClass('hide');
+      $('#usernameMenu').addClass('hide');
+      $('#loginMenuLink').removeClass('hide');
+      closeNavMenu();
   });
 
   // Sign up

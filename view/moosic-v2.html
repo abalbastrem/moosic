@@ -5,29 +5,29 @@
   <meta charset="utf-8">
   <title>Moosic</title>
   <!-- Icon title -->
-  <link rel="shortcut icon" type="image/x-icon" href="http://192.168.1.17:8888/public/img/cow-icon-32.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://192.168.1.16:8888/public/img/cow-icon-32.png" />
   <!-- Material Icons -->
-  <link href="http://192.168.1.17:8888/public/materialicons.css" rel="stylesheet">
+  <link href="http://192.168.1.16:8888/public/materialicons.css" rel="stylesheet">
   <!-- go.js -->
-  <script src="http://192.168.1.17:8888/public/go-debug.js"></script>
+  <script src="http://192.168.1.16:8888/public/go-debug.js"></script>
   <!-- randomColor -->
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/randomColor.min.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/randomColor.min.js"></script>
   <!-- font-awesome -->
-  <link rel="stylesheet" href="http://192.168.1.17:8888/public/fontawesome-all.min.css">
+  <link rel="stylesheet" href="http://192.168.1.16:8888/public/fontawesome-all.min.css">
   <!-- WavesSurfer -->
-  <script src="http://192.168.1.17:8888/public/wavesurfer.min.js"></script>
+  <script src="http://192.168.1.16:8888/public/wavesurfer.min.js"></script>
   <!-- Google font-->
-  <link href="http://192.168.1.17:8888/public/roboto.css" rel="stylesheet">
+  <link href="http://192.168.1.16:8888/public/roboto.css" rel="stylesheet">
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="http://192.168.1.17:8888/public/bootstrap.min.css">
-  <script src="http://192.168.1.17:8888/public/jquery.min.js"></script>
-  <script src="http://192.168.1.17:8888/public/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://192.168.1.16:8888/public/bootstrap.min.css">
+  <script src="http://192.168.1.16:8888/public/jquery.min.js"></script>
+  <script src="http://192.168.1.16:8888/public/bootstrap.min.js"></script>
   <!-- js extern file -->
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/index.js"></script>
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/go_colors.js"></script>
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/methods.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/index.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/go_colors.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/methods.js"></script>
   <!-- css extern file -->
-  <link rel="stylesheet" type="text/css" href="http://192.168.1.17:8888/public/styles.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="http://192.168.1.16:8888/public/styles.css" media="screen" />
   <script>
   var bgArray = [];
   bgArray.push('public/BG/BG_purple_arabtile.png');
@@ -66,9 +66,9 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <h3 id="login" onclick="openNavLogin()">Login</h3>
+          <!-- <h3 id="login" onclick="openNavLogin()">Login</h3> -->
           <h3 id="logout" class="hide">Logout</h3>
-          <h3 id="register" onclick="openNavRegister()">Register</h3>
+          <!-- <h3 id="register" onclick="openNavRegister()">Register</h3> -->
           <h3 id="track" onclick="openNavTrack()">Track</h3>
           <h3 id="playlist">Playlist</h3>
           <h3 id="about" onclick="openNavAbout()">About</h3>
@@ -106,14 +106,12 @@
             </div>
             <div id="loginErrorMsg" class="alert alert-danger hide">Wrong username or password</div>
             <div id="loginErrorEmptyFields" class="alert alert-danger hide">Empty fields</div>
-            <div id="loginErrorUserNotExist" class="alert alert-danger hide">This user does not exist. Please register!</div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" name="remember" id="remember"> Remember login
-              </label>
-            </div>
+            <!-- <div id="loginErrorUserNotExist" class="alert alert-danger hide">This user does not exist.</div> -->
             <button id="signin" type="button" class="btn btn-primary btn-block"><strong>Sign in</strong></button>
           </form>
+          <div id="notRegisted" onclick="openNavRegister()">
+            <a id="registerLink" href="javascript:void(null)">Not registered? Sign Up!</a>
+          </div>
         </div>
       </div>
     </div>
@@ -184,7 +182,7 @@
       <!-- Icon Close -->
       <div class="row">
         <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNavTrack()"></a>
         </div>
       </div>
       <!-- Title -->
@@ -231,7 +229,12 @@
             <input id="submitTags" type="button" value="READY!" />
           </form>
         </div>
-
+        <div class="row">
+          <div id="loginMenu" class="col-md-12 col-sm-12">
+            <h4 id="loginMenuLink" class="linkmenu" onclick="openNavLogin()">login</h4>
+            <h4 id="usernameMenu" class="linkmenu hide" onclick="openNavMenuUser()"></h4>
+          </div>
+        </div>
     </div>
   </div>
   <!-- Slide Playlist Menu -->

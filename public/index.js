@@ -103,13 +103,13 @@ $(document).ready(function() {
 function createPlaylist(songs) {
   console.log(songs);
   var table;
-  table = '<table>';
+  table = '<table id=playlist-table>';
   for (var i = 0; i < songs.length; i++) {
     // console.log(i);
     audioTrack = songs[i].audio
     console.log(audioTrack);
     console.log("funcionando");
-    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
+    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-times" icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
   }
   table += '</table>';
   $('#playlist-table').replaceWith(table);
@@ -119,6 +119,7 @@ function playFavSong(audio_song) {
   console.log(audio_song);
   Spectrum2.load(audio_song);
   Spectrum2.on("ready", function(){
+    Spectrum.stop();
     $('#audio-spectrum2').removeClass('hide');
     Spectrum2.play();
   });
@@ -274,16 +275,27 @@ function tagToVoteNull(id_track, id_user, tag) {
 
 // Slide menu functions
 function openNavMenu() {
-  // document.getElementById("mySideMenu").style.width = "350px";
   document.getElementById("mySidenavBg").style.width = "350px";
   document.getElementById("mySidenavTrack").style.width = "350px";
   document.getElementById("icon-open").style.opacity = 0;
+}
+
+function openNavMenuUser() {
+  document.getElementById("mySidenavTrack").style.width = "0";
+  document.getElementById("mySideMenu").style.width = "350px";
 }
 
 function closeNavMenu() {
   document.getElementById("mySideMenu").style.width = "0";
   document.getElementById("mySidenavBg").style.width = "0";
   document.getElementById("icon-open").style.opacity = 1;
+}
+
+function closeNavTrack() {
+    document.getElementById("mySidenavTrack").style.width = "0";
+    document.getElementById("mySideMenu").style.width = "0";
+    document.getElementById("mySidenavBg").style.width = "0";
+    document.getElementById("icon-open").style.opacity = 1;
 }
 
 // open right menu
@@ -303,6 +315,7 @@ function closeNav() {
 }
 // open login
 function openNavLogin() {
+  document.getElementById("mySidenavTrack").style.width = "0";
   document.getElementById("mySidenavLogin").style.width = "350px";
   document.getElementById("mySideMenu").style.width = "0";
 
@@ -310,7 +323,7 @@ function openNavLogin() {
 // open Register
 function openNavRegister() {
   document.getElementById("mySidenavRegister").style.width = "350px";
-  document.getElementById("mySideMenu").style.width = "0";
+  document.getElementById("mySidenavLogin").style.width = "0";
 }
 
 // open playlist
