@@ -2,6 +2,7 @@ var array_songs_url;
 var index_songs = 0;
 var playtimeout;
 var Spectrum;
+var Spectrum2;
 var actual_song;
 var playlist_songs;
 
@@ -10,6 +11,13 @@ $(document).ready(function() {
   // Waves audio
   Spectrum = WaveSurfer.create({
     container: '#audio-spectrum',
+    progressColor: "#03a9f4",
+    height: 40,
+    barWidth: 1,
+  });
+
+  Spectrum2 = WaveSurfer.create({
+    container: '#audio-spectrum2',
     progressColor: "#03a9f4",
     height: 40,
     barWidth: 1,
@@ -33,18 +41,6 @@ $(document).ready(function() {
       Spectrum.play();
     });
 
-    $('#play-playlist').click(function() {
-      // console.log(this.id);
-      if (this.id === 'pause') {
-        $('#pause').removeClass('fa fa-pause').addClass('fa fa-play');
-        $('#pause').attr('id', 'play');
-        Spectrum.pause();
-      } else {
-        $('#play').removeClass('fa fa-play').addClass('fa fa-pause');
-        $('#play').attr('id', 'pause');
-        Spectrum.play();
-      }
-    });
     // forward 10s the song
     $('#forward').click(function() {
       // Spectrum.skipForward();
@@ -111,7 +107,8 @@ function createPlaylist(songs) {
     // console.log(i);
     audioTrack = songs[i].audio
     console.log(audioTrack);
-    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong("' + audioTrack + '")"></span></td></tr>';
+    console.log("funcionando");
+    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
   }
   table += '</table>';
   $('#playlist-table').replaceWith(table);
@@ -119,8 +116,11 @@ function createPlaylist(songs) {
 
 function playFavSong(audio_song) {
   console.log(audio_song);
-  // Spectrum.load(audio_song);
-  // Spectrum.play();
+  Spectrum2.load(audio_song);
+  Spectrum2.on("ready", function(){
+    $('#audio-spectrum2').removeClass('hide');
+    Spectrum2.play();
+  });
 }
 
 function playNext() {
