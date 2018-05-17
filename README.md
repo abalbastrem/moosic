@@ -49,7 +49,7 @@ Ejecuta ./server.js en una terminal con `node server.js`. El primer dump empezar
 * sometimes lines will be drawn over a circular node
 * when finishing a moosic, the player will just repeat it
 
-## SPA bugs conocidos
+## SPA Bugs conocidos
 * scrollbars vertical y horizontal visibles
 * la onda sonora tarda un poco en cargar, y entretanto aparece una pequeña scrollbar
 * si se clicka demasiado rápido, la app se cuelga
