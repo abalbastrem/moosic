@@ -345,6 +345,7 @@ app.post('/unfavoritetrack', async function(request, response) {
   logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
+    console.log(JSON.stringify(jsonObj, null, 2));
     if (await user.unfavoriteTrack(jsonObj)) {
       response.send({
         "status": true,

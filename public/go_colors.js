@@ -120,7 +120,8 @@ $(document).ready(function() {
   myDiagram.linkTemplate =
     $(go.Link, // the whole link panel
       {
-        curve: go.Link.Bezier
+        curve: go.Link.Bezier,
+        layerName: "Background"
       }, // Bezier curve
       $(go.Shape, //
         {
