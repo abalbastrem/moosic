@@ -82,7 +82,10 @@ $(document).ready(function() {
       $('#usernameMenu').addClass('hide');
       $('#loginMenuLink').removeClass('hide');
       $('#yourMoosic').addClass('hide');
-      closeNavMenu();
+      // closeNavMenu();
+      closeNavTrack();
+      openNavMenu();
+      openNavLogin();
   });
 
   // Sign up
