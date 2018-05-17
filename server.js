@@ -84,10 +84,18 @@ app.post('/signup', async function(request, response) {
       });
     } else {
       if (await user.signUp(jsonObj)) {
-        response.send({
-          "status": true,
-          "message": "user registered. Please log in"
-        })
+        if (await user.createFavoorites(jsonObj)) { // create playlist when user is signed up
+          response.send({
+            "status": true,
+            "message": "user registered. Please log in"
+          })
+        } else {
+          response.send({
+            "status": false,
+            "data": 3,
+            "message": "user registered, but favoorites could not be created"
+          })
+        }
       } else {
         response.send({
           "status": false,
