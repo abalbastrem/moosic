@@ -126,6 +126,9 @@ function playFavSong(audio_song) {
 }
 
 function playNext() {
+  if (user != null) {
+  $('#promptTags').addClass('hide');
+  }
   console.log('LLAMADO PLAYNEXT' + index_songs);
   if (index_songs < array_songs_url.length) {
     // console.log(array_songs_url);
@@ -136,7 +139,13 @@ function playNext() {
     Spectrum.on("ready", function(){
       $('#audio-spectrum').removeClass('hide');
       Spectrum.play();
+      if (playtimeout) {
+        clearTimeout(playtimeout);
+      }
       playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
+      if (promptimeout) {
+        clearTimeout(promptimeout);
+      }
     promptimeout = setTimeout(function() {
       showPrompt(array_songs_url[index_songs])
     }, (Spectrum.getDuration() * 1000) / 8);
@@ -183,11 +192,21 @@ function playSongs(songs) {
   Spectrum.load(array_songs_url[0].audio);
   Spectrum.on("ready", function() {
     Spectrum.play();
+    // index_songs++;
+    if (playtimeout) {
+      clearTimeout(playtimeout);
+    }
       playtimeout = setTimeout(playNext, Spectrum.getDuration() * 1000 + (500));
+
+      if (user != null) {
+        if (promptimeout) {
+          clearTimeout(promptimeout);
+        }
     promptimeout = setTimeout(function() {
-      showPrompt(songs.data[0])
+      showPrompt(songs.data[0]);
     }, (Spectrum.getDuration() * 1000) / 8); //(Spectrum.getDuration() * 1000) / 4 + (500)
     // console.log("Se reproducira la siguiente cancion pasados: " + Spectrum.getDuration() + " Segundos");
+  }
   });
   // alert("songs");
   $('#audio-spectrum').removeClass('hide');

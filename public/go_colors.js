@@ -178,6 +178,9 @@ $(document).ready(function() {
   }
 
   function expandNode(node) {
+    clearTimeout(promptimeout);
+    clearTimeout(playtimeout);
+    index_songs = 0;
     var diagram = node.diagram;
     diagram.startTransaction("CollapseExpandTree");
     // this behavior is specific to this incrementalTree sample:
