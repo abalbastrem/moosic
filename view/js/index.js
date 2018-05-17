@@ -99,7 +99,7 @@ function createPlaylist(songs) {
     audioTrack = songs[i].audio
     // console.log(audioTrack);
     // console.log("funcionando");
-    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-times" icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
+    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-times" icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
   }
   table += '</table>';
   $('#playlist-table').replaceWith(table);
@@ -124,7 +124,7 @@ function playNext() {
     Spectrum.load(array_songs_url[index_songs].audio);
     document.getElementById("like").style.color = "white";
     $('#artwork').attr('src', array_songs_url[index_songs].album_image);
-    $('#nameSong').text(array_songs_url[index_songs].album_name);
+    $('#nameSong').text(array_songs_url[index_songs].name);
     $('#artistName').text(array_songs_url[index_songs].artist_name);
     Spectrum.on("ready", function() {
       Spectrum2.stop();
@@ -167,9 +167,9 @@ function playSongs(songs) {
   }
   document.getElementById("like").style.color = "white";
   $('#artwork').attr('src', array_songs_url[0].album_image);
-  $('#nameSong').text(array_songs_url[0].album_name);
+  $('#nameSong').text(array_songs_url[0].name);
   $('#artistName').text(array_songs_url[0].artist_name);
-  console.log(array_songs_url[0].album_name);
+  console.log(array_songs_url[0].name);
   actual_song = array_songs_url[0];
   console.log(actual_song);
   Spectrum.load(array_songs_url[0].audio);
