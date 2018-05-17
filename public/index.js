@@ -100,18 +100,30 @@ $(document).ready(function() {
   });
 });
 
+async function dropTrackFromPlaylist(id_track, id_user) {
+  dropFavoriteTrack(id_track, id_user);
+  playlist_songs = await getUserPlaylist(user.data.id);
+    createPlaylist(playlist_songs.data);
+    console.log(playlist_songs);
+}
+
 function createPlaylist(songs) {
+  console.log("pasando por createPlaylist() "  + JSON.stringify(songs));
   // console.log(songs);
   var table;
   table = '<table id=playlist-table>';
+  console.log(songs);
+  if (songs != null) {
   for (var i = 0; i < songs.length; i++) {
-    // console.log(i);
+    console.log("dentro de for songs " + i);
     audioTrack = songs[i].audio
     // console.log(audioTrack);
     // console.log("funcionando");
-    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-times" icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
+    table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="dislike-playlist" class="fa fa-times" icon-playlist" onclick="dropTrackFromPlaylist(' + songs[i].id + ', ' + user.data.id + ')"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
   }
+}
   table += '</table>';
+  console.log(table);
   $('#playlist-table').replaceWith(table);
 }
 
@@ -129,7 +141,7 @@ function playNext() {
   if (user != null) {
   $('#promptTags').addClass('hide');
   }
-  console.log('LLAMADO PLAYNEXT' + index_songs);
+  console.log('LLAMADO PLAYNEXT ' + index_songs);
   if (index_songs < array_songs_url.length) {
     // console.log(array_songs_url);
     Spectrum.load(array_songs_url[index_songs].audio);

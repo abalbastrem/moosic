@@ -10,6 +10,7 @@ var url_addFavTrack = url + ":" + port + "/favoritetrack";
 var url_getUserPlaylist = url + ":" + port + "/userfavorites";
 var url_vote = url + ":" + port + "/vote";
 var url_beforeVote = url + ":" + port + "/beforevote";
+var url_dropFavoriteTrack = url + ":" + port + "/unfavoritetrack";
 var top_tags = new Array();
 var more_tags = new Array();
 var user = null;
@@ -315,6 +316,36 @@ function addFavoriteTrack(id_track, id_user) {
     error: function(data) {
       console.log('error');
       console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+function dropFavoriteTrack(id_track, id_user) {
+  console.log("ELIMINAMOS " + id_track + ", " + id_user);
+  var args = {
+    "id_track": id_track,
+    "id_user": id_user
+  };
+
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_dropFavoriteTrack,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+      return true;
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+      return false;
     }
   };
   $.ajax(options);
