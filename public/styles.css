@@ -101,7 +101,18 @@ body {
 .sidenav .closebtn {
   position: absolute;
   top: 0;
+  left: 0;
+  /*right: 5px;*/
+  font-size: 20px;
+  padding: 10px;
+  /*margin-left: 50px;*/
+  z-index: 1;
+}
+
+.sidenav .logoutbtn {
+  position: absolute;
   right: 5px;
+  padding: 10px;
   font-size: 20px;
   margin-left: 50px;
   z-index: 1;

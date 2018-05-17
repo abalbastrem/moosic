@@ -1,5 +1,5 @@
 var port = 8888;
-var url = "http://192.168.1.17";
+var url = "http://192.168.1.16";
 // var url = "http://localhost";
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
@@ -81,7 +81,10 @@ $(document).ready(function() {
       $('#usernameMenu').addClass('hide');
       $('#loginMenuLink').removeClass('hide');
       $('#yourMoosic').addClass('hide');
-      closeNavMenu();
+      // closeNavMenu();
+      closeNavTrack();
+      openNavMenu();
+      openNavLogin();
   });
 
   // Sign up

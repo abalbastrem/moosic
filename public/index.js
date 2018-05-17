@@ -39,18 +39,19 @@ $(document).ready(function() {
   Spectrum.on("ready", function() {
     // Do whatever you need to do with the player
     $('#pause').click(function() {
-        console.log(this.id+"::pause");
-        $('#pause').addClass('hide');
-        $('#play').removeClass('hide');
-        // $('#pause').attr('id', 'play');
-        Spectrum.pause();
+      console.log(this.id + "::pause");
+      $('#pause').addClass('hide');
+      $('#play').removeClass('hide');
+      // $('#pause').attr('id', 'play');
+      Spectrum.pause();
     });
 
     $('#play').click(function() {
-      console.log(this.id+"::play");
+      console.log(this.id + "::play");
       $('#play').addClass('hide');
       $('#pause').removeClass('hide');
       // $('#play').attr('id', 'pause');
+      Spectrum2.stop();
       Spectrum.play();
     });
 
@@ -64,18 +65,7 @@ $(document).ready(function() {
         if (document.getElementById("like").style.color != "rgb(255, 31, 89)") {
           console.log("like");
           document.getElementById("like").style.color = "rgb(255, 31, 89)";
-          // console.log(user.data);
-          // console.log(actual_song);
-          // add to playlist
           addFavoriteTrack(actual_song.id, user.data.id);
-
-          //$('#playlist-table').append('<tr><td><img id="artwork" src="img/artwork-jamendo.jpg" height="42" width="42"></img></td><td>E. Satie - Trois Gnossiennes - I. Lent - Alessandro Simonetto</td><td>OnClassical</td><td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist"></span></td></tr>');
-
-          //document.getElementById("like-playlist").style.color = "rgb(255, 31, 89)";
-        } else {
-          console.log("unlike");
-          document.getElementById("like").style.color = "white";
-          document.getElementById("like-playlist").style.color = "white";
         }
       }
     });
@@ -119,7 +109,9 @@ function playFavSong(audio_song) {
   // console.log(audio_song);
   Spectrum2.load(audio_song);
   $('#audio-spectrum2').removeClass('hide');
-  Spectrum2.on("ready", function(){
+  Spectrum2.on("ready", function() {
+    $('#pause').addClass('hide');
+    $('#play').removeClass('hide');
     Spectrum.stop();
     Spectrum2.play();
   });
@@ -133,10 +125,12 @@ function playNext() {
   if (index_songs < array_songs_url.length) {
     // console.log(array_songs_url);
     Spectrum.load(array_songs_url[index_songs].audio);
+    document.getElementById("like").style.color = "white";
     $('#artwork').attr('src', array_songs_url[index_songs].album_image);
     $('#nameSong').text(array_songs_url[index_songs].album_name);
     $('#artistName').text(array_songs_url[index_songs].artist_name);
-    Spectrum.on("ready", function(){
+    Spectrum.on("ready", function() {
+      Spectrum2.stop();
       $('#audio-spectrum').removeClass('hide');
       Spectrum.play();
       if (playtimeout) {
@@ -149,7 +143,6 @@ function playNext() {
     promptimeout = setTimeout(function() {
       showPrompt(array_songs_url[index_songs])
     }, (Spectrum.getDuration() * 1000) / 8);
-
     });
   }
 }
@@ -158,8 +151,6 @@ function playNextSong() {
   clearTimeout(playtimeout);
   clearTimeout(promptimeout);
   index_songs++;
-  console.log(index_songs);
-
   playNext();
 }
 
@@ -182,7 +173,7 @@ function playSongs(songs) {
   for (let i = 0; i < songs.data.length; i++) {
     array_songs_url.push(songs.data[i]);
   }
-
+  document.getElementById("like").style.color = "white";
   $('#artwork').attr('src', array_songs_url[0].album_image);
   $('#nameSong').text(array_songs_url[0].album_name);
   $('#artistName').text(array_songs_url[0].artist_name);
@@ -191,6 +182,7 @@ function playSongs(songs) {
   console.log(actual_song);
   Spectrum.load(array_songs_url[0].audio);
   Spectrum.on("ready", function() {
+    Spectrum2.stop();
     Spectrum.play();
     // index_songs++;
     if (playtimeout) {
@@ -223,7 +215,7 @@ function showPrompt(song) {
   console.log("LA DURACION ES " + Spectrum.getDuration());
   createPrompt(song);
   if (user != null) {
-  $('#promptTags').removeClass('hide');
+    $('#promptTags').removeClass('hide');
   }
   // $('#promptTags').css({'background-color':'black'});
 
@@ -311,10 +303,10 @@ function closeNavMenu() {
 }
 
 function closeNavTrack() {
-    document.getElementById("mySidenavTrack").style.width = "0";
-    // document.getElementById("mySideMenu").style.width = "0";
-    document.getElementById("mySidenavBg").style.width = "0";
-    document.getElementById("icon-open").style.opacity = 1;
+  document.getElementById("mySidenavTrack").style.width = "0";
+  // document.getElementById("mySideMenu").style.width = "0";
+  document.getElementById("mySidenavBg").style.width = "0";
+  document.getElementById("icon-open").style.opacity = 1;
 }
 
 // open right menu
