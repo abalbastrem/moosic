@@ -39,14 +39,14 @@ $(document).ready(function() {
           if (data.status === true) {
             user = data;
             username = data.data.username;
-            console.log(user);
-            closeNav();
-            closeNavMenu();
+            // console.log(user);
+            closeLogin();
             $('#register').addClass('hide');
             $('#login').addClass('hide');
             $('#logout').removeClass('hide');
             $('#loginMenuLink').addClass('hide');
             $('#usernameMenu').removeClass('hide');
+            $('#yourMoosic').removeClass('hide');
             $('#usernameMenu').text("@" + username);
           } else {
             $('#loginErrorMsg').removeClass('hide');
@@ -80,6 +80,7 @@ $(document).ready(function() {
       $('#logout').addClass('hide');
       $('#usernameMenu').addClass('hide');
       $('#loginMenuLink').removeClass('hide');
+      $('#yourMoosic').addClass('hide');
       closeNavMenu();
   });
 

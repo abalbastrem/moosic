@@ -5,36 +5,36 @@
   <meta charset="utf-8">
   <title>Moosic</title>
   <!-- Icon title -->
-  <link rel="shortcut icon" type="image/x-icon" href="http://192.168.1.17:8888/public/img/cow-icon-32.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://192.168.1.16:8888/public/img/cow-icon-32.png" />
   <!-- Material Icons -->
-  <link href="http://192.168.1.17:8888/public/materialicons.css" rel="stylesheet">
+  <link href="http://192.168.1.16:8888/public/materialicons.css" rel="stylesheet">
   <!-- go.js -->
-  <script src="http://192.168.1.17:8888/public/go-debug.js"></script>
+  <script src="http://192.168.1.16:8888/public/go-debug.js"></script>
   <!-- randomColor -->
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/randomColor.min.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/randomColor.min.js"></script>
   <!-- font-awesome -->
-  <link rel="stylesheet" href="http://192.168.1.17:8888/public/fontawesome-all.min.css">
+  <link rel="stylesheet" href="http://192.168.1.16:8888/public/fontawesome-all.min.css">
   <!-- WavesSurfer -->
-  <script src="http://192.168.1.17:8888/public/wavesurfer.min.js"></script>
+  <script src="http://192.168.1.16:8888/public/wavesurfer.min.js"></script>
   <!-- Google font-->
-  <link href="http://192.168.1.17:8888/public/roboto.css" rel="stylesheet">
+  <link href="http://192.168.1.16:8888/public/roboto.css" rel="stylesheet">
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="http://192.168.1.17:8888/public/bootstrap.min.css">
-  <script src="http://192.168.1.17:8888/public/jquery.min.js"></script>
-  <script src="http://192.168.1.17:8888/public/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="http://192.168.1.16:8888/public/bootstrap.min.css">
+  <script src="http://192.168.1.16:8888/public/jquery.min.js"></script>
+  <script src="http://192.168.1.16:8888/public/bootstrap.min.js"></script>
   <!-- js extern file -->
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/index.js"></script>
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/go_colors.js"></script>
-  <script type="text/javascript" src="http://192.168.1.17:8888/public/methods.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/index.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/go_colors.js"></script>
+  <script type="text/javascript" src="http://192.168.1.16:8888/public/methods.js"></script>
   <!-- css extern file -->
-  <link rel="stylesheet" type="text/css" href="http://192.168.1.17:8888/public/styles.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="http://192.168.1.16:8888/public/styles.css" media="screen" />
   <script>
-  var bgArray = [];
-  bgArray.push('public/BG/BG_purple_arabtile.png');
-  bgArray.push('public/BG/BG_blue_waves.png');
-  bgArray.push('public/BG/BG_pink_wallpaper.png');
-  bgArray.push('public/BG/BG_green_scales.png');
-  bgArray.push('public/BG/BG_white_boplay3.png');
+    var bgArray = [];
+    bgArray.push('public/BG/BG_purple_arabtile.png');
+    bgArray.push('public/BG/BG_blue_waves.png');
+    bgArray.push('public/BG/BG_pink_wallpaper.png');
+    bgArray.push('public/BG/BG_green_scales.png');
+    bgArray.push('public/BG/BG_white_boplay3.png');
 
     $(document).ready(function() {
       const index = Math.floor(Math.random() * bgArray.length);
@@ -50,33 +50,6 @@
   <div id="myDiagramDiv"></div>
   <div id="mySidenavBg" class="sidenav-bg"></div>
   <!-- Slide Menu -->
-  <div id="mySideMenu" class="sidenav">
-    <div id="container" class="container text-center">
-      <!-- Icon Close -->
-      <div class="row">
-        <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNavMenu()"></a>
-        </div>
-      </div>
-      <!-- Tittle -->
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Moosic</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <!-- <h3 id="login" onclick="openNavLogin()">Login</h3> -->
-          <h3 id="logout" class="hide">Logout</h3>
-          <!-- <h3 id="register" onclick="openNavRegister()">Register</h3> -->
-          <h3 id="track" onclick="openNavTrack()">Track</h3>
-          <h3 id="playlist">Playlist</h3>
-          <h3 id="about" onclick="openNavAbout()">About</h3>
-          <h3 id="contact" onclick="openNavContact()">Contact</h3>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- Slide Login Menu-->
   <div id="mySidenavLogin" class="sidenav">
     <div id="container" class="container text-center">
@@ -221,20 +194,23 @@
         </div>
         <div class="col-lg-1 col-sm-1 col-xs-1"></div>
       </div>
-        <div id="promptTags" class="prompt hide">
-          <form id="formTags">
-            <input id="pop" type="checkbox" value="pop">Pop</input>
-            <input id="rock" type="checkbox" value="rock">Rock</input>
-            <input id="trap" type="checkbox" value="trap">Trap</input>
-            <input id="submitTags" type="button" value="READY!" />
-          </form>
+      <div id="promptTags" class="prompt hide">
+        <form id="formTags">
+          <input id="pop" type="checkbox" value="pop">Pop</input>
+          <input id="rock" type="checkbox" value="rock">Rock</input>
+          <input id="trap" type="checkbox" value="trap">Trap</input>
+          <input id="submitTags" type="button" value="READY!" />
+        </form>
+      </div>
+      <div class="row text-center">
+        <div id="loginMenuDiv" class="col-md-12 col-sm-12">
+          <h4 id="loginMenuLink" class="linkmenu" onclick="openNavLogin()">login</h4>
+          <button id="yourMoosic" class="btn btn-primary hide" hide>
+            <h4 class="linkmenu" onclick="openNavPlaylist()"><span id="like2" class="fa fa-heart"></span> Favoorite moosics</h4>
+          </button>
+          <h5 id="usernameMenu" class="linkmenu hide"></h5>
         </div>
-        <div class="row">
-          <div id="loginMenu" class="col-md-12 col-sm-12">
-            <h4 id="loginMenuLink" class="linkmenu" onclick="openNavLogin()">login</h4>
-            <h4 id="usernameMenu" class="linkmenu hide" onclick="openNavMenuUser()"></h4>
-          </div>
-        </div>
+      </div>
     </div>
   </div>
   <!-- Slide Playlist Menu -->
@@ -269,48 +245,7 @@
               <th></th>
               <th></th>
             </tr>
-            <!-- <tr>
-              <td><img id="artwork" src="img/artwork-jamendo.jpg" height="42" width="42"></img></td>
-              <td>E. Satie - Trois Gnossiennes - I. Lent - Alessandro Simonetto</td>
-              <td>OnClassical</td>
-              <td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td>
-              <td><span id="play-playlist" class="fa fa-play icon-playlist"></span></td>
-            </tr> -->
           </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Slide About Menu -->
-  <div id="mySidenavAbout" class="sidenav">
-    <div class="container">
-      <!-- Icon Close -->
-      <div class="row">
-        <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
-        </div>
-      </div>
-      <!-- Title -->
-      <div class="row">
-        <div class="col-md-12">
-          <h1>About</h1>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Slide Contact Menu -->
-  <div id="mySidenavContact" class="sidenav">
-    <div class="container">
-      <!-- Icon Close -->
-      <div class="row">
-        <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
-        </div>
-      </div>
-      <!-- Title -->
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Contact</h1>
         </div>
       </div>
     </div>

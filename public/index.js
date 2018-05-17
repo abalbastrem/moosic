@@ -64,8 +64,8 @@ $(document).ready(function() {
         if (document.getElementById("like").style.color != "rgb(255, 31, 89)") {
           console.log("like");
           document.getElementById("like").style.color = "rgb(255, 31, 89)";
-          console.log(user.data);
-          console.log(actual_song);
+          // console.log(user.data);
+          // console.log(actual_song);
           // add to playlist
           addFavoriteTrack(actual_song.id, user.data.id);
 
@@ -84,14 +84,14 @@ $(document).ready(function() {
   // click body clove slide menu
   $('#myDiagramDiv').click(function() {
     closeNav();
-    closeNavMenu();
+    closeNavTrack();
   });
 
   // click on playlist
-  $('#playlist').click(async function() {
+  $('#yourMoosic').click(async function() {
     if (user !== null) {
       playlist_songs = await getUserPlaylist(user.data.id);
-      console.log(playlist_songs);
+      // console.log(playlist_songs);
       createPlaylist(playlist_songs.data);
       openNavPlaylist();
     } else {
@@ -101,14 +101,14 @@ $(document).ready(function() {
 });
 
 function createPlaylist(songs) {
-  console.log(songs);
+  // console.log(songs);
   var table;
   table = '<table id=playlist-table>';
   for (var i = 0; i < songs.length; i++) {
     // console.log(i);
     audioTrack = songs[i].audio
-    console.log(audioTrack);
-    console.log("funcionando");
+    // console.log(audioTrack);
+    // console.log("funcionando");
     table += '<tr><td><img id="artwork" src="' + songs[i].album_image + '" height="42" width="42"></img></td><td>' + songs[i].album_name + '</td><td>' + songs[i].artist_name + '</td><td><span id="like-playlist" class="fa fa-times" icon-playlist"></span></td><td><span id="play-playlist" class="fa fa-play icon-playlist" onclick="playFavSong(\'' + songs[i].audio + '\')"></span></td></tr>';
   }
   table += '</table>';
@@ -116,11 +116,11 @@ function createPlaylist(songs) {
 }
 
 function playFavSong(audio_song) {
-  console.log(audio_song);
+  // console.log(audio_song);
   Spectrum2.load(audio_song);
+  $('#audio-spectrum2').removeClass('hide');
   Spectrum2.on("ready", function(){
     Spectrum.stop();
-    $('#audio-spectrum2').removeClass('hide');
     Spectrum2.play();
   });
 }
@@ -282,18 +282,18 @@ function openNavMenu() {
 
 function openNavMenuUser() {
   document.getElementById("mySidenavTrack").style.width = "0";
-  document.getElementById("mySideMenu").style.width = "350px";
+  // document.getElementById("mySideMenu").style.width = "350px";
 }
 
 function closeNavMenu() {
-  document.getElementById("mySideMenu").style.width = "0";
+  // document.getElementById("mySideMenu").style.width = "0";
   document.getElementById("mySidenavBg").style.width = "0";
   document.getElementById("icon-open").style.opacity = 1;
 }
 
 function closeNavTrack() {
     document.getElementById("mySidenavTrack").style.width = "0";
-    document.getElementById("mySideMenu").style.width = "0";
+    // document.getElementById("mySideMenu").style.width = "0";
     document.getElementById("mySidenavBg").style.width = "0";
     document.getElementById("icon-open").style.opacity = 1;
 }
@@ -301,23 +301,29 @@ function closeNavTrack() {
 // open right menu
 function openNavTrack() {
   document.getElementById("mySidenavTrack").style.width = "350px";
-  document.getElementById("mySideMenu").style.width = "0";
+  // document.getElementById("mySideMenu").style.width = "0";
 }
 // close right menu
 function closeNav() {
-  document.getElementById("mySideMenu").style.width = "350px";
+  // document.getElementById("mySideMenu").style.width = "350px";
   document.getElementById("mySidenavLogin").style.width = "0";
-  document.getElementById("mySidenavTrack").style.width = "0";
+  document.getElementById("mySidenavTrack").style.width = "350px";
   document.getElementById("mySidenavRegister").style.width = "0";
   document.getElementById("mySidenavPlaylist").style.width = "0";
-  document.getElementById("mySidenavAbout").style.width = "0";
-  document.getElementById("mySidenavContact").style.width = "0";
 }
+// close login
+function closeLogin() {
+  document.getElementById("mySidenavLogin").style.width = "0";
+  document.getElementById("mySidenavBg").style.width = "0";
+  document.getElementById("icon-open").style.opacity = 1;
+}
+
+
 // open login
 function openNavLogin() {
   document.getElementById("mySidenavTrack").style.width = "0";
   document.getElementById("mySidenavLogin").style.width = "350px";
-  document.getElementById("mySideMenu").style.width = "0";
+  // document.getElementById("mySideMenu").style.width = "0";
 
 }
 // open Register
@@ -329,17 +335,5 @@ function openNavRegister() {
 // open playlist
 function openNavPlaylist() {
   document.getElementById("mySidenavPlaylist").style.width = "350px";
-  document.getElementById("mySideMenu").style.width = "0";
-}
-
-// open about
-function openNavAbout() {
-  document.getElementById("mySidenavAbout").style.width = "350px";
-  document.getElementById("mySideMenu").style.width = "0";
-}
-
-// open contact
-function openNavContact() {
-  document.getElementById("mySidenavContact").style.width = "350px";
-  document.getElementById("mySideMenu").style.width = "0";
+  document.getElementById("mySidenavTrack").style.width = "0";
 }

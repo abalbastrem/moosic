@@ -5,6 +5,7 @@ body {
   /*align-items: center;*/
   /*justify-content: center;/*/
 }
+
 .btn-circle {
   width: 30px;
   height: 30px;
@@ -14,6 +15,7 @@ body {
   line-height: 1.428571429;
   border-radius: 15px;
 }
+
 .btn-circle.btn-lg {
   width: 50px;
   height: 50px;
@@ -22,6 +24,7 @@ body {
   line-height: 1.33;
   border-radius: 25px;
 }
+
 .btn-circle.btn-xl {
   width: 70px;
   height: 70px;
@@ -37,7 +40,8 @@ body {
 }
 
 .prompt {
-  margin: auto;/
+  margin: auto;
+  /
   /*top: 10%;*/
   /*left: 35%;*/
   width: 30%;
@@ -61,8 +65,8 @@ body {
   overflow-x: hidden;
   transition: 1s;
   text-align: center;
-   opacity: 0.9;
-   /*filter: blur(1px);*/
+  opacity: 0.9;
+  /*filter: blur(1px);*/
 }
 
 .sidenav {
@@ -119,6 +123,12 @@ body {
 .artwork-track {
   margin-right: 10px;
   margin-left: 10px;
+}
+
+#loginMenuDiv {
+  position: absolute;
+  bottom: 7px;
+  width: 100%;
 }
 
 /* playlist table */
@@ -195,9 +205,9 @@ body {
   padding-bottom: 10px;
 }
 
-.linkmenu {
+/*.linkmenu {
   padding-top: 225%;
-}
+}*/
 
 /* artwork track */
 
