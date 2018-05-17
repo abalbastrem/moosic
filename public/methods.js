@@ -6,9 +6,15 @@ var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
 var url_blindStart = url + ":" + port + "/blindstart";
 var url_tags = url + ":" + port + "/gettags";
+var url_addFavTrack = url + ":" + port + "/favoritetrack";
+var url_getUserPlaylist = url + ":" + port + "/userfavorites";
+var url_vote = url + ":" + port + "/vote";
+var url_beforeVote = url + ":" + port + "/beforevote";
+var url_dropFavoriteTrack = url + ":" + port + "/unfavoritetrack";
 var top_tags = new Array();
 var more_tags = new Array();
 var user = null;
+var username;
 
 
 $(document).ready(function() {
@@ -33,12 +39,18 @@ $(document).ready(function() {
           console.log(data);
           if (data.status === true) {
             user = data;
-            console.log(user);
-            closeNav();
-            closeNavMenu();
+            username = data.data.username;
+            // console.log(user);
+            closeLogin();
             $('#register').addClass('hide');
             $('#login').addClass('hide');
             $('#logout').removeClass('hide');
+            $('#loginMenuLink').addClass('hide');
+            $('#usernameMenu').removeClass('hide');
+            $('#yourMoosic').removeClass('hide');
+            $('#usernameMenu').text("@" + username);
+          } else {
+            $('#loginErrorMsg').removeClass('hide');
           }
         },
         error: function(data) {
@@ -67,6 +79,13 @@ $(document).ready(function() {
       $('#register').removeClass('hide');
       $('#login').removeClass('hide');
       $('#logout').addClass('hide');
+      $('#usernameMenu').addClass('hide');
+      $('#loginMenuLink').removeClass('hide');
+      $('#yourMoosic').addClass('hide');
+      // closeNavMenu();
+      closeNavTrack();
+      openNavMenu();
+      openNavLogin();
   });
 
   // Sign up
@@ -201,29 +220,8 @@ function promptTags() {
   });
 }
 
-// function getTracks(tagsArray) {
-//   var tags = {
-//     "tags": tagsArray
-//   };
-//   var options = {
-//     url: url_getMoosics,
-//     dataType: "json",
-//     type: "POST",
-//     data: 'json=' + JSON.stringify(tags),
-//     processData: true,
-//     success: function(data) {
-//       console.log('success get tracks');
-//       console.log(data);
-//     },
-//     error: function(data) {
-//       console.log('error');
-//       console.log(data);
-//     }
-//   };
-//   $.ajax(options);
-// }
-
 async function getTracks(tagsArray) {
+  console.log("IN FUNCTION getTracks")
   var tags = {
     "tags": tagsArray
   };
@@ -240,37 +238,25 @@ async function getTracks(tagsArray) {
 }
 
 async function beforeVote(id_track, id_user) {
+  console.log("IN FUNCTION beforeVote")
   var args = {
     "id_track": id_track,
     "id_user": id_user // track es 1344749 y id_user = 66
   };
 
-  var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/beforevote";
-  //console.log(url_s);
-  //console.log(tags);
-
   var options = {
-    url: url_s,
+    url: url_beforeVote,
     dataType: "json",
     type: "POST",
     data: 'json=' + JSON.stringify(args),
     processData: true,
-    // success: function(data) {
-    //   console.log('success');
-    //   console.log(data.data);
-    //   return data.data;
-    // },
-    // error: function(data) {
-    //   console.log('error');
-    //   console.log(data);
-    // }
   };
   const res = await $.ajax(options);
   return res;
 }
 
 function vote(id_track, id_user, vote, tag) {
+  console.log("IN FUNCTION vote")
   var args = {
     "id_track": id_track,
     "id_user": id_user,
@@ -278,13 +264,8 @@ function vote(id_track, id_user, vote, tag) {
     "tag": tag
   };
 
-  var port = 8888;
-  var url_s = "http://192.168.1.18:" + port + "/vote";
-  //console.log(url_s);
-  //console.log(tags);
-
   var options = {
-    url: url_s,
+    url: url_vote,
     dataType: "json",
     type: "POST",
     data: 'json=' + JSON.stringify(args),
@@ -302,6 +283,7 @@ function vote(id_track, id_user, vote, tag) {
 }
 
 async function getTags(tag) {
+  console.log("IN FUNCTION getTags")
   var args = {
     "tags": tag
   };
@@ -316,8 +298,84 @@ async function getTags(tag) {
   return result;
 }
 
+// playlist
+function addFavoriteTrack(id_track, id_user) {
+  console.log("IN FUNCTION addFavoriteTrack")
+  var args = {
+    "id_track": id_track,
+    "id_user": id_user,
+  };
+
+  var options = {
+    url: url_addFavTrack,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+    }
+  };
+  $.ajax(options);
+}
+
+function dropFavoriteTrack(id_track, id_user) {
+  console.log("ELIMINAMOS " + id_track + ", " + id_user);
+  var args = {
+    "id_track": id_track,
+    "id_user": id_user
+  };
+
+  //console.log(url_s);
+  //console.log(tags);
+
+  var options = {
+    url: url_dropFavoriteTrack,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+    success: function(data) {
+      console.log('success');
+      console.log(data);
+      return true;
+    },
+    error: function(data) {
+      console.log('error');
+      console.log(data);
+      return false;
+    }
+  };
+  $.ajax(options);
+}
+
+async function getUserPlaylist(id_user) {
+  console.log("IN FUNCTION getUserPlaylist")
+  var args = {
+    "id_user": id_user
+  };
+
+  var options = {
+    url: url_getUserPlaylist,
+    dataType: "json",
+    type: "POST",
+    data: 'json=' + JSON.stringify(args),
+    processData: true,
+  };
+  const res = await $.ajax(options);
+  return res;
+
+}
+
+
 // init function for top tags
 (function getTopTags() {
+  console.log("IN FUNCTION getTopTags")
   console.log("GETTOPTAGS");
   // var port = 9229;
   var options = {

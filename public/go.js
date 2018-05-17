@@ -108,6 +108,7 @@ $(document).ready(function() {
             createPathTags(key, node);
             moosics = await getTracks(path_tags);
             console.log(moosics);
+            
             tags = await getTags(path_tags);
             tags = tags.data.slice(0, 5);
             expandNodeTag(node);

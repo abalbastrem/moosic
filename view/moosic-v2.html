@@ -29,12 +29,12 @@
   <!-- css extern file -->
   <link rel="stylesheet" type="text/css" href="http://192.168.1.17:8888/public/styles.css" media="screen" />
   <script>
-  var bgArray = [];
-  bgArray.push('public/BG/BG_purple_arabtile.png');
-  bgArray.push('public/BG/BG_blue_waves.png');
-  bgArray.push('public/BG/BG_pink_wallpaper.png');
-  bgArray.push('public/BG/BG_green_scales.png');
-  bgArray.push('public/BG/BG_white_boplay3.png');
+    var bgArray = [];
+    bgArray.push('public/BG/BG_purple_arabtile.png');
+    bgArray.push('public/BG/BG_blue_waves.png');
+    bgArray.push('public/BG/BG_pink_wallpaper.png');
+    bgArray.push('public/BG/BG_green_scales.png');
+    bgArray.push('public/BG/BG_white_boplay3.png');
 
     $(document).ready(function() {
       const index = Math.floor(Math.random() * bgArray.length);
@@ -45,45 +45,17 @@
 
 <body>
   <!-- No slide menu -->
-  <span id="icon-open" class="glyphicon glyphicon-menu-hamburger" onclick="openNavMenu()"></span>
+  <span id="icon-open" class="glyphicon glyphicon-menu-hamburger closebtn" onclick="openNavMenu()"></span>
   <!-- gojs -->
   <div id="myDiagramDiv"></div>
   <div id="mySidenavBg" class="sidenav-bg"></div>
-  <!-- Slide Menu -->
-  <div id="mySideMenu" class="sidenav">
-    <div id="container" class="container text-center">
-      <!-- Icon Close -->
-      <div class="row">
-        <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNavMenu()"></a>
-        </div>
-      </div>
-      <!-- Tittle -->
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Moosic</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h3 id="login" onclick="openNavLogin()">Login</h3>
-          <h3 id="logout" class="hide">Logout</h3>
-          <h3 id="register" onclick="openNavRegister()">Register</h3>
-          <h3 id="track" onclick="openNavTrack()">Track</h3>
-          <h3 id="playlist" onclick="openNavPlaylist()">Playlist</h3>
-          <h3 id="about" onclick="openNavAbout()">About</h3>
-          <h3 id="contact" onclick="openNavContact()">Contact</h3>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- Slide Login Menu-->
   <div id="mySidenavLogin" class="sidenav">
     <div id="container" class="container text-center">
       <!-- Icon Close -->
       <div class="row">
         <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+          <a class="glyphicon glyphicon-menu-hamburger closebtn" onclick="closeNav()"></a>
         </div>
       </div>
       <!-- Title -->
@@ -97,7 +69,7 @@
         <div class="col-md-12">
           <form id="loginForm" class="inputForm" method="POST">
             <div id="emailLoginDiv" class="form-group ">
-              <input id="email" type="text" class="form-control" name="email" title="Please enter your email" placeholder="Email" required/>
+              <input id="email" type="text" class="form-control" name="email" title="Please enter your email" placeholder="Username" required/>
               <span class="help-block"></span>
             </div>
             <div id="passwordLoginDiv" class="form-group">
@@ -106,14 +78,12 @@
             </div>
             <div id="loginErrorMsg" class="alert alert-danger hide">Wrong username or password</div>
             <div id="loginErrorEmptyFields" class="alert alert-danger hide">Empty fields</div>
-            <div id="loginErrorUserNotExist" class="alert alert-danger hide">This user does not exist. Please register!</div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" name="remember" id="remember"> Remember login
-              </label>
-            </div>
+            <!-- <div id="loginErrorUserNotExist" class="alert alert-danger hide">This user does not exist.</div> -->
             <button id="signin" type="button" class="btn btn-primary btn-block"><strong>Sign in</strong></button>
           </form>
+          <div id="notRegisted" onclick="openNavRegister()">
+            <a id="registerLink" href="javascript:void(null)">Not registered? Sign Up!</a>
+          </div>
         </div>
       </div>
     </div>
@@ -124,7 +94,7 @@
       <!-- Icon Close -->
       <div class="row">
         <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+          <a class="glyphicon glyphicon-menu-hamburger closebtn" onclick="closeNav()"></a>
         </div>
       </div>
       <!-- Title -->
@@ -184,7 +154,8 @@
       <!-- Icon Close -->
       <div class="row">
         <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+          <span class="glyphicon glyphicon-menu-hamburger closebtn" onclick="closeNavTrack()"></span>
+          <span id="logout" class="glyphicon glyphicon-log-out logoutbtn hide"></span>
         </div>
       </div>
       <!-- Title -->
@@ -219,20 +190,26 @@
       <div class="row">
         <div class="col-lg-1 col-sm-1 col-xs-1"></div>
         <div class="col-lg-10 col-sm-10 col-xs-10 waveform">
-          <div id="audio-spectrum"></div>
+          <div id="audio-spectrum" class="hide"></div>
         </div>
         <div class="col-lg-1 col-sm-1 col-xs-1"></div>
-
-
-        <div id="promptTags" class="prompt hide">
-          <form id="formTags">
-            <input id="pop" type="checkbox" value="pop">Pop</input>
-            <input id="rock" type="checkbox" value="rock">Rock</input>
-            <input id="trap" type="checkbox" value="trap">Trap</input>
-            <input id="submitTags" type="button" value="READY!" />
-          </form>
+      </div>
+      <div id="promptTags" class="prompt hide">
+        <form id="formTags">
+          <input id="pop" type="checkbox" value="pop">Pop</input>
+          <input id="rock" type="checkbox" value="rock">Rock</input>
+          <input id="trap" type="checkbox" value="trap">Trap</input>
+          <input id="submitTags" type="button" value="READY!" />
+        </form>
+      </div>
+      <div class="row text-center">
+        <div id="loginMenuDiv" class="col-md-12 col-sm-12">
+          <h4 id="loginMenuLink" class="linkmenu" onclick="openNavLogin()">login</h4>
+          <button id="yourMoosic" class="btn btn-primary hide" hide>
+            <h4 class="linkmenu" onclick="openNavPlaylist()"><span id="like2" class="fa fa-heart"></span> Favoorite moosics</h4>
+          </button>
+          <h5 id="usernameMenu" class="linkmenu hide"></h5>
         </div>
-
       </div>
     </div>
   </div>
@@ -242,7 +219,7 @@
       <!-- Icon Close -->
       <div class="row">
         <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
+          <a class="glyphicon glyphicon-menu-hamburger closebtn" onclick="closeNav()"></a>
         </div>
       </div>
       <!-- Title -->
@@ -251,6 +228,12 @@
           <h1>Playlist</h1>
         </div>
       </div>
+      <!-- WavesForm -->
+      <div class="col-lg-1 col-sm-1 col-xs-1"></div>
+      <div class="col-lg-10 col-sm-10 col-xs-10 waveform">
+        <div id="audio-spectrum2" class="hide"></div>
+      </div>
+      <div class="col-lg-1 col-sm-1 col-xs-1"></div>
       <!-- Table Playlist -->
       <div class="row">
         <div class="col-md-12">
@@ -262,48 +245,7 @@
               <th></th>
               <th></th>
             </tr>
-            <!-- <tr>
-              <td><img id="artwork" src="img/artwork-jamendo.jpg" height="42" width="42"></img></td>
-              <td>E. Satie - Trois Gnossiennes - I. Lent - Alessandro Simonetto</td>
-              <td>OnClassical</td>
-              <td><span id="like-playlist" class="fa fa-heart icon-playlist"></span></td>
-              <td><span id="play-playlist" class="fa fa-play icon-playlist"></span></td>
-            </tr> -->
           </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Slide About Menu -->
-  <div id="mySidenavAbout" class="sidenav">
-    <div class="container">
-      <!-- Icon Close -->
-      <div class="row">
-        <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
-        </div>
-      </div>
-      <!-- Title -->
-      <div class="row">
-        <div class="col-md-12">
-          <h1>About</h1>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Slide Contact Menu -->
-  <div id="mySidenavContact" class="sidenav">
-    <div class="container">
-      <!-- Icon Close -->
-      <div class="row">
-        <div class="col-md-12">
-          <a class="glyphicon glyphicon-remove closebtn" onclick="closeNav()"></a>
-        </div>
-      </div>
-      <!-- Title -->
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Contact</h1>
         </div>
       </div>
     </div>

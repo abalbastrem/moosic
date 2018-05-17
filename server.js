@@ -84,10 +84,18 @@ app.post('/signup', async function(request, response) {
       });
     } else {
       if (await user.signUp(jsonObj)) {
-        response.send({
-          "status": true,
-          "message": "user registered. Please log in"
-        })
+        if (await user.createFavoorites(jsonObj)) { // create playlist when user is signed up
+          response.send({
+            "status": true,
+            "message": "user registered. Please log in"
+          })
+        } else {
+          response.send({
+            "status": false,
+            "data": 3,
+            "message": "user registered, but favoorites could not be created"
+          })
+        }
       } else {
         response.send({
           "status": false,
@@ -139,7 +147,7 @@ app.post('/blindstart', async function(request, response) {
   logger.log(request, response);
   try {
     const res = await user.blindStart();
-    console.log("::::: " + JSON.stringify(res, null, 2));
+    // console.log("::::: " + JSON.stringify(res, null, 2));
     response.send({
       "status": "true",
       "data": res
@@ -337,6 +345,7 @@ app.post('/unfavoritetrack', async function(request, response) {
   logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
+    console.log(JSON.stringify(jsonObj, null, 2));
     if (await user.unfavoriteTrack(jsonObj)) {
       response.send({
         "status": true,

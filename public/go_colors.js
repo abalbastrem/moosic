@@ -3,6 +3,8 @@ var index = 0;
 var tags;
 var moosics;
 var path_tags;
+var promptimeout;
+var playtimeout;
 var arrayColors = [];
 
 $(document).ready(function() {
@@ -38,7 +40,6 @@ $(document).ready(function() {
         isShadowed: true,
         shadowColor: "rgba(16,16,16,0.3)",
         shadowBlur: 4
-        // shadowOffset: Point.parse("(5,5)")
       },
       // the node's outer shape, which will surround the text
       $(go.Panel, "Auto", {
@@ -76,13 +77,6 @@ $(document).ready(function() {
             }
             return color[0];
           })
-        ),
-        $(go.Picture, {
-            // stretch: go.GraphObject.Fill,
-            // imageStretch: go.GraphObject.UniformToFill,
-            // source: "http://192.168.1.17:8888/public/img/cow_pattern_50px.jpg"
-          },
-          new go.Binding("source", "src")
         ),
         $(go.TextBlock, {
             font: "12pt Roboto",
@@ -126,14 +120,14 @@ $(document).ready(function() {
   myDiagram.linkTemplate =
     $(go.Link, // the whole link panel
       {
-        curve: go.Link.Bezier
+        curve: go.Link.Bezier,
+        layerName: "Background"
       }, // Bezier curve
       $(go.Shape, //
         {
           strokeWidth: 2
         }, //
         new go.Binding("stroke", "fromNode", function(n) {
-          console.log("::::: FILL 4 STROKE: " + n.data.fill);
           if (n.data.fill == undefined) {
             return "rgba(16,16,16,0.75)";
           } else {
@@ -185,6 +179,9 @@ $(document).ready(function() {
   }
 
   function expandNode(node) {
+    clearTimeout(promptimeout);
+    clearTimeout(playtimeout);
+    index_songs = 0;
     var diagram = node.diagram;
     diagram.startTransaction("CollapseExpandTree");
     // this behavior is specific to this incrementalTree sample:
@@ -257,6 +254,9 @@ $(document).ready(function() {
   }
 
   function expandNodeTag(node) {
+    clearTimeout(promptimeout);
+    clearTimeout(playtimeout);
+    hideTag("promptTags");
     var diagram = node.diagram;
     diagram.startTransaction("CollapseExpandTree");
     // this behavior is specific to this incrementalTree sample:
@@ -291,9 +291,6 @@ $(document).ready(function() {
     // create several node data objects and add them to the model
     var model = myDiagram.model;
     var parent = myDiagram.findNodeForData(parentdata);
-    // console.log(parent.data.__gohashid);
-    console.log("::::: INSIDE CREATESUBTREETAGS:");
-    console.log(parent);
 
 
     var degrees = 1;

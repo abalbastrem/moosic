@@ -6,15 +6,49 @@ body {
   /*justify-content: center;/*/
 }
 
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+#registerLink {
+  margin-top: 10%;
+  font-size: 14px;
+}
+
 .prompt {
-  margin: auto;/
+  margin: auto;
+  /
   /*top: 10%;*/
   /*left: 35%;*/
   width: 30%;
   /*height: 30%;*/
   padding: 5%;
   border-radius: 20px 20px 20px 20px;
-  background-color: #111;
+  /*background-color: #111;*/
   z-index: 99;
 }
 
@@ -31,8 +65,8 @@ body {
   overflow-x: hidden;
   transition: 1s;
   text-align: center;
-   opacity: 0.9;
-   /*filter: blur(1px);*/
+  opacity: 0.9;
+  /*filter: blur(1px);*/
 }
 
 .sidenav {
@@ -67,7 +101,18 @@ body {
 .sidenav .closebtn {
   position: absolute;
   top: 0;
+  left: 0;
+  /*right: 5px;*/
+  font-size: 20px;
+  padding: 10px;
+  /*margin-left: 50px;*/
+  z-index: 1;
+}
+
+.sidenav .logoutbtn {
+  position: absolute;
   right: 5px;
+  padding: 10px;
   font-size: 20px;
   margin-left: 50px;
   z-index: 1;
@@ -89,6 +134,19 @@ body {
 .artwork-track {
   margin-right: 10px;
   margin-left: 10px;
+}
+
+#loginMenuDiv {
+  position: absolute;
+  bottom: 7px;
+  width: 100%;
+}
+
+/* playlist table */
+
+#playlist-table td {
+  padding-right: 15px;
+  padding-bottom: 10px;
 }
 
 /* Icons */
@@ -122,6 +180,12 @@ body {
   font-size: 15px;
 }
 
+/* WavesForm */
+
+#audio-spectrum2 {
+  margin-bottom: 5%;
+}
+
 /* Footer */
 
 .footer {
@@ -151,6 +215,10 @@ body {
 .row {
   padding-bottom: 10px;
 }
+
+/*.linkmenu {
+  padding-top: 225%;
+}*/
 
 /* artwork track */
 

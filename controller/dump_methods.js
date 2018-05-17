@@ -7,7 +7,7 @@ exports.testdb = async function() {
   try {
     await con.pgtest();
     var resultJson = await con.pgClient.query('SELECT row_to_json(tracks) FROM tracks LIMIT 3');
-    console.log("::::: JSON IN METHOD: " + JSON.stringify(resultJson.rows[0].row_to_json, null, 2));
+    // console.log("::::: JSON IN METHOD: " + JSON.stringify(resultJson.rows[0].row_to_json, null, 2));
     return resultJson;
   } catch (e) {
     console.error("ERROR: " + e);
@@ -21,9 +21,9 @@ exports.firstDump = async function() {
     // console.log(JSON.stringify(jsonArray, null, 2));
     console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
     for (let jsonTrack of jsonArray) {
-      console.log("::::: query TRACK");
+      // console.log("::::: query TRACK");
       let SQLtrack = jsonTrack2sql(jsonTrack);
-      console.log("::::: query TAGS");
+      // console.log("::::: query TAGS");
       let SQLtags = jsonTags2sql(jsonTrack);
       await insertTrack(SQLtrack);
       await insertTags(SQLtags);
@@ -45,7 +45,7 @@ async function apiAllTags() {
         json = await jamendo.api(url);
         for (let jsonTrack of json) {
           tracksArray.push(jsonTrack);
-          console.log("::::: acc json obj length: " + tracksArray.length);
+          // console.log("::::: acc json obj length: " + tracksArray.length);
         }
       }
     };
@@ -62,9 +62,9 @@ exports.weeklyDump = async function(from, to) {
     // console.log(JSON.stringify(jsonArray, null, 2));
     console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
     for (let jsonTrack of jsonArray) {
-      console.log("::::: query TRACK");
+      // console.log("::::: query TRACK");
       let SQLtrack = jsonTrack2sql(jsonTrack);
-      console.log("::::: query TAGS");
+      // console.log("::::: query TAGS");
       let SQLtags = jsonTags2sql(jsonTrack);
       await insertTrack(SQLtrack);
       await insertTags(SQLtags);
@@ -87,7 +87,7 @@ async function apiAllTagsForWeeklyDump(from, to) {
         json = await jamendo.api(url);
         for (let jsonTrack of json) {
           tracksArray.push(jsonTrack);
-          console.log("::::: acc json obj length: " + tracksArray.length);
+          // console.log("::::: acc json obj length: " + tracksArray.length);
         }
       }
     };
@@ -114,7 +114,7 @@ function jsonTags2sql(jsonTrack) {
   var id_track = jsonTrack.id;
   for (let genre of jsonTrack.musicinfo.tags.genres) {
     var params = [id_track, genre];
-    console.log(":::: genre: " + genre);
+    // console.log(":::: genre: " + genre);
     var subtext = "(SELECT id FROM leyenda_tags WHERE nombre ILIKE $2)";
     var text = "INSERT INTO tags (id_track, id_leyenda_tag) VALUES ($1, " + subtext + ") ON CONFLICT (id_track, id_leyenda_tag) DO NOTHING";
     var query = {
@@ -154,9 +154,9 @@ async function insertTags(SQLtags) {
 exports.demo = async function() {
   try {
     const res = await con.pgClient.query('SELECT demo(3)');
-    console.log("::::: RESULT FROM DEMO: " + JSON.stringify(res.rows[0].demo));
+    // console.log("::::: RESULT FROM DEMO: " + JSON.stringify(res.rows[0].demo));
   } catch (e) {
-    console.log("ERROR WHILE DEMO: " + e);
+    console.error("ERROR WHILE DEMO: " + e);
   }
 };
 
@@ -165,6 +165,6 @@ exports.updateViews = async function() {
     const res = await con.pgClient.query('SELECT creaviews()');
     console.log("::::: RESULT FROM VIEWS: " + res);
   } catch (e) {
-    console.log("ERROR WHILE UPDATING VIEWS: " + e);
+    console.error("ERROR WHILE UPDATING VIEWS: " + e);
   }
 };

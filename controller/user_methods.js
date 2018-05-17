@@ -118,6 +118,25 @@ exports.logIn = async function(jsonObj) {
   }
 };
 
+exports.createFavoorites = async function(jsonObj) {
+  try {
+    var text = "";
+    text += "insert into playlist(title, users_id) ";
+    text += "select 'favoorites', users.id from users ";
+    text += "where username ilike $1 ";
+    text += "on conflict(users_id) do nothing returning true";
+    values = [];
+    values.push(jsonObj.username);
+    if (await con.pgClient.query(text, values)) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.error("ERROR: " + e);
+  }
+}
+
 // Checks whether user should vote
 exports.beforeVote = async function(jsonObj) {
   try {

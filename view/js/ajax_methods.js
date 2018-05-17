@@ -278,8 +278,6 @@ function getUserPlaylist() {
   };
   $.ajax(options);
 }
-//<<<<<<< Updated upstream
-
 
 function beforeMoods() {
   var args = {
