@@ -12,6 +12,7 @@ In postgresql, create a user named 'pc18'. With this user, create a database nam
 __Create a new database of your own way:__\
 You will need a jamendo API key. Get one at [https://devportal.jamendo.com/](URL)\
 Modify the file *./controller/globals/JAMENDO_KEY* and substitute the current key with the one you got from jamendo.\
+
 Regardless of the dump method you are following, you'll have to modify these files in the following ways:
   * *./controller/globals/DBCONFIG* :: Change the postgres database configuration
   * *./view/moosic-v2.html* :: Change all the href and src in the first few lines to your server
@@ -30,6 +31,7 @@ Conéctate a esta BBDD e importa el archivo *moosic_final_export.pgsql* con `\i 
 __Si haces un dump propio:__\
 Necesitarás una key de la API de jamendo. Consigue una aquí: [https://devportal.jamendo.com/](URL)\
 Modifica el fichero *./controller/globals/JAMENDO_KEY* y substituye su key por la key que has conseguido de jamendo.\
+
 Independientemente del método que uses para el dump, tendrás que modificar los siguientes ficheros de las siguientes maneras:
   * *./controller/globals/DBCONFIG* :: Cambia la configuración de la base de datos postgres
   * *./view/moosic-v2.html* :: Cambia todos los href y src de las primeras lineas a tu dirección de servidor
