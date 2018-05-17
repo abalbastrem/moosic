@@ -20,8 +20,8 @@ exports.urlBuilder = function(tag) {
 };
 
 exports.urlBuilderForWeeklyDump = function(tag, from, to) {
-  console.log("::::: FROM: " + from);
-  console.log("::::: TO: " + to);
+  // console.log("::::: FROM: " + from);
+  // console.log("::::: TO: " + to);
   var url = "https://api.jamendo.com/v3.0/tracks/?client_id=" + GLOBALS.KEY + "&order=relevance&include=musicinfo&audioformat=ogg&tags=" + tag + "&datebetween=" + from + "_" + to + "&limit=10";
   return url;
 };
