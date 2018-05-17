@@ -7,12 +7,12 @@ moosic es una plataforma donde los usuarios están al mando y pueden descubrir y
 
 ## ENG Instructions
 After downloading the repository, you will to populate the database. There is two ways of doing this: either import our current database dump or create one your own.\
-<u>Import our database dump way:</u>\
+__Import our database dump way:__\
 In postgresql, create a user named 'pc18'. With this user, create a database named 'music_final'. Connect to said database and import the file *moosic_final_export.pgsql* with `\i moosic_final_export.pgsql`\
-<u>Create a new database of your own way:</u>\
+__Create a new database of your own way:__\
 You will need a jamendo API key. Get one at [https://devportal.jamendo.com/](URL)\
 Modify the file *./controller/globals/JAMENDO_KEY* and substitute the current key with the one you got from jamendo.\
-Regardless of the dump method you are following, you'll have to modify these files in the following ways:\
+Regardless of the dump method you are following, you'll have to modify these files in the following ways:
   * *./controller/globals/DBCONFIG* :: Change the postgres database configuration
   * *./view/moosic-v2.html* :: Change all the href and src in the first few lines to your server
   * *.view/js/methods.js* :: Change url in line 2 to your server
@@ -24,13 +24,13 @@ Execute *./server.js* in a terminal with `node server.js`. The first dump will t
 
 ## SPA Instrucciones
 Después de bajar o clonar el repositorio, vas a tener que popular la base de datos. Hay dos maneras de hacerlo: o bien importar nuestro dump actual o bien crear uno propio.\
-<u>Si importas nuestro dump:</u>\
+__Si importas nuestro dump:__\
 En postgres, crea el usuario 'pc18'. Con este usuario, crea la base de datos 'music_final'.
 Conéctate a esta BBDD e importa el archivo *moosic_final_export.pgsql* con `\i moosic_final_export.pgsql`\
-<u>Si haces un dump propio:</u>\
+__Si haces un dump propio:__\
 Necesitarás una key de la API de jamendo. Consigue una aquí: [https://devportal.jamendo.com/](URL)\
 Modifica el fichero *./controller/globals/JAMENDO_KEY* y substituye su key por la key que has conseguido de jamendo.\
-Independientemente del método que uses para el dump, tendrás que modificar los siguientes ficheros de las siguientes maneras:\
+Independientemente del método que uses para el dump, tendrás que modificar los siguientes ficheros de las siguientes maneras:
   * *./controller/globals/DBCONFIG* :: Cambia la configuración de la base de datos postgres
   * *./view/moosic-v2.html* :: Cambia todos los href y src de las primeras lineas a tu dirección de servidor
   * *.view/js/methods.js* :: Cambia la url de la segunda línea a tu dirección de servidor
