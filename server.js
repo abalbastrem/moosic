@@ -147,7 +147,7 @@ app.post('/blindstart', async function(request, response) {
   logger.log(request, response);
   try {
     const res = await user.blindStart();
-    console.log("::::: " + JSON.stringify(res, null, 2));
+    // console.log("::::: " + JSON.stringify(res, null, 2));
     response.send({
       "status": "true",
       "data": res
