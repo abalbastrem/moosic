@@ -118,6 +118,7 @@ function playFavSong(audio_song) {
 }
 
 function playNext() {
+  actual_song = array_songs_url[index_songs];
   console.log('LLAMADO PLAYNEXT' + index_songs);
   if (index_songs < array_songs_url.length) {
     // console.log(array_songs_url);
@@ -209,7 +210,7 @@ async function createPrompt(song) {
     // openNavLogin();
     id_user = 100;
   } else {
-    var id_user = user.id;
+    var id_user = user.data.id;
   }
   // console.log("CREAR PROMPT CON LOS VALORES DE " + beforeVote(song.id, 66));
   /*
