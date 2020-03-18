@@ -84,13 +84,23 @@ exports.weeklyDump = async function (from, to) {
 
 async function initTables() {
     const moosics = "CREATE TABLE moosics (id int, name varchar(255), duration int, releasedate char(10), artist_id int, artist_name varchar(255), album_image varchar(255), audio varchar(255), audiodownload varchar(255), image varchar(255), album_name varchar(255), shorturl varchar(127))";
-    const tags = "CREATE TABLE tags(id_track int, id_tag_info int)";
-    const tag_info = "CREATE TABLE tag_info(id int, name varchar(127))";
+    const tags = "CREATE TABLE tags (id_moosic int, id_taginfo int)";
+    const taginfo = "CREATE TABLE taginfo (id int, name varchar(127))";
+    const moosics_pk = "ALTER TABLE moosics ADD PRIMARY KEY (id)";
+    const tags_pk = "ALTER TABLE tags ADD CONSTRAINT PK_tags PRIMARY KEY (id_moosic, id_taginfo)";
+    const taginfo_pk = "ALTER TABLE taginfo ADD PRIMARY KEY (id)";
+    const tags_fk1 = "ALTER TABLE tags ADD FOREIGN KEY (id_moosic) REFERENCES moosics(id)";
+    const tags_fk2 = "ALTER TABLE tags ADD FOREIGN KEY (id_taginfo) REFERENCES taginfo(id)";
 
     try {
         await con.pgClient.query(moosics);
         await con.pgClient.query(tags);
-        await con.pgClient.query(tag_info);
+        await con.pgClient.query(taginfo);
+        await con.pgClient.query(moosics_pk);
+        await con.pgClient.query(tags_pk);
+        await con.pgClient.query(taginfo_pk);
+        await con.pgClient.query(tags_fk1);
+        await con.pgClient.query(tags_fk2);
         console.log("::::: TABLES INITIALISED");
     } catch (e) {
         console.error("::::: ERROR while creating tables: " + e);
@@ -139,8 +149,8 @@ function jsonTags2sql(jsonTrack) {
     for (let genre of jsonTrack.musicinfo.tags.genres) {
         var params = [id_track, genre];
         // console.log(":::: genre: " + genre);
-        var subtext = "(SELECT id FROM tag_info WHERE name ILIKE $2)";
-        var text = "INSERT INTO tags (id_track, id_tag_info) VALUES ($1, " + subtext + ") ON CONFLICT (id_track, id_tag_info) DO NOTHING";
+        var subtext = "(SELECT id FROM taginfo WHERE name ILIKE $2)";
+        var text = "INSERT INTO tags (id_moosic, id_taginfo) VALUES ($1, " + subtext + ") ON CONFLICT (id_moosic, id_taginfo) DO NOTHING";
         var query = {
             text: text,
             values: params
