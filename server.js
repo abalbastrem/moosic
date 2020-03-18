@@ -402,5 +402,5 @@ cron.schedule('1 0 0 * * Sunday', function() {
 });
 
 /// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
-// db.firstDump();
+db.firstDump();
 // db.updateViews();
