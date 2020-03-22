@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="initial dump FIXd">
+      <change beforePath="$PROJECT_DIR$/controller/dump_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/dump_methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/setup_globals.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/setup_globals.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1YdS6y0GRtnOoabH2r07wcg6tXa" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="" />
+      <created>1583270806911</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583270806911</updated>
+      <workItem from="1583270813063" duration="4596000" />
+      <workItem from="1583777711414" duration="6000" />
+      <workItem from="1584471831268" duration="4962000" />
+      <workItem from="1584563111514" duration="5154000" />
+      <workItem from="1584641395083" duration="4379000" />
+      <workItem from="1584742243160" duration="2228000" />
+      <workItem from="1584903150821" duration="334000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial dump FIXd" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial dump FIXd" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="275" y="30" width="984" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584644890472">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="275" y="30" width="984" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584644890472" />
+    <state x="278" y="27" width="860" height="741" key="CommitChangelistDialog2" timestamp="1584903497995">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="278" y="27" width="860" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584903497995" />
+    <state x="169" y="27" key="SettingsEditor" timestamp="1584645772135">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="169" y="27" key="SettingsEditor/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584645772135" />
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1584903156660">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584903156660" />
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.193.1920.1080@67.27.1293.741" timestamp="1583777711466" />
+    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584563471521">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584563471521" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/controller/dump_methods.js</url>
+          <line>17</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/controller/dump_methods.js</url>
+          <line>20</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
