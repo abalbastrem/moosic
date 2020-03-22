@@ -148,7 +148,7 @@ $(document).ready(function() {
   myDiagram.model = new go.TreeModel([{
     key: 0,
     name: "moosic",
-    source: "http://192.168.1.17:8888/public/img/cow_pattern_50px.jpg",
+    source: "http://localhost:8888/public/img/cow_pattern_50px.jpg",
     id: key,
     // color: blues[0],
     everExpanded: false

@@ -5,7 +5,7 @@ function sendTags() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/test";
+  var url_s = "http://localhost:" + port + "/test";
   //console.log(url_s);
   //console.log(tags);
 
@@ -39,7 +39,7 @@ function signup() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/signup";
+  var url_s = "http://localhost:" + port + "/signup";
   //console.log(url_s);
   //console.log(tags);
 
@@ -68,7 +68,7 @@ function login() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/login";
+  var url_s = "http://localhost:" + port + "/login";
   //console.log(url_s);
   //console.log(tags);
 
@@ -97,7 +97,7 @@ function getTracks() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/getmoosics";
+  var url_s = "http://localhost:" + port + "/getmoosics";
   //console.log(url_s);
   //console.log(tags);
 
@@ -126,7 +126,7 @@ function beforeVote() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/beforevote";
+  var url_s = "http://localhost:" + port + "/beforevote";
   //console.log(url_s);
   //console.log(tags);
 
@@ -162,7 +162,7 @@ function vote() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/vote";
+  var url_s = "http://localhost:" + port + "/vote";
   //console.log(url_s);
   //console.log(tags);
 
@@ -196,7 +196,7 @@ function addFavoriteTrack() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/favoritetrack";
+  var url_s = "http://localhost:" + port + "/favoritetrack";
   //console.log(url_s);
   //console.log(tags);
 
@@ -229,7 +229,7 @@ function dropFavoriteTrack() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/unfavoritetrack";
+  var url_s = "http://localhost:" + port + "/unfavoritetrack";
   //console.log(url_s);
   //console.log(tags);
 
@@ -257,7 +257,7 @@ function getUserPlaylist() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/userfavorites";
+  var url_s = "http://localhost:" + port + "/userfavorites";
   //console.log(url_s);
   //console.log(tags);
 
@@ -286,7 +286,7 @@ function beforeMoods() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/beforemoods";
+  var url_s = "http://localhost:" + port + "/beforemoods";
   //console.log(url_s);
   //console.log(tags);
 
@@ -318,7 +318,7 @@ function voteMood() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/moods";
+  var url_s = "http://localhost:" + port + "/moods";
   //console.log(url_s);
   //console.log(tags);
 
@@ -347,7 +347,7 @@ function getTags() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/getTags";
+  var url_s = "http://localhost:" + port + "/getTags";
   //console.log(url_s);
   //console.log(tags);
 

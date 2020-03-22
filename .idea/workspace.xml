@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="initial dump FIXd">
-      <change beforePath="$PROJECT_DIR$/controller/dump_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/dump_methods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/setup_globals.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/setup_globals.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+    <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/DBCONFIG.EXAMPLE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/JAMENDO_KEY.EXAMPLE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/jamendo_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/jamendo_methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/go_colors.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/go_colors.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/js/ajax_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/js/ajax_methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/js/methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/js/methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/js/methodsdalealplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/js/methodsdalealplay.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/moosic-v2.html" beforeDir="false" afterPath="$PROJECT_DIR$/view/moosic-v2.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +59,13 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
+  <component name="RubyModuleManagerSettings">
+    <option name="blackListedRootsPaths">
+      <list>
+        <option value="$PROJECT_DIR$" />
+      </list>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -68,8 +82,17 @@
       <workItem from="1584563111514" duration="5154000" />
       <workItem from="1584641395083" duration="4379000" />
       <workItem from="1584742243160" duration="2228000" />
-      <workItem from="1584903150821" duration="334000" />
+      <workItem from="1584903150821" duration="1170000" />
+      <workItem from="1584904452371" duration="1060000" />
     </task>
+    <task id="LOCAL-00001" summary="initial dump FIXd">
+      <created>1584903498998</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1584903498998</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -80,10 +103,18 @@
     <option name="LAST_COMMIT_MESSAGE" value="initial dump FIXd" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="308" y="58" width="800" height="677" key="#JavaScript" timestamp="1584904481774">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="308" y="58" width="800" height="677" key="#JavaScript/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904481774" />
     <state x="275" y="30" width="984" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584644890472">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="275" y="30" width="984" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584644890472" />
+    <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584904832814">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904832814" />
     <state x="278" y="27" width="860" height="741" key="CommitChangelistDialog2" timestamp="1584903497995">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
@@ -92,30 +123,22 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="169" y="27" key="SettingsEditor/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584645772135" />
-    <state x="369" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1584903156660">
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1584904454248">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584903156660" />
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904454248" />
     <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.193.1920.1080@67.27.1293.741" timestamp="1583777711466" />
     <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584563471521">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584563471521" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/controller/dump_methods.js</url>
-          <line>17</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/controller/dump_methods.js</url>
-          <line>20</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="358" y="135" width="869" height="590" key="find.popup" timestamp="1584905407551">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584905407551" />
+    <state x="377" y="175" key="run.anything.popup" timestamp="1584904680422">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="377" y="175" key="run.anything.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904680422" />
   </component>
 </project>
