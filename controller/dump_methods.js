@@ -1,7 +1,6 @@
 const GLOBALS = require('./setup_globals');
 const jamendo = require('./jamendo_methods');
 const con = require('./connection');
-// console.log(con);
 
 exports.testdb = async function () {
     try {
@@ -17,7 +16,22 @@ exports.testdb = async function () {
 /// FIRST DUMP EVER ///
 exports.firstDump = async function () {
     console.log("::::: FIRST DUMP");
-    await initTables();
+
+    try {
+        await createTables();
+        console.log("::::: TABLES INITIALISED");
+    } catch (e) {
+        throw new Error("::::: ERROR while creating tables -> " + e);
+    }
+
+    try {
+        await initTaginfo();
+    } catch (e) {
+        throw new Error("::::: ERROR while filling up table `taginfo` -> " + e);
+    }
+
+    // throw new Error("DIE");
+
     try {
         const jsonArray = await apiAllTags();
         // console.log(JSON.stringify(jsonArray, null, 2));
@@ -33,10 +47,10 @@ exports.firstDump = async function () {
             console.log(SQLtags);
             await insertTrack(SQLtrack);
             await insertTags(SQLtags);
-          throw new Error("DIE");
+
         }
     } catch (e) {
-        console.log("::::: ERROR DURING FIRST DUMP: " + e);
+        throw new Error("::::: ERROR DURING FIRST DUMP: " + e);
     }
 };
 
@@ -72,6 +86,7 @@ exports.weeklyDump = async function (from, to) {
         for (let jsonTrack of jsonArray) {
             // console.log("::::: query TRACK");
             let SQLtrack = jsonTrack2sql(jsonTrack);
+            console.log(SQLtrack);
             // console.log("::::: query TAGS");
             let SQLtags = jsonTags2sql(jsonTrack);
             await insertTrack(SQLtrack);
@@ -82,28 +97,38 @@ exports.weeklyDump = async function (from, to) {
     }
 };
 
-async function initTables() {
-    const moosics = "CREATE TABLE moosics (id int, name varchar(255), duration int, releasedate char(10), artist_id int, artist_name varchar(255), album_image varchar(255), audio varchar(255), audiodownload varchar(255), image varchar(255), album_name varchar(255), shorturl varchar(127))";
+async function createTables() {
+    await con.pgClient.query("DROP TABLE IF EXISTS moosics CASCADE");
+    await con.pgClient.query("DROP TABLE IF EXISTS taginfo CASCADE");
+    await con.pgClient.query("DROP TABLE IF EXISTS tags CASCADE");
+
+    const moosics = "CREATE TABLE moosics (id int PRIMARY KEY, name varchar(255), duration int, releasedate char(10), artist_id int, artist_name varchar(255), album_image varchar(255), audio varchar(255), audiodownload varchar(255), image varchar(255), album_name varchar(255), shorturl varchar(127))";
     const tags = "CREATE TABLE tags (id_moosic int, id_taginfo int)";
-    const taginfo = "CREATE TABLE taginfo (id int, name varchar(127))";
-    const moosics_pk = "ALTER TABLE moosics ADD PRIMARY KEY (id)";
+    const taginfo = "CREATE TABLE taginfo (id SERIAL PRIMARY KEY, name VARCHAR(127) UNIQUE)";
     const tags_pk = "ALTER TABLE tags ADD CONSTRAINT PK_tags PRIMARY KEY (id_moosic, id_taginfo)";
-    const taginfo_pk = "ALTER TABLE taginfo ADD PRIMARY KEY (id)";
     const tags_fk1 = "ALTER TABLE tags ADD FOREIGN KEY (id_moosic) REFERENCES moosics(id)";
     const tags_fk2 = "ALTER TABLE tags ADD FOREIGN KEY (id_taginfo) REFERENCES taginfo(id)";
 
-    try {
-        await con.pgClient.query(moosics);
-        await con.pgClient.query(tags);
-        await con.pgClient.query(taginfo);
-        await con.pgClient.query(moosics_pk);
-        await con.pgClient.query(tags_pk);
-        await con.pgClient.query(taginfo_pk);
-        await con.pgClient.query(tags_fk1);
-        await con.pgClient.query(tags_fk2);
-        console.log("::::: TABLES INITIALISED");
-    } catch (e) {
-        console.error("::::: ERROR while creating tables: " + e);
+    await con.pgClient.query(moosics);
+    await con.pgClient.query(tags);
+    await con.pgClient.query(taginfo);
+    await con.pgClient.query(tags_pk);
+    await con.pgClient.query(tags_fk1);
+    await con.pgClient.query(tags_fk2);
+}
+
+async function initTaginfo() {
+    // TODO v2 dump tags into taginfo from jamendo
+    for (let tag of GLOBALS.TAGS) {
+        let query = {
+            text: "INSERT INTO taginfo (name) VALUES($1)",
+            values: [tag]
+        };
+        try {
+            await con.pgClient.query(query);
+        } catch (e) {
+            throw new Error("while init tag `" + tag + "` (QUERY: `" + query + "`). ->" + e);
+        }
     }
 }
 
@@ -132,33 +157,33 @@ async function apiAllTagsForWeeklyDump(from, to) {
 };
 
 function jsonTrack2sql(jsonTrack) {
-    var params = [jsonTrack.id, jsonTrack.name, jsonTrack.duration, jsonTrack.releasedate, jsonTrack.artist_id, jsonTrack.artist_name, jsonTrack.album_image, jsonTrack.audio, jsonTrack.audiodownload, jsonTrack.image, jsonTrack.album_name, jsonTrack.shorturl];
-    var text = "INSERT INTO moosics (id, name, duration, releasedate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) VALUES (";
+    let params = [jsonTrack.id, jsonTrack.name, jsonTrack.duration, jsonTrack.releasedate, jsonTrack.artist_id, jsonTrack.artist_name, jsonTrack.album_image, jsonTrack.audio, jsonTrack.audiodownload, jsonTrack.image, jsonTrack.album_name, jsonTrack.shorturl];
+    let text = "INSERT INTO moosics (id, name, duration, releasedate, artist_id, artist_name, album_image, audio, audiodownload, image, album_name, shorturl) VALUES (";
     text += "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) ";
-    text += "ON CONFLICT (id) DO NOTHING";
-    var query = {
+    // text += "ON CONFLICT (id) DO NOTHING";
+    let query = {
         text: text,
         values: params
     };
     return query;
-};
+}
 
 function jsonTags2sql(jsonTrack) {
-    var queryArray = [];
-    var id_track = jsonTrack.id;
+    let queryArray = [];
+    let id_track = jsonTrack.id;
     for (let genre of jsonTrack.musicinfo.tags.genres) {
-        var params = [id_track, genre];
-        // console.log(":::: genre: " + genre);
-        var subtext = "(SELECT id FROM taginfo WHERE name ILIKE $2)";
-        var text = "INSERT INTO tags (id_moosic, id_taginfo) VALUES ($1, " + subtext + ") ON CONFLICT (id_moosic, id_taginfo) DO NOTHING";
-        var query = {
+        let params = [id_track, genre];
+        let subtext = "(SELECT id FROM taginfo WHERE name ILIKE $2)";
+        let text = "INSERT INTO tags (id_moosic, id_taginfo) VALUES ($1, " + subtext + ") ";
+        // text += "ON CONFLICT (id_moosic, id_taginfo) DO NOTHING";
+        let query = {
             text: text,
             values: params
         };
         queryArray.push(query);
     }
     return queryArray;
-};
+}
 
 async function insertTrack(SQLtrack) {
     console.log("::::: inserting track into database");
