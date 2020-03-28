@@ -30,20 +30,22 @@ exports.firstDump = async function () {
         throw new Error("::::: ERROR while filling up table `taginfo` -> " + e);
     }
 
-    // throw new Error("DIE");
+    try {
+        await createBasicViews();
+    } catch (e) {
+        throw new Error("::::: ERROR while creating new views -> " + e);
+    }
 
     try {
         const jsonArray = await apiAllTags();
         // console.log(JSON.stringify(jsonArray, null, 2));
         console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
         for (let jsonTrack of jsonArray) {
-            // console.log("::::: query TRACK");
             let SQLtrack = jsonTrack2sql(jsonTrack);
-            // console.log("::::: query TAGS");
             let SQLtags = jsonTags2sql(jsonTrack);
             console.log("::::: TRACK SQL");
             console.log(SQLtrack);
-            console.log("::::: TRACK SQL");
+            console.log("::::: TAGS SQL");
             console.log(SQLtags);
             await insertTrack(SQLtrack);
             await insertTags(SQLtags);
@@ -52,6 +54,8 @@ exports.firstDump = async function () {
     } catch (e) {
         throw new Error("::::: ERROR DURING FIRST DUMP: " + e);
     }
+
+    console.log("::::: FIRST DUMP SUCCESSFULLY FINISHED");
 };
 
 async function apiAllTags() {
@@ -86,7 +90,7 @@ exports.weeklyDump = async function (from, to) {
         for (let jsonTrack of jsonArray) {
             // console.log("::::: query TRACK");
             let SQLtrack = jsonTrack2sql(jsonTrack);
-            console.log(SQLtrack);
+            // console.log(SQLtrack);
             // console.log("::::: query TAGS");
             let SQLtags = jsonTags2sql(jsonTrack);
             await insertTrack(SQLtrack);
@@ -129,6 +133,17 @@ async function initTaginfo() {
         } catch (e) {
             throw new Error("while init tag `" + tag + "` (QUERY: `" + query + "`). ->" + e);
         }
+    }
+}
+
+async function createBasicViews() {
+    let createTopTags = {
+        text: "CREATE VIEW toptags AS select row_number() OVER (order by count(*) DESC) as position, id_taginfo, taginfo.name, count(*) as popularity from tags join taginfo on id_taginfo = taginfo.id group by id_taginfo, taginfo.name order by popularity DESC"
+    };
+    try {
+        await con.pgClient.query(createTopTags);
+    } catch (e) {
+        throw new Error("while creating `toptags` -> " + e);
     }
 }
 

@@ -3,8 +3,8 @@ const con = require('./connection');
 // Returns most popular tags when the first moosic is clicked
 exports.blindStart = async function() {
   try {
-    var text = "SELECT array_to_json(array_agg(nombre)) FROM top_tags";
-    const res = await con.pgClient.query(text);
+    let text = "SELECT array_to_json(array_agg(toptags.name)) FROM toptags";
+    let res = await con.pgClient.query(text);
     // console.log("::::: " + JSON.stringify(res.rows[0].array_to_json, null, 2));
     return res.rows[0].array_to_json;
   } catch (e) {
@@ -15,14 +15,14 @@ exports.blindStart = async function() {
 // returns moosics based on tags input
 exports.getMoosics = async function(tagArray) {
   try {
-    var text = "SELECT array_to_json(array_agg(tracks)) ";
-    text += "FROM tracks JOIN (SELECT * FROM (SELECT tracks.id, array_agg(leyenda_tags.nombre) AS tags ";
-    text += "FROM tracks JOIN tags ON tracks.id=tags.id_track ";
-    text += "JOIN leyenda_tags ON leyenda_tags.id=tags.id_leyenda_tag GROUP BY tracks.id) AS tabla ";
-    text += "WHERE tags @> ($1::varchar[])) AS tabla_general ON tabla_general.id=tracks.id;"
-    var values = [];
+    let text = "SELECT array_to_json(array_agg(moosics)) ";
+    text += "FROM moosics JOIN (SELECT * FROM (SELECT moosics.id, array_agg(taginfo.name) AS tags ";
+    text += "FROM moosics JOIN tags ON moosics.id=tags.id_moosic ";
+    text += "JOIN taginfo ON taginfo.id=tags.id_taginfo GROUP BY moosics.id) AS ttable ";
+    text += "WHERE tags @> ($1::varchar[])) AS general_table ON general_table.id=moosics.id";
+    let values = [];
     values.push(tagArray);
-    const res = await con.pgClient.query(text, values);
+    let res = await con.pgClient.query(text, values);
     return res.rows[0].array_to_json;
   } catch (e) {
     console.error("ERROR: " + e);
