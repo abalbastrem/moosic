@@ -1,5 +1,5 @@
 var port = 8888;
-var url = "http://192.168.1.17"
+var url = "http://localhost"
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
@@ -270,7 +270,7 @@ function beforeVote() {
   };
 
   var port = 8888;
-  var url_s = "http://192.168.1.17:" + port + "/beforevote";
+  var url_s = "http://localhost:" + port + "/beforevote";
   //console.log(url_s);
   //console.log(tags);
 

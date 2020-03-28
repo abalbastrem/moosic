@@ -1,0 +1,5 @@
+./idea
+/config/DBCONFIG
+/config/JAMENDO_KEY
+/controller/globals/DBCONFIG
+/controller/globals/JAMENDO_KEY

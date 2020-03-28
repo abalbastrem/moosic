@@ -398,9 +398,9 @@ cron.schedule('1 0 0 * * Sunday', function() {
   const currentDateStr = currentDate.toISOString().substring(0, 10);
   const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
   db.weeklyDump(lastWeekDateStr, currentDateStr);
-  // db.updateViews();
+  db.updateViews();
 });
 
 /// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
-db.firstDump();
+// db.firstDump();
 // db.updateViews();

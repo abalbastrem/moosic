@@ -5,5 +5,17 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="materialicons" level="application" />
+    <orderEntry type="library" name="go-debug" level="application" />
+    <orderEntry type="library" name="randomColor" level="application" />
+    <orderEntry type="library" name="fontawesome-all" level="application" />
+    <orderEntry type="library" name="wavesurfer" level="application" />
+    <orderEntry type="library" name="roboto" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="index" level="application" />
+    <orderEntry type="library" name="go_colors" level="application" />
+    <orderEntry type="library" name="methods" level="application" />
+    <orderEntry type="library" name="styles" level="application" />
   </component>
 </module>
