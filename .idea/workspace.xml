@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/dump_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/dump_methods.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/user_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_methods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/views/crearviews.sql" beforeDir="false" afterPath="$PROJECT_DIR$/model/views/crearviews.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +131,7 @@
       <workItem from="1584903150821" duration="1170000" />
       <workItem from="1584904452371" duration="3715000" />
       <workItem from="1584964890797" duration="18000" />
-      <workItem from="1585332078727" duration="6076000" />
+      <workItem from="1585332078727" duration="7033000" />
     </task>
     <task id="LOCAL-00001" summary="initial dump FIXd">
       <created>1584903498998</created>
@@ -160,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584905945997</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="FIXd until play.&#10;Further tags need expanding.">
+      <created>1585401230379</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1585401230379</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,7 +170,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial dump FIXd" />
     <MESSAGE value="moved from school server to localhost&#10;TODO must resolve host more elegantly" />
-    <option name="LAST_COMMIT_MESSAGE" value="moved from school server to localhost&#10;TODO must resolve host more elegantly" />
+    <MESSAGE value="FIXd until play.&#10;Further tags need expanding." />
+    <option name="LAST_COMMIT_MESSAGE" value="FIXd until play.&#10;Further tags need expanding." />
   </component>
   <component name="WindowStateProjectService">
     <state x="308" y="58" width="800" height="677" key="#JavaScript" timestamp="1584904481774">
@@ -188,10 +190,10 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904832814" />
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1584905945629">
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1585401229656">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584905945629" />
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585401229656" />
     <state width="852" height="175" key="GridCell.Tab.0.bottom" timestamp="1584906593931">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
