@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="All tag activity works">
-      <change afterPath="$PROJECT_DIR$/model/v1/create_views.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/v1/insert_mood_votes.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/v1/insert_moods.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/v1/insert_tagvotes.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/v1/insert_users.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/v1/moosic.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/v1/moosic_final_export.pgsql" afterDir="false" />
+    <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/dump_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/dump_methods.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/user_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_methods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/moosic.sql" beforeDir="false" afterPath="$PROJECT_DIR$/model/moosic.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +138,7 @@
       <workItem from="1584904452371" duration="3715000" />
       <workItem from="1584964890797" duration="18000" />
       <workItem from="1585332078727" duration="14211000" />
-      <workItem from="1585492950942" duration="6523000" />
+      <workItem from="1585492950942" duration="8138000" />
     </task>
     <task id="LOCAL-00001" summary="initial dump FIXd">
       <created>1584903498998</created>
@@ -186,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585409575593</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="favoorites FIXd">
+      <created>1585503268236</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1585503268236</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,7 +193,8 @@
     <MESSAGE value="moved from school server to localhost&#10;TODO must resolve host more elegantly" />
     <MESSAGE value="FIXd until play.&#10;Further tags need expanding." />
     <MESSAGE value="All tag activity works" />
-    <option name="LAST_COMMIT_MESSAGE" value="All tag activity works" />
+    <MESSAGE value="favoorites FIXd" />
+    <option name="LAST_COMMIT_MESSAGE" value="favoorites FIXd" />
   </component>
   <component name="WindowStateProjectService">
     <state x="308" y="58" width="800" height="677" key="#JavaScript" timestamp="1584904481774">
@@ -216,10 +213,10 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904832814" />
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1585501145152">
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1585503266821">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585501145152" />
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585503266821" />
     <state width="852" height="175" key="GridCell.Tab.0.bottom" timestamp="1584906593931">
       <screen x="67" y="27" width="1293" height="741" />
     </state>

@@ -140,17 +140,17 @@ exports.createFavoorites = async function(jsonObj) {
 // Checks whether user should vote
 exports.beforeVote = async function(jsonObj) {
   try {
-    var text = "SELECT array_agg(nombre) FROM ";
-    text += "(SELECT tags.id, leyenda_tags.nombre ";
-    text += "FROM tags JOIN tracks ON tags.id_track = tracks.id ";
-    text += "JOIN leyenda_tags ON leyenda_tags.id = tags.id_leyenda_tag ";
-    text += "WHERE tracks.id = $1 AND tags.id NOT IN ";
-    text += "(SELECT * FROM (SELECT votos_tag.id_tags FROM votos_tag ";
-    text += "JOIN tags ON votos_tag.id_tags = tags.id JOIN tracks ON tags.id_track = tracks.id ";
-    text += "WHERE tracks.id = $1 AND votos_tag.id_users = $2) AS tags_user ";
-    text += "WHERE tags_user.id_tags IN (SELECT votos_tag.id_tags ";
-    text += "FROM votos_tag join tags on votos_tag.id_tags = tags.id join tracks on tags.id_track = tracks.id ";
-    text += "WHERE tracks.id = $1 group by votos_tag.id_tags having count(votos_tag.id_tags) < 5))) AS result";
+    var text = "SELECT array_agg(name) FROM ";
+    text += "(SELECT tags.id, taginfo.name ";
+    text += "FROM tags JOIN moosics ON tags.moosics_id = moosics.id ";
+    text += "JOIN taginfo ON taginfo.id = tags.taginfo_id ";
+    text += "WHERE moosics.id = $1 AND tags.id NOT IN ";
+    text += "(SELECT * FROM (SELECT tag_votes.tags_id FROM tag_votes ";
+    text += "JOIN tags ON tag_votes.tags_id = tags.id JOIN moosics ON tags.moosics_id = moosics.id ";
+    text += "WHERE moosics.id = $1 AND tag_votes.users_id = $2) AS tags_user ";
+    text += "WHERE tags_user.tags_id IN (SELECT tag_votes.tags_id ";
+    text += "FROM tag_votes join tags on tag_votes.tags_id = tags.id join moosics on tags.moosics_id = moosics.id ";
+    text += "WHERE moosics.id = $1 group by tag_votes.tags_id having count(tag_votes.tags_id) < 5))) AS result";
     var values = [];
     values.push(jsonObj.id_track);
     values.push(jsonObj.id_user);
@@ -166,12 +166,12 @@ exports.beforeVote = async function(jsonObj) {
 exports.vote = async function(jsonObj) {
   try {
     var text = "";
-    text += "INSERT INTO votos_tag (id_tags, vote, id_users) ";
-    text += "SELECT * FROM (SELECT tags.id, CAST($3 AS VOTE) AS vote, ";
-    text += "CAST($1 AS INTEGER) AS id_user FROM tags ";
-    text += "JOIN leyenda_tags ON tags.id_leyenda_tag = leyenda_tags.id ";
-    text += "WHERE leyenda_tags.nombre ILIKE $4 AND id_track = $2) AS result ";
-    text += "ON CONFLICT (id_tags, id_users) DO UPDATE SET vote = excluded.vote";
+    text += "INSERT INTO tag_votes (tags_id, vote, users_id) ";
+    text += "SELECT * FROM (SELECT tags.id, CAST($3 AS vote_tag) AS vote, ";
+    text += "CAST($1 AS INTEGER) AS users_id FROM tags ";
+    text += "JOIN taginfo ON tags.taginfo_id = taginfo.id ";
+    text += "WHERE taginfo.name ILIKE $4 AND moosics_id = $2) AS result ";
+    text += "ON CONFLICT (tags_id, users_id) DO UPDATE SET vote = excluded.vote";
     var values = [];
     values.push(jsonObj.id_user);
     values.push(jsonObj.id_track);
@@ -186,11 +186,11 @@ exports.vote = async function(jsonObj) {
 
 exports.hasUserVotedMoods = async function(jsonObj) {
   try {
-    var text = "SELECT moods.id_track, votos_moods.id_user, votos_moods.vote, leyenda_mood.nombre ";
+    var text = "SELECT moods.moosics_id, votos_moods.id_user, votos_moods.vote, leyenda_mood.name ";
     text += "FROM votos_moods ";
     text += "JOIN moods ON votos_moods.id_moods = moods.id ";
     text += "JOIN leyenda_mood ON leyenda_mood.id = moods.id_leyenda_mood ";
-    text += "WHERE moods.id_track = $1 AND id_user = $2";
+    text += "WHERE moods.moosics_id = $1 AND id_user = $2";
     var values = [];
     values.push(jsonObj.id_track);
     values.push(jsonObj.id_user);
@@ -208,7 +208,7 @@ exports.hasUserVotedMoods = async function(jsonObj) {
 
 exports.whichMoodsToVote = async function() {
   try {
-    var text = "SELECT array_to_json(array_agg(nombre)) from leyenda_mood";
+    var text = "SELECT array_to_json(array_agg(name)) from leyenda_mood";
     const res = await con.pgClient.query(text);
     console.log("::::: WHICH MOODS TO VOTE: \n" + JSON.stringify(res.rows[0].array_to_json));
     return res.rows[0].array_to_json;
@@ -222,10 +222,10 @@ exports.moods = async function(jsonObj) {
   try {
     for (let i = 0; i < jsonObj.moods_like.length; i++) {
       console.log("::::: TAG: " + jsonObj.moods_like[i]);
-      var text1 = "INSERT INTO moods (id_leyenda_mood, id_track) ";
+      var text1 = "INSERT INTO moods (id_leyenda_mood, moosics_id) ";
       text1 += "SELECT id, cast($1 AS INTEGER) FROM ";
-      text1 += "leyenda_mood WHERE nombre ILIKE $2 ";
-      text1 += "ON CONFLICT (id_leyenda_mood, id_track) DO NOTHING ";
+      text1 += "leyenda_mood WHERE name ILIKE $2 ";
+      text1 += "ON CONFLICT (id_leyenda_mood, moosics_id) DO NOTHING ";
       text1 += "RETURNING true";
       var values1 = [];
       values1.push(jsonObj.id_track);
@@ -233,7 +233,7 @@ exports.moods = async function(jsonObj) {
       var text2 = "INSERT INTO votos_moods (id_moods, vote, id_user) ";
       text2 += "SELECT moods.id, cast('like' AS vote_mood), CAST($1 AS BIGINT) AS id_user ";
       text2 += "FROM moods JOIN leyenda_mood ON moods.id_leyenda_mood = leyenda_mood.id ";
-      text2 += "WHERE moods.id_track = $2 AND leyenda_mood.nombre ILIKE $3 ";
+      text2 += "WHERE moods.moosics_id = $2 AND leyenda_mood.name ILIKE $3 ";
       text2 += "ON CONFLICT (id_moods, id_user) DO UPDATE SET vote = excluded.vote ";
       text2 += "RETURNING true";
       var values2 = [];
@@ -250,10 +250,10 @@ exports.moods = async function(jsonObj) {
     } // end for
     for (let i = 0; i < jsonObj.moods_zero.length; i++) {
       console.log("::::: TAG: " + jsonObj.moods_zero[i]);
-      var text1 = "INSERT INTO moods (id_leyenda_mood, id_track) ";
+      var text1 = "INSERT INTO moods (id_leyenda_mood, moosics_id) ";
       text1 += "SELECT id, cast($1 AS INTEGER) FROM ";
-      text1 += "leyenda_mood WHERE nombre ILIKE $2 ";
-      text1 += "ON CONFLICT (id_leyenda_mood, id_track) DO NOTHING ";
+      text1 += "leyenda_mood WHERE name ILIKE $2 ";
+      text1 += "ON CONFLICT (id_leyenda_mood, moosics_id) DO NOTHING ";
       text1 += "RETURNING true";
       var values1 = [];
       values1.push(jsonObj.id_track);
@@ -261,7 +261,7 @@ exports.moods = async function(jsonObj) {
       var text2 = "INSERT INTO votos_moods (id_moods, vote, id_user) ";
       text2 += "SELECT moods.id, cast('zero' AS vote_mood), CAST($1 AS BIGINT) AS id_user ";
       text2 += "FROM moods JOIN leyenda_mood ON moods.id_leyenda_mood = leyenda_mood.id ";
-      text2 += "WHERE moods.id_track = $2 AND leyenda_mood.nombre ILIKE $3 ";
+      text2 += "WHERE moods.moosics_id = $2 AND leyenda_mood.name ILIKE $3 ";
       text2 += "ON CONFLICT (id_moods, id_user) DO UPDATE SET vote = excluded.vote ";
       text2 += "RETURNING true";
       var values2 = [];
