@@ -321,7 +321,7 @@ app.post('/favoritetrack', async function(request, response) {
   logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
-    if (await user.favoriteTrack(jsonObj)) {
+    if (await user.favooriteMoosic(jsonObj)) {
       response.send({
         "status": true,
         "message": "moosic has been added"
@@ -346,7 +346,7 @@ app.post('/unfavoritetrack', async function(request, response) {
   try {
     var jsonObj = JSON.parse(request.body.json);
     console.log(JSON.stringify(jsonObj, null, 2));
-    if (await user.unfavoriteTrack(jsonObj)) {
+    if (await user.unfavooriteMoosic(jsonObj)) {
       response.send({
         "status": true,
         "message": "moosic has been removed"
@@ -371,7 +371,7 @@ app.post('/userfavorites', async function(request, response) {
   logger.log(request, response);
   try {
     var jsonObj = JSON.parse(request.body.json);
-    const res = await user.userFavorites(jsonObj);
+    const res = await user.userFavoorites(jsonObj);
     response.send({
       "status": true,
       "data": res

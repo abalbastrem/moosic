@@ -454,9 +454,9 @@ insert into genre (name) values ('pop');
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         insert into users (name, lastname, username, password, email, sex) values ('jordi', 'capellades', 'jordankesley',  md5('1234'), 'jcapelladese@gmail.com', 'h');
 
 -- VIEWS
--- \i insertsUsuarios.sql 
--- \i inserts_votos_moods.sql
--- \i inserts_votos_tag.sql
+-- \i insert_users.sql
+-- \i insert_mood_votes.sql
+-- \i insert_tagvotes.sql
 -- \i views/baby_tracks.sql
 -- \i views/moods_general.sql
 -- \i views/top_tags.sql
@@ -512,7 +512,7 @@ grant SELECT ON genre, leyenda_mood, leyenda_tags, moods, playlist, playlist_son
 
 
 -- damos permiso al uso y consulta de las secuencias para que se autogenere el id en las tablas
-GRANT USAGE, SELECT ON SEQUENCE genre_id_seq, leyenda_mood_id_seq,moods_id_seq,users_id_seq,leyenda_tags_id_seq,playlist_id_seq,tags_id_seq to admin_moosic;
+-- GRANT USAGE, SELECT ON SEQUENCE genre_id_seq, leyenda_mood_id_seq,moods_id_seq,users_id_seq,leyenda_tags_id_seq,playlist_id_seq,tags_id_seq to admin_moosic;
 
 
 alter table users add unique(username);
@@ -529,7 +529,7 @@ SELECT tracks.id, tracks.name FROM tracks JOIN tags ON tracks.id=tags.id_track J
 
 --CREATE OR REPLACE FUNCTION creaViews() RETURNS void as $$
 --BEGIN
---\i crearviews.sql
+--\i create_views.sql
 --RAISE NOTICE 'Se han creado las VIEWS correctamente';
 --END;
 --$$LANGUAGE plpgsql;

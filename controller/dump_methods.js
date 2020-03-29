@@ -5,7 +5,7 @@ const con = require('./connection');
 exports.testdb = async function () {
     try {
         await con.pgtest();
-        var resultJson = await con.pgClient.query('SELECT row_to_json(tracks) FROM tracks LIMIT 3');
+        var resultJson = await con.pgClient.query('SELECT row_to_json(moosics) FROM moosics LIMIT 3');
         // console.log("::::: JSON IN METHOD: " + JSON.stringify(resultJson.rows[0].row_to_json, null, 2));
         return resultJson;
     } catch (e) {
@@ -25,17 +25,59 @@ exports.firstDump = async function () {
     }
 
     try {
+        await populateTables();
+        console.log("::::: TABLES POPULATED FROM API INFO");
+    } catch (e) {
+        throw new Error("::::: ERROR while populating tables -> " + e);
+    }
+
+    try {
+        await dumpTables();
+        console.log("::::: TABLES DUMPED");
+    } catch (e) {
+        throw new Error("::::: ERROR while dumping tables -> " + e);
+    }
+
+    try {
         await initTaginfo();
     } catch (e) {
         throw new Error("::::: ERROR while filling up table `taginfo` -> " + e);
     }
 
     try {
-        await createBasicViews();
+        await createViews();
     } catch (e) {
         throw new Error("::::: ERROR while creating new views -> " + e);
     }
 
+    console.log("::::: FIRST DUMP SUCCESSFULLY FINISHED");
+};
+
+async function createTablesOLD() {
+    await con.pgClient.query("DROP TABLE IF EXISTS moosics CASCADE");
+    await con.pgClient.query("DROP TABLE IF EXISTS taginfo CASCADE");
+    await con.pgClient.query("DROP TABLE IF EXISTS tags CASCADE");
+
+    const moosics = "CREATE TABLE moosics (id int PRIMARY KEY, name varchar(255), duration int, releasedate char(10), artist_id int, artist_name varchar(255), album_image varchar(255), audio varchar(255), audiodownload varchar(255), image varchar(255), album_name varchar(255), shorturl varchar(127))";
+    const tags = "CREATE TABLE tags (id_moosic int, id_taginfo int)";
+    const taginfo = "CREATE TABLE taginfo (id SERIAL PRIMARY KEY, name VARCHAR(127) UNIQUE)";
+    const tags_pk = "ALTER TABLE tags ADD CONSTRAINT PK_tags PRIMARY KEY (id_moosic, id_taginfo)";
+    const tags_fk1 = "ALTER TABLE tags ADD FOREIGN KEY (id_moosic) REFERENCES moosics(id)";
+    const tags_fk2 = "ALTER TABLE tags ADD FOREIGN KEY (id_taginfo) REFERENCES taginfo(id)";
+
+    await con.pgClient.query(moosics);
+    await con.pgClient.query(tags);
+    await con.pgClient.query(taginfo);
+    await con.pgClient.query(tags_pk);
+    await con.pgClient.query(tags_fk1);
+    await con.pgClient.query(tags_fk2);
+}
+
+async function createTables() {
+    let sqlFile = "../model/v1/moosic.sql";
+}
+
+async function populateTables() {
     try {
         const jsonArray = await apiAllTags();
         // console.log(JSON.stringify(jsonArray, null, 2));
@@ -49,14 +91,18 @@ exports.firstDump = async function () {
             console.log(SQLtags);
             await insertTrack(SQLtrack);
             await insertTags(SQLtags);
-
         }
     } catch (e) {
-        throw new Error("::::: ERROR DURING FIRST DUMP: " + e);
+        throw new Error(e);
     }
+}
 
-    console.log("::::: FIRST DUMP SUCCESSFULLY FINISHED");
-};
+async function dumpTables() {
+    let sqlFile1 = "../model/v1/insert_users";
+    let sqlFile2 = "../model/v1/insert_mood";
+    let sqlFile3 = "../model/v1/insert_mood_votes";
+    let sqlFile4 = "../model/v1/insert_tagvotes";
+}
 
 async function apiAllTags() {
     var n = 0;
@@ -101,26 +147,6 @@ exports.weeklyDump = async function (from, to) {
     }
 };
 
-async function createTables() {
-    await con.pgClient.query("DROP TABLE IF EXISTS moosics CASCADE");
-    await con.pgClient.query("DROP TABLE IF EXISTS taginfo CASCADE");
-    await con.pgClient.query("DROP TABLE IF EXISTS tags CASCADE");
-
-    const moosics = "CREATE TABLE moosics (id int PRIMARY KEY, name varchar(255), duration int, releasedate char(10), artist_id int, artist_name varchar(255), album_image varchar(255), audio varchar(255), audiodownload varchar(255), image varchar(255), album_name varchar(255), shorturl varchar(127))";
-    const tags = "CREATE TABLE tags (id_moosic int, id_taginfo int)";
-    const taginfo = "CREATE TABLE taginfo (id SERIAL PRIMARY KEY, name VARCHAR(127) UNIQUE)";
-    const tags_pk = "ALTER TABLE tags ADD CONSTRAINT PK_tags PRIMARY KEY (id_moosic, id_taginfo)";
-    const tags_fk1 = "ALTER TABLE tags ADD FOREIGN KEY (id_moosic) REFERENCES moosics(id)";
-    const tags_fk2 = "ALTER TABLE tags ADD FOREIGN KEY (id_taginfo) REFERENCES taginfo(id)";
-
-    await con.pgClient.query(moosics);
-    await con.pgClient.query(tags);
-    await con.pgClient.query(taginfo);
-    await con.pgClient.query(tags_pk);
-    await con.pgClient.query(tags_fk1);
-    await con.pgClient.query(tags_fk2);
-}
-
 async function initTaginfo() {
     // TODO v2 dump tags into taginfo from jamendo
     for (let tag of GLOBALS.TAGS) {
@@ -136,7 +162,7 @@ async function initTaginfo() {
     }
 }
 
-async function createBasicViews() {
+async function createViewsOLD() {
     let createTopTags = {
         text: "CREATE VIEW toptags AS select row_number() OVER (order by count(*) DESC) as position, id_taginfo, taginfo.name, count(*) as popularity from tags join taginfo on id_taginfo = taginfo.id group by id_taginfo, taginfo.name order by popularity DESC"
     };
@@ -145,6 +171,10 @@ async function createBasicViews() {
     } catch (e) {
         throw new Error("while creating `toptags` -> " + e);
     }
+}
+
+async function createViews() {
+    let sqlFile = "../model/v1/create_views";
 }
 
 // Auxiliary functions
@@ -189,7 +219,7 @@ function jsonTags2sql(jsonTrack) {
     for (let genre of jsonTrack.musicinfo.tags.genres) {
         let params = [id_track, genre];
         let subtext = "(SELECT id FROM taginfo WHERE name ILIKE $2)";
-        let text = "INSERT INTO tags (id_moosic, id_taginfo) VALUES ($1, " + subtext + ") ";
+        let text = "INSERT INTO tags (moosics_id, taginfo_id) VALUES ($1, " + subtext + ") ";
         // text += "ON CONFLICT (id_moosic, id_taginfo) DO NOTHING";
         let query = {
             text: text,
@@ -206,7 +236,7 @@ async function insertTrack(SQLtrack) {
         await con.pgClient.query(SQLtrack);
         // console.log("::::: track inserted");
     } catch (e) {
-        console.error("::::: ERROR while inserting track: " + e);
+        throw new Error("::::: ERROR while inserting track: " + e);
     }
 };
 
@@ -218,7 +248,7 @@ async function insertTags(SQLtags) {
             // console.log("::::: tag inserted");
         }
     } catch (e) {
-        console.error("::::: ERROR while inserting tag: " + e);
+        throw new Error("::::: ERROR while inserting tag: " + e);
     }
 };
 
