@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/connection.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/connection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/dump_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/dump_methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/TAGS" beforeDir="false" afterPath="$PROJECT_DIR$/controller/globals/TAGS" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/v1/moosic.sql" beforeDir="false" afterPath="$PROJECT_DIR$/model/v1/moosic.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,36 +37,6 @@
         <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
     </expand>
     <select />
   </component>
@@ -75,7 +51,6 @@
   <component name="ProjectId" id="1YdS6y0GRtnOoabH2r07wcg6tXa" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -84,6 +59,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.16.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/model/v1" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -91,7 +67,8 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
@@ -103,18 +80,6 @@
     <option name="blackListedRootsPaths">
       <list>
         <option value="$PROJECT_DIR$" />
-      </list>
-    </option>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
       </list>
     </option>
   </component>
@@ -138,7 +103,11 @@
       <workItem from="1584904452371" duration="3715000" />
       <workItem from="1584964890797" duration="18000" />
       <workItem from="1585332078727" duration="14211000" />
-      <workItem from="1585492950942" duration="8138000" />
+      <workItem from="1585492950942" duration="8160000" />
+      <workItem from="1585667383295" duration="7849000" />
+      <workItem from="1586440859090" duration="71000" />
+      <workItem from="1586441007601" duration="8634000" />
+      <workItem from="1586517411526" duration="9915000" />
     </task>
     <task id="LOCAL-00001" summary="initial dump FIXd">
       <created>1584903498998</created>
@@ -182,11 +151,18 @@
       <option name="project" value="LOCAL" />
       <updated>1585503268236</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="voting tags FIXd">
+      <created>1585504754977</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1585504754977</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial dump FIXd" />
@@ -194,7 +170,8 @@
     <MESSAGE value="FIXd until play.&#10;Further tags need expanding." />
     <MESSAGE value="All tag activity works" />
     <MESSAGE value="favoorites FIXd" />
-    <option name="LAST_COMMIT_MESSAGE" value="favoorites FIXd" />
+    <MESSAGE value="voting tags FIXd" />
+    <option name="LAST_COMMIT_MESSAGE" value="voting tags FIXd" />
   </component>
   <component name="WindowStateProjectService">
     <state x="308" y="58" width="800" height="677" key="#JavaScript" timestamp="1584904481774">
@@ -213,10 +190,10 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904832814" />
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1585503266821">
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1585504754312">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585503266821" />
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585504754312" />
     <state width="852" height="175" key="GridCell.Tab.0.bottom" timestamp="1584906593931">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
@@ -233,34 +210,37 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state width="852" height="175" key="GridCell.Tab.0.right/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584906593931" />
-    <state x="169" y="27" key="SettingsEditor" timestamp="1584645772135">
+    <state x="169" y="27" key="SettingsEditor" timestamp="1586448152215">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
+    <state x="169" y="27" key="SettingsEditor/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586448152215" />
     <state x="169" y="27" key="SettingsEditor/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584645772135" />
     <state x="275" y="105" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1585409703442">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="275" y="105" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585409703442" />
-    <state x="369" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1585492951935">
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1585667388306">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585492951935" />
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585667388306" />
     <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.193.1920.1080@67.27.1293.741" timestamp="1583777711466" />
-    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584563471521">
+    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585668614191">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584563471521" />
-    <state x="358" y="135" width="869" height="590" key="find.popup" timestamp="1585502316179">
+    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585668614191" />
+    <state x="358" y="135" width="869" height="590" key="find.popup" timestamp="1586545718348">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
+    <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586545718348" />
     <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585502316179" />
     <state x="377" y="175" key="run.anything.popup" timestamp="1584904680422">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="377" y="175" key="run.anything.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904680422" />
-    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1585415540539">
+    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1586446503680">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
+    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586446503680" />
     <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585415540539" />
   </component>
 </project>

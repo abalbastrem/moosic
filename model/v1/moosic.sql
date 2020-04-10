@@ -1,17 +1,12 @@
+SELECT 1000 AS number;
 
 -- tables
 -- Table: genre
-\c template1;
-drop database moosic;
-create database moosic;
-\c moosic;
-
-
 --     CREATE TABLE genre (
---         id serial,
---         name varchar(30)  NOT NULL,
---         CONSTRAINT genre_pk PRIMARY KEY (id)
---     );
+--          id serial,
+--          name varchar(30)  NOT NULL,
+--          CONSTRAINT genre_pk PRIMARY KEY (id)
+--      );
 
 -- Table: leyenda_mood
 CREATE TABLE moodinfo (
