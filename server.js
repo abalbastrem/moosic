@@ -1,5 +1,5 @@
 /// PROJECT GLOBALS SETUP ///
-const db = require('./controller/dump_methods');
+const db = require('./controller/populate_methods');
 const user = require('./controller/user_methods');
 const util = require('./controller/util_methods');
 const logger = require('./controller/logger');
@@ -382,7 +382,7 @@ cron.schedule('1 0 0 * * Sunday', function () {
     currentDate.setDate(currentDate.getDate() - 1);
     const currentDateStr = currentDate.toISOString().substring(0, 10);
     const lastWeekDateStr = lastWeekDate.toISOString().substring(0, 10);
-    db.weeklyDump(lastWeekDateStr, currentDateStr);
+    db.weeklyPopulate(lastWeekDateStr, currentDateStr);
     db.updateViews();
 });
 

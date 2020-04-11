@@ -4,6 +4,10 @@ const con = require('./connection');
 const fs = require('fs');
 const path = require('path');
 
+//////////////////////////
+/// EXPORTED FUNCTIONS ///
+//////////////////////////
+
 exports.testdb = async function () {
     try {
         await con.pgtest();
@@ -15,18 +19,21 @@ exports.testdb = async function () {
     }
 };
 
-/// FIRST DUMP EVER ///
-exports.firstDump = async function () {
-    console.log("::::: FIRST DUMP");
-
+exports.firstPopulate = async function () {
     try {
         await con.pgClient.end();
+        console.log("::::: global connection ended. Connecting to `template1`");
     } catch (e) {
-        throw new Error("::::: ERROR closing connection to `moosic` db ->" + e);
+        throw new Error("::::: ERROR ending global connection to `moosic` db ->" + e);
     }
-    console.log("::::: standard connection closed");
 
-    const pgTemplate1 = await con.getPgClientTemplate1();
+    let pgTemplate1;
+    try {
+        pgTemplate1 = await con.getPgClientTemplate1();
+        console.log("::::: connected to db `template1`");
+    } catch (e) {
+        throw new Error("::::: ERROR while connecting to `template1` -> " + e);
+    }
 
     try {
         await createMoosicDatabase(pgTemplate1);
@@ -35,11 +42,20 @@ exports.firstDump = async function () {
         throw new Error("::::: ERROR while creating `moosic` db -> " + e);
     }
 
-    await pgTemplate1.end();
-    console.log("::::: connection to db `template1` successfully closed");
+    try {
+        await pgTemplate1.end();
+        console.log("::::: connection to db `template1` successfully ended");
+    } catch (e) {
+        throw new Error("::::: ERROR while closing connection to db `template1`");
+    }
 
-    const pgMoosic = await con.getPgClientMoosic();
-    console.log("::::: using connection to db `moosic` to perform dump");
+    let pgMoosic;
+    try {
+        pgMoosic = await con.getPgClientMoosic();
+        console.log("::::: connected to db `moosic`");
+    } catch (e) {
+        throw new Error("::::: ERROR while connecting to db `moosic`");
+    }
 
     try {
         await createTables(pgMoosic);
@@ -57,17 +73,18 @@ exports.firstDump = async function () {
 
     try {
         await populateMainTables(pgMoosic);
-        console.log("::::: TABLES POPULATED FROM API INFO");
+        console.log("::::: MAIN TABLES POPULATED FROM API INFO");
     } catch (e) {
-        throw new Error("::::: ERROR while populating tables -> " + e);
+        throw new Error("::::: ERROR while populating main tables -> " + e);
     }
 
-    try {
-        await populateSecondaryTables(pgMoosic);
-        console.log("::::: TABLES DUMPED");
-    } catch (e) {
-        throw new Error("::::: ERROR while dumping tables -> " + e);
-    }
+    // console.log("::::: populating secondary tables with mock data... This may take a while.");
+    // try {
+    //     await populateSecondaryTables(pgMoosic);
+    //     console.log("::::: SECONDARY TABLES POPULATED");
+    // } catch (e) {
+    //     throw new Error("::::: ERROR while populating secondary tables -> " + e);
+    // }
 
     try {
         await createViews(pgMoosic);
@@ -76,16 +93,37 @@ exports.firstDump = async function () {
         throw new Error("::::: ERROR while creating new views -> " + e);
     }
 
-    console.log("::::: FIRST DUMP SUCCESSFULLY FINISHED");
-
-    // try {
-    //     await con.pgClient.connect();
-    //     console.log("::::: standard connection successfully opened after first dump");
-    // } catch (e) {
-    //     throw new Error("::::: ERROR while connecting to `moosic` after first dump ->" + e);
-    // }
-
+    console.log("::::: POPULATION SUCCESSFULLY FINISHED");
 };
+
+exports.weeklyPopulate = async function (from, to) {
+    // TODO refactor
+    try {
+        const jsonArray = await apiAllTagsForWeeklyDump(from, to);
+        // console.log(JSON.stringify(jsonArray, null, 2));
+        console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
+        for (let jsonTrack of jsonArray) {
+            // console.log("::::: query TRACK");
+            let SQLtrack = insertMoosic(jsonTrack);
+            // console.log(SQLtrack);
+            // console.log("::::: query TAGS");
+            let SQLtags = insertTags(jsonTrack);
+            await insertTrack(pgMoosic, SQLtrack);
+            await insertTags(pgMoosic, SQLtags);
+        }
+    } catch (e) {
+        console.log("::::: ERROR DURING WEEKLY DUMP: " + e);
+    }
+};
+
+// to be used with cron weekly
+exports.updateViews = async function () {
+    // TODO destroy and redo views
+};
+
+//////////////////////
+/// MAIN FUNCTIONS ///
+//////////////////////
 
 async function createMoosicDatabase(pgTemplate1) {
     await pgTemplate1.query("DROP DATABASE IF EXISTS moosic");
@@ -106,16 +144,29 @@ async function createTables(pgMoosic) {
     }
 }
 
+async function initTaginfo(pgMoosic) {
+    // TODO v2 dump tags into taginfo from jamendo?
+    for (let tag of GLOBALS.TAGS) {
+        let query = {
+            text: "INSERT INTO taginfo (name) VALUES($1)",
+            values: [tag]
+        };
+        try {
+            await pgMoosic.query(query);
+        } catch (e) {
+            throw new Error("::::: while init tag `" + tag + "` (QUERY: `" + query + "`). ->" + e);
+        }
+    }
+}
+
 async function populateMainTables(pgMoosic) {
     try {
         const jsonArray = await apiAllTags();
-        // console.log(JSON.stringify(jsonArray, null, 2));
         console.log(`::::: TOTAL TRACK ARRAY COUNT: ${jsonArray.length} new tracks`);
+        console.log(`::::: populating tracks... This may take a while`);
         for (let jsonTrack of jsonArray) {
             await insertMoosic(pgMoosic, jsonTrack);
-            // await insertTrack(pgMoosic, SQLtrack);
             await insertTags(pgMoosic, jsonTrack);
-            // await insertTags(pgMoosic, SQLtags);
         }
     } catch (e) {
         throw new Error(e);
@@ -124,11 +175,11 @@ async function populateMainTables(pgMoosic) {
 
 async function populateSecondaryTables(pgMoosic) {
     let sqlFiles = [
-            "/../model/v1/insert_users",
-            "/../model/v1/insert_mood",
-            "/../model/v1/insert_mood_votes",
-            "/../model/v1/insert_tagvotes"
-        ]
+        "/../model/v1/insert_users",
+        "/../model/v1/insert_mood",
+        "/../model/v1/insert_mood_votes",
+        "/../model/v1/insert_tagvotes"
+    ]
 
     for (let j = 0; j < sqlFiles.length; j++) {
         let sqlLines = fs.readFileSync(path.join(__dirname, sqlFiles[j])).toString('utf8').split(";");
@@ -140,63 +191,6 @@ async function populateSecondaryTables(pgMoosic) {
             } catch (e) {
                 console.log("::::: ERROR with query '" + sqlLine + "' ->" + e);
             }
-        }
-    }
-}
-
-async function apiAllTags() {
-    var tracksArray = [];
-    var json = {};
-    try {
-        for (let tag of GLOBALS.TAGS) {
-            if (tag != "") {
-                console.log("::::: tag: " + tag);
-                var url = jamendo.urlBuilder(tag);
-                json = await jamendo.api(url);
-                for (let jsonTrack of json) {
-                    tracksArray.push(jsonTrack);
-                    // console.log("::::: acc json obj length: " + tracksArray.length);
-                }
-            }
-        }
-        return tracksArray;
-    } catch (e) {
-        console.error("ERROR: " + e);
-    }
-}
-
-/// WEEKLY DUMPS ///
-exports.weeklyDump = async function (from, to) {
-    // TODO refactor
-    try {
-        const jsonArray = await apiAllTagsForWeeklyDump(from, to);
-        // console.log(JSON.stringify(jsonArray, null, 2));
-        console.log("::::: TOTAL TRACK ARRAY COUNT: " + jsonArray.length + " new tracks");
-        for (let jsonTrack of jsonArray) {
-            // console.log("::::: query TRACK");
-            let SQLtrack = insertMoosic(jsonTrack);
-            // console.log(SQLtrack);
-            // console.log("::::: query TAGS");
-            let SQLtags = insertTags(jsonTrack);
-            await insertTrack(pgMoosic, SQLtrack);
-            await insertTags(pgMoosic, SQLtags);
-        }
-    } catch (e) {
-        console.log("::::: ERROR DURING WEEKLY DUMP: " + e);
-    }
-};
-
-async function initTaginfo(pgMoosic) {
-    // TODO v2 dump tags into taginfo from jamendo
-    for (let tag of GLOBALS.TAGS) {
-        let query = {
-            text: "INSERT INTO taginfo (name) VALUES($1)",
-            values: [tag]
-        };
-        try {
-            await pgMoosic.query(query);
-        } catch (e) {
-            throw new Error("::::: while init tag `" + tag + "` (QUERY: `" + query + "`). ->" + e);
         }
     }
 }
@@ -214,7 +208,31 @@ async function createViews(pgMoosic) {
     }
 }
 
-// Auxiliary functions
+/////////////////////
+/// AUX FUNCTIONS ///
+/////////////////////
+
+async function apiAllTags() {
+    let tracksArray = [];
+    let json = {};
+    try {
+        for (let tag of GLOBALS.TAGS) {
+            if (tag != "") {
+                console.log("::::: tag: " + tag);
+                var url = jamendo.urlBuilder(tag);
+                json = await jamendo.api(url);
+                for (let jsonTrack of json) {
+                    tracksArray.push(jsonTrack);
+                }
+            }
+        }
+
+        return tracksArray;
+    } catch (e) {
+        console.error("ERROR: " + e);
+    }
+}
+
 async function apiAllTagsForWeeklyDump(from, to) {
     let tracksArray = [];
     let json = {};
@@ -253,7 +271,6 @@ async function insertMoosic(pgMoosic, jsonTrack) {
 }
 
 async function insertTags(pgMoosic, jsonTrack) {
-    // let queryArray = [];
     let id_track = jsonTrack.id;
     for (let genre of jsonTrack.musicinfo.tags.genres) {
         // creates taginfo if it does not exist in the DB
@@ -295,24 +312,3 @@ async function insertTags(pgMoosic, jsonTrack) {
         }
     }
 }
-
-
-/// DB FUNCTIONS ///
-
-exports.demo = async function () {
-    try {
-        await con.pgClient.query('SELECT demo(3)');
-        // console.log("::::: RESULT FROM DEMO: " + JSON.stringify(res.rows[0].demo));
-    } catch (e) {
-        console.error("ERROR WHILE DEMO: " + e);
-    }
-};
-
-exports.updateViews = async function () {
-    try {
-        const res = await con.pgClient.query('SELECT creaviews()');
-        console.log("::::: RESULT FROM VIEWS: " + res);
-    } catch (e) {
-        console.error("ERROR WHILE UPDATING VIEWS: " + e);
-    }
-};
