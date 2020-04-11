@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+    <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="cleanup and security">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/connection.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/connection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/dump_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/dump_methods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/globals/TAGS" beforeDir="false" afterPath="$PROJECT_DIR$/controller/globals/TAGS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/v1/moosic.sql" beforeDir="false" afterPath="$PROJECT_DIR$/model/v1/moosic.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/DBCONFIG" beforeDir="false" afterPath="$PROJECT_DIR$/controller/globals/DBCONFIG_OLD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/JAMENDO_KEY" beforeDir="false" afterPath="$PROJECT_DIR$/controller/globals/JAMENDO_KEY_OLD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/VARS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/setup_globals.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/setup_globals.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -108,6 +108,7 @@
       <workItem from="1586440859090" duration="71000" />
       <workItem from="1586441007601" duration="8634000" />
       <workItem from="1586517411526" duration="9915000" />
+      <workItem from="1586618448241" duration="2065000" />
     </task>
     <task id="LOCAL-00001" summary="initial dump FIXd">
       <created>1584903498998</created>
@@ -171,7 +172,8 @@
     <MESSAGE value="All tag activity works" />
     <MESSAGE value="favoorites FIXd" />
     <MESSAGE value="voting tags FIXd" />
-    <option name="LAST_COMMIT_MESSAGE" value="voting tags FIXd" />
+    <MESSAGE value="cleanup and security" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup and security" />
   </component>
   <component name="WindowStateProjectService">
     <state x="308" y="58" width="800" height="677" key="#JavaScript" timestamp="1584904481774">
@@ -186,13 +188,15 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="275" y="30" width="984" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584906531057" />
-    <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584904832814">
+    <state x="370" y="201" width="605" height="396" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586623274933">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
+    <state x="370" y="201" width="605" height="396" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586623274933" />
     <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904832814" />
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1585504754312">
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1586623365540">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
+    <state x="74" y="27" key="CommitChangelistDialog2/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586623365540" />
     <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585504754312" />
     <state width="852" height="175" key="GridCell.Tab.0.bottom" timestamp="1584906593931">
       <screen x="67" y="27" width="1293" height="741" />
@@ -228,19 +232,19 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585668614191" />
-    <state x="358" y="135" width="869" height="590" key="find.popup" timestamp="1586545718348">
+    <state x="358" y="135" width="869" height="590" key="find.popup" timestamp="1586623160095">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586545718348" />
+    <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586623160095" />
     <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585502316179" />
     <state x="377" y="175" key="run.anything.popup" timestamp="1584904680422">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="377" y="175" key="run.anything.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904680422" />
-    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1586446503680">
+    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1586623314555">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586446503680" />
+    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586623314555" />
     <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585415540539" />
   </component>
 </project>

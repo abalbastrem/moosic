@@ -5,8 +5,7 @@ const dbCon = JSON.parse("{" + GLOBALS.DBCONFIG + "}");
 const dbMoosicConStr = dbCon.type + '://' + dbCon.user + ':' + dbCon.password + '@' + dbCon.host + ':' + dbCon.port + '/' + dbCon.database;
 const dbTemplate1ConStr = dbCon.type + '://' + dbCon.user + ':' + dbCon.password + '@' + dbCon.host + ':' + dbCon.port + '/' + "template1";
 
-// PG - for initial and weekly dump
-var pgClient = new pg.Client(dbMoosicConStr);
+const pgClient = new pg.Client(dbMoosicConStr);
 pgClient.connect();
 exports.pgClient = pgClient;
 console.log("::::: PG CLIENT CONNECTED :::::");

@@ -1,7 +1,5 @@
 /// PROJECT GLOBALS SETUP ///
-const GLOBALS = require('./controller/setup_globals');
 const db = require('./controller/dump_methods');
-const jamendo = require('./controller/jamendo_methods');
 const user = require('./controller/user_methods');
 const util = require('./controller/util_methods');
 const logger = require('./controller/logger');
@@ -14,15 +12,9 @@ const server = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
 const path = require('path');
-// const SQLBuilder = require('json-sql-builder2');
-const pg = require('pg');
-// const pgquery = require('pg-query');
-/// CONTROLLER ///
-// app.use(require('./view/moosic_router'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/fonts', express.static(path.join(__dirname, 'fonts')));
 app.use('/webfonts', express.static(path.join(__dirname, 'webfonts')));
-// require('../view/moosic_router');
 server.listen(8888);
 console.log("::::: SERVER ONLINE :::::");
 
@@ -31,10 +23,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 console.log("::::: POST HANDLING ENABLED ::::::\n");
-
-/// CONNECTION TO DATABASE ///
-const con = require('./controller/connection');
-// con.pgClient.connect();
 
 
 /// TEST HANDLERS ///
@@ -399,8 +387,8 @@ cron.schedule('1 0 0 * * Sunday', function () {
 });
 
 /// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
-db.firstDump()
-    .then(console.log("::::: FIRST DUMP successful"))
-    .catch(console.error(e => "::::: ERROR while performing first dump -> " + e));
+// db.firstDump()
+//     .then(console.log("::::: FIRST DUMP successful"))
+//     .catch(console.error(e => "::::: ERROR while performing first dump -> " + e));
 
 // db.updateViews();

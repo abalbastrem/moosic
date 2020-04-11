@@ -87,26 +87,6 @@ exports.firstDump = async function () {
 
 };
 
-async function createTablesOLD() {
-    await con.pgClient.query("DROP TABLE IF EXISTS moosics CASCADE");
-    await con.pgClient.query("DROP TABLE IF EXISTS taginfo CASCADE");
-    await con.pgClient.query("DROP TABLE IF EXISTS tags CASCADE");
-
-    const moosics = "CREATE TABLE moosics (id int PRIMARY KEY, name varchar(255), duration int, releasedate char(10), artist_id int, artist_name varchar(255), album_image varchar(255), audio varchar(255), audiodownload varchar(255), image varchar(255), album_name varchar(255), shorturl varchar(127))";
-    const tags = "CREATE TABLE tags (id_moosic int, id_taginfo int)";
-    const taginfo = "CREATE TABLE taginfo (id SERIAL PRIMARY KEY, name VARCHAR(127) UNIQUE)";
-    const tags_pk = "ALTER TABLE tags ADD CONSTRAINT PK_tags PRIMARY KEY (id_moosic, id_taginfo)";
-    const tags_fk1 = "ALTER TABLE tags ADD FOREIGN KEY (id_moosic) REFERENCES moosics(id)";
-    const tags_fk2 = "ALTER TABLE tags ADD FOREIGN KEY (id_taginfo) REFERENCES taginfo(id)";
-
-    await con.pgClient.query(moosics);
-    await con.pgClient.query(tags);
-    await con.pgClient.query(taginfo);
-    await con.pgClient.query(tags_pk);
-    await con.pgClient.query(tags_fk1);
-    await con.pgClient.query(tags_fk2);
-}
-
 async function createMoosicDatabase(pgTemplate1) {
     await pgTemplate1.query("DROP DATABASE IF EXISTS moosic");
     await pgTemplate1.query("CREATE DATABASE moosic");
@@ -143,14 +123,28 @@ async function populateMainTables(pgMoosic) {
 }
 
 async function populateSecondaryTables(pgMoosic) {
-    let sqlFile1 = "../model/v1/insert_users";
-    let sqlFile2 = "../model/v1/insert_mood";
-    let sqlFile3 = "../model/v1/insert_mood_votes";
-    let sqlFile4 = "../model/v1/insert_tagvotes";
+    let sqlFiles = [
+            "/../model/v1/insert_users",
+            "/../model/v1/insert_mood",
+            "/../model/v1/insert_mood_votes",
+            "/../model/v1/insert_tagvotes"
+        ]
+
+    for (let j = 0; j < sqlFiles.length; j++) {
+        let sqlLines = fs.readFileSync(path.join(__dirname, sqlFiles[j])).toString('utf8').split(";");
+
+        for (let i = 0; i < sqlLines.length; i++) {
+            let sqlLine = sqlLines[i];
+            try {
+                await pgMoosic.query(sqlLine);
+            } catch (e) {
+                console.log("::::: ERROR with query '" + sqlLine + "' ->" + e);
+            }
+        }
+    }
 }
 
 async function apiAllTags() {
-    var n = 0;
     var tracksArray = [];
     var json = {};
     try {
@@ -165,15 +159,15 @@ async function apiAllTags() {
                 }
             }
         }
-        ;
         return tracksArray;
     } catch (e) {
         console.error("ERROR: " + e);
     }
-};
+}
 
 /// WEEKLY DUMPS ///
 exports.weeklyDump = async function (from, to) {
+    // TODO refactor
     try {
         const jsonArray = await apiAllTagsForWeeklyDump(from, to);
         // console.log(JSON.stringify(jsonArray, null, 2));
@@ -207,17 +201,6 @@ async function initTaginfo(pgMoosic) {
     }
 }
 
-async function createViewsOLD() {
-    let createTopTags = {
-        text: "CREATE VIEW toptags AS select row_number() OVER (order by count(*) DESC) as position, id_taginfo, taginfo.name, count(*) as popularity from tags join taginfo on id_taginfo = taginfo.id group by id_taginfo, taginfo.name order by popularity DESC"
-    };
-    try {
-        await con.pgClient.query(createTopTags);
-    } catch (e) {
-        throw new Error("while creating `toptags` -> " + e);
-    }
-}
-
 async function createViews(pgMoosic) {
     let sqlLines = fs.readFileSync(path.join(__dirname, "/../model/v1/create_views.sql")).toString('utf8').split(";");
 
@@ -228,15 +211,13 @@ async function createViews(pgMoosic) {
         } catch (e) {
             console.log("::::: ERROR with query '" + sqlLine + "' ->" + e);
         }
-
     }
 }
 
 // Auxiliary functions
 async function apiAllTagsForWeeklyDump(from, to) {
-    var n = 0;
-    var tracksArray = [];
-    var json = {};
+    let tracksArray = [];
+    let json = {};
     try {
         for (let tag of GLOBALS.TAGS) {
             if (tag != "") {
@@ -248,12 +229,12 @@ async function apiAllTagsForWeeklyDump(from, to) {
                     // console.log("::::: acc json obj length: " + tracksArray.length);
                 }
             }
-        };
+        }
         return tracksArray;
     } catch (e) {
         console.error("ERROR: " + e);
     }
-};
+}
 
 async function insertMoosic(pgMoosic, jsonTrack) {
     let params = [jsonTrack.id, jsonTrack.name, jsonTrack.duration, jsonTrack.releasedate, jsonTrack.artist_id, jsonTrack.artist_name, jsonTrack.album_image, jsonTrack.audio, jsonTrack.audiodownload, jsonTrack.image, jsonTrack.album_name, jsonTrack.shorturl];
@@ -315,34 +296,12 @@ async function insertTags(pgMoosic, jsonTrack) {
     }
 }
 
-async function insertTrackOLD(pgMoosic, SQLtrack) {
-    console.log("::::: inserting track into database");
-    try {
-        await pgMoosic.query(SQLtrack);
-        // console.log("::::: track inserted");
-    } catch (e) {
-        throw new Error("::::: ERROR while inserting track -> " + e);
-    }
-};
-
-async function insertTagsOLD(pgMoosic, SQLtags) {
-    console.log("::::: inserting array of tags into database");
-    try {
-        for (let SQLquery of SQLtags) {
-            await pgMoosic.query(SQLquery);
-            // console.log("::::: tag inserted");
-        }
-    } catch (e) {
-        throw new Error("::::: ERROR while inserting tag -> " + e);
-    }
-};
-
 
 /// DB FUNCTIONS ///
 
 exports.demo = async function () {
     try {
-        const res = await con.pgClient.query('SELECT demo(3)');
+        await con.pgClient.query('SELECT demo(3)');
         // console.log("::::: RESULT FROM DEMO: " + JSON.stringify(res.rows[0].demo));
     } catch (e) {
         console.error("ERROR WHILE DEMO: " + e);
