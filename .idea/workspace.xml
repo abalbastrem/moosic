@@ -2,9 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/populate_db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/dump_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/populate_methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/DBCONFIG_OLD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/JAMENDO_KEY_OLD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/CrearUsuario.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/README" beforeDir="false" afterPath="$PROJECT_DIR$/model/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/example.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/function_prova.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/insertsMoods.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/insertsUsuarios.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/inserts_votos_moods.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/inserts_votos_tag.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/moosic.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/moosic_final_export.pgsql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/functions.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/inserts.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/jamendoGeneros_create.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/moosicBK.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/moosic_create.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/moosic_create_2.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/restart_dbs.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/select_genres" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/baby_tracks.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/crearViews.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/crearviews.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/moods_general.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/selects_varios.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/top_tags.sql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +136,7 @@
       <workItem from="1586440859090" duration="71000" />
       <workItem from="1586441007601" duration="8634000" />
       <workItem from="1586517411526" duration="9915000" />
-      <workItem from="1586618448241" duration="5585000" />
+      <workItem from="1586618448241" duration="6437000" />
     </task>
     <task id="LOCAL-00001" summary="initial dump FIXd">
       <created>1584903498998</created>
@@ -169,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586623800946</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="now database is populated with a script">
+      <created>1586627338152</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1586627338152</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,7 +215,8 @@
     <MESSAGE value="favoorites FIXd" />
     <MESSAGE value="voting tags FIXd" />
     <MESSAGE value="cleanup and security" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleanup and security" />
+    <MESSAGE value="now database is populated with a script" />
+    <option name="LAST_COMMIT_MESSAGE" value="now database is populated with a script" />
   </component>
   <component name="WindowStateProjectService">
     <state x="308" y="58" width="800" height="677" key="#JavaScript" timestamp="1584904481774">
@@ -203,10 +236,10 @@
     </state>
     <state x="370" y="201" width="605" height="396" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586623274933" />
     <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904832814" />
-    <state x="74" y="27" width="912" height="741" key="CommitChangelistDialog2" timestamp="1586623800321">
+    <state x="74" y="27" width="912" height="741" key="CommitChangelistDialog2" timestamp="1586627337509">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="74" y="27" width="912" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586623800321" />
+    <state x="74" y="27" width="912" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586627337509" />
     <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585504754312" />
     <state width="852" height="175" key="GridCell.Tab.0.bottom" timestamp="1584906593931">
       <screen x="67" y="27" width="1293" height="741" />

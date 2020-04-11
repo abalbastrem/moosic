@@ -385,10 +385,3 @@ cron.schedule('1 0 0 * * Sunday', function () {
     db.weeklyPopulate(lastWeekDateStr, currentDateStr);
     db.updateViews();
 });
-
-/// DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING! ///
-// db.firstDump()
-//     .then(console.log("::::: FIRST DUMP successful"))
-//     .catch(console.error(e => "::::: ERROR while performing first dump -> " + e));
-
-// db.updateViews();
