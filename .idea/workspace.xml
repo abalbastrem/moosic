@@ -2,8 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92238a91-b022-4010-89f4-6d4dd16c3205" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user_methods.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user_methods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/DBCONFIG_OLD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/globals/JAMENDO_KEY_OLD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/CrearUsuario.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/README" beforeDir="false" afterPath="$PROJECT_DIR$/model/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/example.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/function_prova.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/insertsMoods.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/insertsUsuarios.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/inserts_votos_moods.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/inserts_votos_tag.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/moosic.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/moosic_final_export.pgsql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/functions.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/inserts.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/jamendoGeneros_create.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/moosicBK.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/moosic_create.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/proves/moosic_create_2.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/restart_dbs.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/select_genres" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/baby_tracks.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/crearViews.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/crearviews.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/moods_general.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/selects_varios.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/views/top_tags.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,38 +58,15 @@
         <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="moosic@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="moosic: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
     </expand>
     <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -75,7 +79,6 @@
   <component name="ProjectId" id="1YdS6y0GRtnOoabH2r07wcg6tXa" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -84,31 +87,27 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.16.1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/model/v1" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/model/v1" />
+    </key>
   </component>
   <component name="RubyModuleManagerSettings">
     <option name="blackListedRootsPaths">
       <list>
         <option value="$PROJECT_DIR$" />
-      </list>
-    </option>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
       </list>
     </option>
   </component>
@@ -131,7 +130,13 @@
       <workItem from="1584903150821" duration="1170000" />
       <workItem from="1584904452371" duration="3715000" />
       <workItem from="1584964890797" duration="18000" />
-      <workItem from="1585332078727" duration="7033000" />
+      <workItem from="1585332078727" duration="14211000" />
+      <workItem from="1585492950942" duration="8160000" />
+      <workItem from="1585667383295" duration="7849000" />
+      <workItem from="1586440859090" duration="71000" />
+      <workItem from="1586441007601" duration="8634000" />
+      <workItem from="1586517411526" duration="9915000" />
+      <workItem from="1586618448241" duration="6437000" />
     </task>
     <task id="LOCAL-00001" summary="initial dump FIXd">
       <created>1584903498998</created>
@@ -161,17 +166,57 @@
       <option name="project" value="LOCAL" />
       <updated>1585401230379</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="All tag activity works">
+      <created>1585409575593</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1585409575593</updated>
+    </task>
+    <task id="LOCAL-00006" summary="favoorites FIXd">
+      <created>1585503268236</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1585503268236</updated>
+    </task>
+    <task id="LOCAL-00007" summary="voting tags FIXd">
+      <created>1585504754977</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1585504754977</updated>
+    </task>
+    <task id="LOCAL-00008" summary="cleanup and security">
+      <created>1586623800946</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1586623800946</updated>
+    </task>
+    <task id="LOCAL-00009" summary="now database is populated with a script">
+      <created>1586627338152</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1586627338152</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial dump FIXd" />
     <MESSAGE value="moved from school server to localhost&#10;TODO must resolve host more elegantly" />
     <MESSAGE value="FIXd until play.&#10;Further tags need expanding." />
-    <option name="LAST_COMMIT_MESSAGE" value="FIXd until play.&#10;Further tags need expanding." />
+    <MESSAGE value="All tag activity works" />
+    <MESSAGE value="favoorites FIXd" />
+    <MESSAGE value="voting tags FIXd" />
+    <MESSAGE value="cleanup and security" />
+    <MESSAGE value="now database is populated with a script" />
+    <option name="LAST_COMMIT_MESSAGE" value="now database is populated with a script" />
   </component>
   <component name="WindowStateProjectService">
     <state x="308" y="58" width="800" height="677" key="#JavaScript" timestamp="1584904481774">
@@ -186,14 +231,16 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="275" y="30" width="984" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584906531057" />
-    <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584904832814">
+    <state x="370" y="201" width="605" height="396" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586623274933">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
+    <state x="370" y="201" width="605" height="396" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586623274933" />
     <state x="370" y="201" width="676" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904832814" />
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2" timestamp="1585401229656">
+    <state x="74" y="27" width="912" height="741" key="CommitChangelistDialog2" timestamp="1586627337509">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585401229656" />
+    <state x="74" y="27" width="912" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586627337509" />
+    <state x="74" y="27" width="1064" height="741" key="CommitChangelistDialog2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585504754312" />
     <state width="852" height="175" key="GridCell.Tab.0.bottom" timestamp="1584906593931">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
@@ -210,30 +257,37 @@
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state width="852" height="175" key="GridCell.Tab.0.right/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584906593931" />
-    <state x="169" y="27" key="SettingsEditor" timestamp="1584645772135">
+    <state x="169" y="27" key="SettingsEditor" timestamp="1586448152215">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
+    <state x="169" y="27" key="SettingsEditor/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586448152215" />
     <state x="169" y="27" key="SettingsEditor/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584645772135" />
-    <state x="369" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1584964889837">
+    <state x="275" y="105" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1585409703442">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584964889837" />
+    <state x="275" y="105" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585409703442" />
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog" timestamp="1585667388306">
+      <screen x="67" y="27" width="1293" height="741" />
+    </state>
+    <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585667388306" />
     <state x="369" y="225" key="com.intellij.ide.util.TipDialog/67.27.1293.741/1360.193.1920.1080@67.27.1293.741" timestamp="1583777711466" />
-    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584563471521">
+    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585668614191">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584563471521" />
-    <state x="358" y="135" width="869" height="590" key="find.popup" timestamp="1585400391172">
+    <state x="459" y="61" width="432" height="615" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585668614191" />
+    <state x="358" y="135" width="869" height="590" key="find.popup" timestamp="1586624537976">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585400391172" />
+    <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586624537976" />
+    <state x="358" y="135" width="869" height="590" key="find.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585502316179" />
     <state x="377" y="175" key="run.anything.popup" timestamp="1584904680422">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
     <state x="377" y="175" key="run.anything.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1584904680422" />
-    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1585333283039">
+    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1586627251452">
       <screen x="67" y="27" width="1293" height="741" />
     </state>
-    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585333283039" />
+    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.106.1920.1080@67.27.1293.741" timestamp="1586627251452" />
+    <state x="376" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1293.741/1360.159.1920.1080@67.27.1293.741" timestamp="1585415540539" />
   </component>
 </project>

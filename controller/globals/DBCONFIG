@@ -1,6 +1,0 @@
-"host": "127.0.0.1",
-"type": "postgresql",
-"port": 5432,
-"database": "moosic",
-"user": "albert",
-"password": "matutano88"
