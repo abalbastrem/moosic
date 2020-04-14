@@ -3,3 +3,4 @@
 /config/JAMENDO_KEY
 /controller/globals/DBCONFIG
 /controller/globals/JAMENDO_KEY
+/node_modules/*
