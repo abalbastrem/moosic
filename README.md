@@ -1,9 +1,10 @@
 # moosic 0.8
 Final project of Web Developing
+by Albert Balbastre (design and backend), Jordi Capellades (frontend) and Jhonny Meneses (database)
 
 moosic is a platform where users are in power to discover and categorize music.
 moosic uses Jamendo's API in order to provide music in a new way.
-moosic is programmed in node and uses a postgres database, so make sure you have both installed.
+moosic is programmed in node.js and uses a postgres database, so make sure you have both installed.
 
 ## Instructions
 You will need a jamendo API key. Get one at [https://devportal.jamendo.com/](URL)\
@@ -13,15 +14,15 @@ If this is too cumbersome, you can also use my key: e106f235
 you'll now have to modify the database credentials to access your postgres database in *./controller/globals/DBCONFIG* Just rename the file called *DBCONFIG.EXAMPLE* inside */config* to *DBCONFIG* and modify your postgres user and password in there.
 
 ### populating the database
-If this is your first time setting up moosic, you need to populate the database.
+If this is your first time setting up moosic, you need create and populate the database.
 
 Using a terminal, go to the project root and execute
 `node populate_db`
 
-Populating the database will take a few minutes since you're fetching over 10 thousand tracks from Jamendo. 
+Populating the database will take a few minutes since you're fetching over 10,000 tracks from Jamendo with all their metadata. 
 
 
-When the database is populated, you can start the app normally with `node server`.
+When the database is populated, you can start the app normally executing `node server` in the terminal.
 Now use your preferred browser and type `localhost:8888` in the url bar.
 
 Congratulations, now you can start listening to thousands of moosics at your own pace.
@@ -34,5 +35,6 @@ Congratulations, now you can start listening to thousands of moosics at your own
 * sometimes lines will be drawn over a circular node
 * when finishing a moosic, the player will just repeat it
 * after signing up, there is no confirmation of success, but you can login manually by going to the login tab
+* clicking are is square when the visual nodes are circles
 
 ### Happy joorney into moosic !
