@@ -1,6 +1,5 @@
 var port = 8888;
 var url = "http://localhost";
-// var url = "http://localhost";
 var url_login = url + ":" + port + "/login";
 var url_signup = url + ":" + port + "/signup";
 var url_getMoosics = url + ":" + port + "/getmoosics";
