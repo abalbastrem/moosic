@@ -10,8 +10,8 @@ moosic uses Jamendo's API in order to provide music in a new way.
 2. postgres
 
 ## Instructions
-You will need a jamendo API key. Get one at [https://developer.jamendo.com/v3.0](URL)\
-Modify the file *./controller/globals/JAMENDO_KEY* and substitute the current key with the one you got from jamendo.\
+You will need a jamendo API key. Get one [here](https://devportal.jamendo.com/).\
+Put your jamendo key in *./config/JAMENDO_KEY.EXAMPLE* and rename the file to *JAMENDO_KEY*.\
 If this is too cumbersome, you can also use my key: e106f235
 
 you'll now have to modify the database credentials to access your postgres database in *./controller/globals/DBCONFIG* Just rename the file called *DBCONFIG.EXAMPLE* inside */config* to *DBCONFIG* and modify your postgres user and password in there.
