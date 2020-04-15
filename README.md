@@ -4,10 +4,13 @@ by Albert Balbastre (design and backend), Jordi Capellades (frontend) and Jhonny
 
 moosic is a platform where users are in power to discover and categorize music.
 moosic uses Jamendo's API in order to provide music in a new way.
-moosic is programmed in node.js and uses a postgres database, so make sure you have both installed.
 
-## Instructions
-You will need a jamendo API key. Get one at [https://devportal.jamendo.com/](URL)\
+## requirements
+1. node
+2. postgres
+
+## instructions
+You will need a jamendo API key. Get one at [https://developer.jamendo.com/v3.0](URL)\
 Modify the file *./controller/globals/JAMENDO_KEY* and substitute the current key with the one you got from jamendo.\
 If this is too cumbersome, you can also use my key: e106f235
 
