@@ -1,0 +1,36 @@
+{
+  "name": "moosic",
+  "version": "0.8.0",
+  "description": "empowering music platform",
+  "main": "server.js",
+  "dependencies": {
+    "auto-install": "^1.7.4",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mysql-import": "^4.0.24",
+    "node-cron": "^1.2.1",
+    "nodemon": "^1.17.4",
+    "path": "^0.12.7",
+    "pg": "^7.4.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abalbastrem/moosic.git"
+  },
+  "keywords": [
+    "api",
+    "jamendo",
+    "music"
+  ],
+  "author": "Albert Balbastre, Jordi Capellades, Jhonny Meneses",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abalbastrem/moosic/issues"
+  },
+  "homepage": "https://github.com/abalbastrem/moosic#readme"
+}
