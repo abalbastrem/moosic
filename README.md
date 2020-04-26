@@ -14,7 +14,7 @@ You will need a jamendo API key. Get one [here](https://devportal.jamendo.com/).
 Put your jamendo key in *./config/JAMENDO_KEY.EXAMPLE* and rename the file to *JAMENDO_KEY*.\
 If this is too cumbersome, you can also use my key: e106f235
 
-you'll now have to modify the database credentials to access your postgres database in *./config/DBCONFIG* Just rename the file called *DBCONFIG.EXAMPLE* inside */config* to *DBCONFIG* and modify your postgres user and password in there.
+you'll now have to modify the database credentials to access your postgres database in *./config/DBCONFIG* Just rename the file called *DBCONFIG.EXAMPLE* inside */config* to *DBCONFIG* and modify your postgres user and password in there. If this is your first time running moosic, you will need to provide a postgres user that has CREATEDB permissions and can connect to postgres' default database `template1` on top of being able to read and write to a database called `moosic` (providing a user with SUPERUSER permissions might do the job quicker).
 
 ### populating the database
 If this is your first time setting up moosic, you need create and populate the database.
