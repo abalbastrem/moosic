@@ -5,8 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "auto-install": "^1.7.4",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.3",
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
     "mysql-import": "^4.0.24",
     "node-cron": "^1.2.1",
     "nodemon": "^1.17.4",
