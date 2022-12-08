@@ -6,7 +6,7 @@
   "dependencies": {
     "auto-install": "^1.7.4",
     "body-parser": "^1.18.2",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "mysql-import": "^4.0.24",
     "node-cron": "^1.2.1",
     "nodemon": "^1.17.4",
